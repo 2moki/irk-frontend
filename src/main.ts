@@ -9,6 +9,8 @@ import { routes } from 'vue-router/auto-routes';
 import { createI18n } from 'vue-i18n';
 import en from '@/locales/en.json';
 import pl from '@/locales/pl.json';
+import PrimeVue from 'primevue/config';
+import Aura from '@primeuix/themes/aura';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -26,5 +28,14 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(router);
 app.use(i18n);
+app.use(PrimeVue, {
+    theme: {
+        preset: Aura,
+        options: {
+            // it has to be changed in case the dark mode is added
+            darkModeSelector: false,
+        },
+    },
+});
 
 app.mount('#app');
