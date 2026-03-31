@@ -10,7 +10,7 @@ import { createI18n } from 'vue-i18n';
 import en from '@/locales/en.json';
 import pl from '@/locales/pl.json';
 import PrimeVue from 'primevue/config';
-import Aura from '@primeuix/themes/aura';
+import Uk from '@/themes/uk.ts';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -31,7 +31,7 @@ app.use(router);
 app.use(i18n);
 app.use(PrimeVue, {
     theme: {
-        preset: Aura,
+        preset: Uk,
         options: {
             cssLayer: {
                 name: 'primevue',
