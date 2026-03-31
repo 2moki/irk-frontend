@@ -1,2 +1,16 @@
 @import 'tailwindcss';
 @import 'tailwindcss-primeui';
+
+@theme {
+    --color-uk-50: #f0f4ff;
+    --color-uk-100: #d9e2ff;
+    --color-uk-200: #b8c7fb;
+    --color-uk-300: #93a6e4;
+    --color-uk-400: #6b81c3;
+    --color-uk-500: #4b60a1;
+    --color-uk-600: #354784;
+    --color-uk-700: #26386b;
+    --color-uk-800: #1d2e59;
+    --color-uk-900: #142042;
+    --color-uk-950: #0a1128;
+}
