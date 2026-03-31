@@ -63,7 +63,26 @@ Przykład na podstawie struktury plików:
 - pages/auth/index.vue → ścieżka /auth
 - pages/[...path].vue → obsługa błędów 404 (catch-all)
 
-Zastosowanie folderów w nawiasach, np. (main), pozwala grupować strony pod konkretny layout bez wpływania na adres URL w przeglądarce. Dzięki temu `pages/(main)/about.vue` jest dostępne pod adresem `/about`. Wówczas w pliku (main).vue byłby zdefiniowany layout dla plików z rozszerzeniem `.vue` w ścieżce `pages/(main)/*`.
+#### Struktura katalogu pages/ i obsługa layoutów
+
+Wykorzystanie folderów w nawiasach (np. (main), (auth)) służy do grupowania plików bez wpływu na strukturę adresów URL. Przykładowo, plik zlokalizowany w pages/(main)/about.vue jest dostępny pod adresem /about.
+
+W celu zapewnienia pełnej kontroli nad renderowaniem i uniknięcia konfliktów priorytetów, zrezygnowano z automatycznych layoutów opartych na systemie plików. Wybór layoutu odbywa się jawnie poprzez pole meta.layout wewnątrz komponentu strony:
+
+```js
+<script setup lang="ts">
+definePage({
+    meta: {
+        layout: 'auth', // domyślnie używany jest 'main'
+    },
+});
+</script>
+```
+
+W przypadku chęci użycia domyślnego layoutu (`MainLayout`) nie ma potrzeby korzystania z powyższego kodu.
+
+Wszystkie komponenty layoutów znajdują się w dedykowanym katalogu `src/layouts/`.
+
 - Dokumentacja: https://router.vuejs.org/file-based-routing/file-based-routing.html
 
 <br>
