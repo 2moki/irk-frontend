@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import 'tailwindcss-primeui';
+@import 'primeicons/primeicons.css';
 
 @theme {
     --color-uk-50: #f0f4ff;
