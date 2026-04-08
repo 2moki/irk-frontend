@@ -2,6 +2,8 @@
 @import 'tailwindcss-primeui';
 @import 'primeicons/primeicons.css';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
     --color-uk-50: #f0f4ff;
     --color-uk-100: #d9e2ff;

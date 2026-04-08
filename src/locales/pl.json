@@ -1,3 +1,32 @@
 {
-    "helloWorld": "Witaj Świecie"
+    "helloWorld": "Witaj Świecie",
+    "systemName": "Internetowa Rejestracja Kandydatów",
+    "auth": {
+        "login": "Logowanie",
+        "register": "Rejestracja",
+        "signInToYourAccount": "Zaloguj się do swojego konta.",
+        "signIn": "Zaloguj się",
+        "signUp": "Zarejestruj się",
+        "logout": "Wyloguj się",
+        "dontHaveAccount": "Nie masz jeszcze konta?",
+        "forgotPassword": "Nie pamiętam hasła",
+        "loggedInSuccessfully": "Zalogowano pomyślnie",
+        "hero": {
+            "title": "Rozpocznij swoją akademicką przygodę",
+            "subtitle": "System Internetowej Rejestracji Kandydatów na"
+        }
+    },
+    "field": {
+        "email": "Adres e-mail",
+        "password": "Hasło"
+    },
+    "greeting": {
+        "welcomeBack": "Witaj ponownie"
+    },
+    "language": {
+        "select": "Wybierz język"
+    },
+    "validation": {
+        "isRequired": "Pole {field} jest wymagane"
+    }
 }

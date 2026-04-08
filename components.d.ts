@@ -11,8 +11,36 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AppFooter: typeof import('./src/components/layout/AppFooter.vue')['default']
+    AuthHero: typeof import('./src/components/auth/AuthHero.vue')['default']
+    Avatar: typeof import('primevue/avatar')['default']
+    Badge: typeof import('primevue/badge')['default']
+    BaseFooter: typeof import('./src/components/layout/BaseFooter.vue')['default']
     Button: typeof import('primevue/button')['default']
+    FloatLabel: typeof import('primevue/floatlabel')['default']
+    Form: typeof import('@primevue/forms/form')['default']
+    FormField: typeof import('@primevue/forms/formfield')['default']
+    InputText: typeof import('primevue/inputtext')['default']
+    LanguageSelector: typeof import('./src/components/features/LanguageSelector.vue')['default']
+    LoginForm: typeof import('./src/components/auth/LoginForm.vue')['default']
+    Menu: typeof import('primevue/menu')['default']
+    Message: typeof import('primevue/message')['default']
+    Password: typeof import('primevue/password')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SelectButton: typeof import('primevue/selectbutton')['default']
+    Tab: typeof import('primevue/tab')['default']
+    TabList: typeof import('primevue/tablist')['default']
+    TabPanel: typeof import('primevue/tabpanel')['default']
+    TabPanels: typeof import('primevue/tabpanels')['default']
+    Tabs: typeof import('primevue/tabs')['default']
+    ThemeSwitcher: typeof import('./src/components/features/ThemeSwitcher.vue')['default']
+    Toast: typeof import('primevue/toast')['default']
+    UniversityHeader: typeof import('./src/components/ui/UniversityHeader.vue')['default']
+    UniversityIcon: typeof import('./src/components/ui/UniversityIcon.vue')['default']
+    UniversityLogo: typeof import('./src/components/ui/UniversityLogo.vue')['default']
+  }
+  export interface GlobalDirectives {
+    Ripple: typeof import('primevue/ripple')['default']
   }
 }

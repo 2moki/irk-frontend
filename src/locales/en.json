@@ -1,3 +1,32 @@
 {
-    "helloWorld": "Hello World"
+    "helloWorld": "Hello World",
+    "systemName": "Online Candidate Recruitment",
+    "auth": {
+        "login": "Login",
+        "register": "Register",
+        "signInToYourAccount": "Sign in to your account.",
+        "signIn": "Log in",
+        "signUp": "Sign up",
+        "logout": "Log out",
+        "dontHaveAccount": "You don't have an account yet?",
+        "forgotPassword": "Forgot password",
+        "loggedInSuccessfully": "Logged in successfully",
+        "hero": {
+            "title": "Start your academic adventure",
+            "subtitle": "Online Candidate Recruitment System for"
+        }
+    },
+    "field": {
+        "email": "E-mail address",
+        "password": "Password"
+    },
+    "greeting": {
+        "welcomeBack": "Welcome back"
+    },
+    "language": {
+        "select": "Select language"
+    },
+    "validation": {
+        "isRequired": "Field {field} is required"
+    }
 }
