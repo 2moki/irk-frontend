@@ -4,19 +4,12 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 
 import App from './App.vue';
 import '@/assets/styles/app.css';
-
-import { createRouter, createWebHistory } from 'vue-router';
-import { routes } from 'vue-router/auto-routes';
 import { createI18n } from 'vue-i18n';
 import en from '@/locales/en.json';
 import pl from '@/locales/pl.json';
 import PrimeVue from 'primevue/config';
 import Uk from '@/themes/uk.ts';
-
-const router = createRouter({
-    history: createWebHistory(),
-    routes,
-});
+import { router } from '@/router.ts';
 
 const i18n = createI18n({
     legacy: false,
