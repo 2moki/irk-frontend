@@ -12,6 +12,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppFooter: typeof import('./src/components/layout/AppFooter.vue')['default']
+    AuthHeader: typeof import('./src/components/auth/AuthHeader.vue')['default']
     AuthHero: typeof import('./src/components/auth/AuthHero.vue')['default']
     Avatar: typeof import('primevue/avatar')['default']
     Badge: typeof import('primevue/badge')['default']

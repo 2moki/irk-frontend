@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 import UniversityHeader from '@/components/ui/UniversityHeader.vue';
 import LoginForm from '@/components/auth/LoginForm.vue';
 import AppFooter from '@/components/layout/AppFooter.vue';
+import AuthHeader from '@/components/auth/AuthHeader.vue';
 
 definePage({
     meta: {
@@ -25,12 +26,7 @@ const options = computed(() => [t('auth.login'), t('auth.register')]);
     <div>
         <SelectButton class="mb-8" v-model="value" :options="options" fluid />
 
-        <div class="mb-8 hidden lg:block">
-            <p class="mb-2 text-2xl font-medium sm:text-4xl">{{ $t('greeting.welcomeBack') }}</p>
-            <p class="mb-6 text-black/80 sm:text-lg dark:text-white/80">
-                {{ $t('auth.signInToYourAccount') }}
-            </p>
-        </div>
+        <AuthHeader :title="$t('greeting.welcomeBack')" :subtitle="$t('auth.signInToYourAccount')" />
 
         <LoginForm />
     </div>
