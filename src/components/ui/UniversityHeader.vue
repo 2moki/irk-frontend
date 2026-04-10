@@ -8,4 +8,6 @@ import UniversityIcon from '@/components/ui/UniversityIcon.vue';
         <p class="text-uk-800 dark:text-uk-300 mt-3 text-3xl font-semibold">{{ $t('universityName') }}</p>
         <p class="text-lg">{{ $t('systemName') }}</p>
     </div>
+
+    <Divider class="lg:hidden" />
 </template>
