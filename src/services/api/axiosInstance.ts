@@ -1,4 +1,5 @@
 import axios from 'axios';
+import i18n from '@/plugins/i18n.ts';
 
 export const axiosInstance = axios.create({
     baseURL: '/',
@@ -10,3 +11,8 @@ export const axiosInstance = axios.create({
         'X-Requested-With': 'XMLHttpRequest',
     },
 });
+
+axiosInstance.interceptors.request.use((config) => {
+    config.headers['Accept-Language'] = i18n.global.locale.value;
+    return config;
+})
