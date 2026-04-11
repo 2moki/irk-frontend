@@ -8,10 +8,14 @@ import { useI18n } from 'vue-i18n';
 import { AxiosError } from 'axios';
 import type { LoginForm } from '@/types/auth.ts';
 import { useAuthStore } from '@/stores/auth.ts';
+import { useLoadingStore } from '@/stores/loading.ts';
+import { storeToRefs } from 'pinia';
 
 const { t } = useI18n();
 const toast = useToast();
 const { login } = useAuthStore();
+const loadingStore = useLoadingStore();
+const { isLoading } = storeToRefs(loadingStore);
 
 const initialValues = ref<LoginForm>({
     email: '',
@@ -105,7 +109,7 @@ const onFormChange = () => {
                 </Message>
             </div>
 
-            <Button type="submit" severity="primary" :label="t('auth.signIn')" />
+            <Button type="submit" severity="primary" :label="t('auth.signIn')" :loading="isLoading" />
         </Form>
     </div>
 </template>

@@ -19,14 +19,14 @@ export const useAuthStore = defineStore(
             await axiosInstance.get('/sanctum/csrf-cookie');
         };
 
-        const login = async (payload: LoginForm) => {
+        const login = withLoading(async (payload: LoginForm) => {
             await getCsrf();
 
             await axiosInstance.post('/api/auth/login', payload);
             await fetchUser();
 
             await router.push(redirectPath.value || '/');
-        };
+        });
 
         const fetchUser = async () => {
             try {
