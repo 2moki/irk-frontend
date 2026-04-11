@@ -5,33 +5,11 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import App from './App.vue';
 import '@/assets/styles/app.css';
 
-import { createI18n } from 'vue-i18n';
-import en from '@/locales/en.json';
-import pl from '@/locales/pl.json';
 import PrimeVue from 'primevue/config';
 import Uk from '@/themes/uk.ts';
 import { ToastService } from 'primevue';
 import { router } from '@/router.ts';
-
-const messages = {
-    pl: {
-        ...pl,
-        universityName: import.meta.env.VITE_UNIVERSITY_NAME_PL,
-        universityFullName: import.meta.env.VITE_UNIVERSITY_FULL_NAME_PL,
-    },
-    en: {
-        ...en,
-        universityName: import.meta.env.VITE_UNIVERSITY_NAME_EN,
-        universityFullName: import.meta.env.VITE_UNIVERSITY_FULL_NAME_EN,
-    },
-};
-
-const i18n = createI18n({
-    legacy: false,
-    locale: navigator.language,
-    fallbackLocale: 'en',
-    messages,
-});
+import i18n from '@/plugins/i18n.ts';
 
 const app = createApp(App);
 
