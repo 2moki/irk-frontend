@@ -9,8 +9,17 @@
         "signUp": "Zarejestruj się",
         "logout": "Wyloguj się",
         "dontHaveAccount": "Nie masz jeszcze konta?",
+        "rememberPassword": "Pamiętasz hasło?",
         "forgotPassword": "Nie pamiętam hasła",
+        "haveForgotPassword": "Zapomniałeś/aś hasła?",
+        "enterYourEmail": "Wprowadź swój adres e-mail powiązany z kontem, a wyślemy Ci instrukcje resetowania hasła.",
         "loggedInSuccessfully": "Zalogowano pomyślnie",
+        "sendEmailWithPasswordReset": "Wyślij link do zresetowania hasła",
+        "changePassword": "Zmień hasło",
+        "setNewPassword": "Ustaw nowe hasło",
+        "enterNewPasswordMessage": "Wprowadź nowe hasło poniżej, aby zmienić swoje hasło.",
+        "passwordResetLinkSent": "Wiadomość z linkiem do zresetowania hasła została wysłana na podany adres e-mail. Jeśli wiadomość nie dotarła, wyślij wiadomość ponownie za {remaining} sekund.",
+        "passwordChangedSuccessfully": "Hasło zostało zmienione pomyślnie.",
         "hero": {
             "title": "Rozpocznij swoją akademicką przygodę",
             "subtitle": "System Internetowej Rejestracji Kandydatów na"
@@ -18,7 +27,9 @@
     },
     "field": {
         "email": "Adres e-mail",
-        "password": "Hasło"
+        "password": "Hasło",
+        "newPassword": "Nowe hasło",
+        "reenterNewPassword": "Powtórz nowe hasło"
     },
     "greeting": {
         "welcomeBack": "Witaj ponownie"
@@ -27,6 +38,9 @@
         "select": "Wybierz język"
     },
     "validation": {
-        "isRequired": "Pole {field} jest wymagane"
+        "isRequired": "Pole {field} jest wymagane.",
+        "minLength": "Minimum {length} znaków.",
+        "passwordNotMatch": "Hasła nie są takie same.",
+        "invalidEmail": "Nieprawidłowy adres e-mail."
     }
 }

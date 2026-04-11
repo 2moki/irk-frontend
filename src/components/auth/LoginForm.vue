@@ -23,11 +23,15 @@ const serverErrors = ref<Record<string, string[]>>({});
 const resolver = computed(() =>
     zodResolver(
         z.object({
-            email: z.string().min(1, {
-                message: t('validation.isRequired', {
-                    field: t('field.email').toLowerCase(),
+            email: z
+                .email({
+                    message: t('validation.invalidEmail'),
+                })
+                .min(1, {
+                    message: t('validation.isRequired', {
+                        field: t('field.email').toLowerCase(),
+                    }),
                 }),
-            }),
             password: z.string().min(1, {
                 message: t('validation.isRequired', {
                     field: t('field.password').toLowerCase(),
@@ -75,18 +79,18 @@ const onFormChange = () => {
                 <label for="email" class="text-sm font-semibold">{{ $t('field.email') }}</label>
                 <InputText id="email" name="email" type="email" fluid />
                 <Message v-if="$form.email?.invalid" severity="error" size="small" variant="simple">
-                    {{ $form.email.error.message }}
+                    {{ $form.email.error?.message }}
                 </Message>
 
-                <Message v-if="serverErrors.email" severity="error" size="small" variant="simple">
-                    {{ serverErrors.email[0] }}
+                <Message v-if="serverErrors?.email" severity="error" size="small" variant="simple">
+                    {{ serverErrors?.email[0] }}
                 </Message>
             </div>
 
             <div class="flex flex-col gap-1">
                 <div class="flex items-center justify-between">
                     <label for="password" class="text-sm font-semibold">{{ $t('field.password') }}</label>
-                    <a href="#" class="text-sm">{{ $t('auth.forgotPassword') }}</a>
+                    <RouterLink to="/forgot-password" class="text-sm">{{ $t('auth.forgotPassword') }}</RouterLink>
                 </div>
 
                 <Password id="password" name="password" :feedback="false" toggleMask fluid />
@@ -96,8 +100,8 @@ const onFormChange = () => {
                     </ul>
                 </Message>
 
-                <Message v-if="serverErrors.password" severity="error" size="small" variant="simple">
-                    {{ serverErrors.password[0] }}
+                <Message v-if="serverErrors?.password" severity="error" size="small" variant="simple">
+                    {{ serverErrors?.password[0] }}
                 </Message>
             </div>
 

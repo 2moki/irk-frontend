@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import type { LoginForm, User } from '@/types/auth.ts';
+import type { ForgotPasswordForm, LoginForm, ResetPasswordPayload, User } from '@/types/auth.ts';
 import { axiosInstance } from '@/services/api/axiosInstance.ts';
 import { useRouter } from 'vue-router';
+import { useLoadingStore } from '@/stores/loading.ts';
 
 export const useAuthStore = defineStore(
     'auth',
@@ -12,6 +13,7 @@ export const useAuthStore = defineStore(
         const redirectPath = ref<string | null>(null);
 
         const router = useRouter();
+        const { withLoading } = useLoadingStore();
 
         const getCsrf = async () => {
             await axiosInstance.get('/sanctum/csrf-cookie');
@@ -50,12 +52,27 @@ export const useAuthStore = defineStore(
             }
         };
 
+        const forgotPassword = withLoading(async (payload: ForgotPasswordForm) => {
+            await getCsrf();
+
+            await axiosInstance.post('/api/auth/forgot-password', payload);
+        });
+
+        const resetPassword = withLoading(async (payload: ResetPasswordPayload) => {
+            await getCsrf();
+
+            await axiosInstance.post('/api/auth/reset-password', payload);
+            await router.push('/login');
+        });
+
         return {
             user,
             isAuthenticated,
             redirectPath,
             login,
             logout,
+            forgotPassword,
+            resetPassword,
         };
     },
     {

@@ -9,8 +9,17 @@
         "signUp": "Sign up",
         "logout": "Log out",
         "dontHaveAccount": "You don't have an account yet?",
+        "rememberPassword": "Remember password?",
         "forgotPassword": "Forgot password",
+        "haveForgotPassword": "Forgot your password?",
+        "enterYourEmail": "Enter the email address associated with your account, and we'll send you instructions on how to reset your password.",
         "loggedInSuccessfully": "Logged in successfully",
+        "sendEmailWithPasswordReset": "Send a link to reset password",
+        "changePassword": "Change password",
+        "setNewPassword": "Set new password",
+        "enterNewPasswordMessage": "Enter a new password below to change your password.",
+        "passwordResetLinkSent": "An email containing a link to reset your password has been sent to the email address you provided. If you haven't received it, please try again in {remaining} seconds.",
+        "passwordChangedSuccessfully": "The password has been changed successfully.",
         "hero": {
             "title": "Start your academic adventure",
             "subtitle": "Online Candidate Recruitment System for"
@@ -18,7 +27,9 @@
     },
     "field": {
         "email": "E-mail address",
-        "password": "Password"
+        "password": "Password",
+        "newPassword": "New password",
+        "reenterNewPassword": "Re-enter new password"
     },
     "greeting": {
         "welcomeBack": "Welcome back"
@@ -27,6 +38,9 @@
         "select": "Select language"
     },
     "validation": {
-        "isRequired": "Field {field} is required"
+        "isRequired": "Field {field} is required.",
+        "minLength": "Minimum {length} characters.",
+        "passwordNotMatch": "Passwords don't match.",
+        "invalidEmail": "Invalid email address."
     }
 }
