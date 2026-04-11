@@ -8,7 +8,7 @@ import AppFooter from '@/components/layout/AppFooter.vue';
 <template>
     <div class="flex h-dvh">
         <div class="bg-uk-800 hidden w-full max-w-1/2 flex-col justify-between gap-6 p-8 lg:flex 2xl:max-w-1/3">
-            <UniversityLogo />
+            <UniversityLogo link="/login" />
 
             <AuthHero />
 
