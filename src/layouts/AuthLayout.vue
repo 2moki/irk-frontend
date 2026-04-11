@@ -15,6 +15,10 @@ import AppFooter from '@/components/layout/AppFooter.vue';
             <AppFooter class="text-uk-300" />
         </div>
         <div class="relative flex w-full items-center justify-center">
+            <div class="absolute top-0 left-0 p-8 lg:hidden">
+                <UniversityLogo link="/login" :color-variant="true" />
+            </div>
+
             <div class="absolute top-0 right-0 p-8">
                 <ThemeSwitcher />
                 <LanguageSelector />

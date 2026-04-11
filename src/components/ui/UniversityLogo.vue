@@ -6,12 +6,21 @@ defineProps({
         type: String,
         default: '/',
     },
+    colorVariant: {
+        type: Boolean,
+        default: false,
+    },
 });
 </script>
 
 <template>
     <RouterLink :to="link" class="inline-flex items-center gap-3">
-        <UniversityIcon />
-        <span class="text-lg font-semibold text-white">{{ $t('universityName') }}</span>
+        <UniversityIcon :dark-mode="colorVariant" />
+        <span
+            class="text-uk-800 text-lg font-semibold"
+            :class="['text-lg', 'font-semibold', colorVariant ? 'text-uk-800 dark:text-uk-300' : 'text-white']"
+        >
+            {{ $t('universityName') }}
+        </span>
     </RouterLink>
 </template>
