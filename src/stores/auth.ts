@@ -31,7 +31,7 @@ export const useAuthStore = defineStore(
         const fetchUser = async () => {
             try {
                 const res = await axiosInstance.get('/api/v1/user');
-                user.value = res.data;
+                user.value = res.data.data;
                 isAuthenticated.value = true;
             } catch (error) {
                 console.error(error);
