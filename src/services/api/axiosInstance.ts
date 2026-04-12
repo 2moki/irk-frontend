@@ -15,4 +15,4 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use((config) => {
     config.headers['Accept-Language'] = i18n.global.locale.value;
     return config;
-})
+});
