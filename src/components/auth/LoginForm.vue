@@ -94,7 +94,12 @@ const onFormChange = () => {
             <div class="flex flex-col gap-1">
                 <div class="flex items-center justify-between">
                     <label for="password" class="text-sm font-semibold">{{ $t('field.password') }}</label>
-                    <RouterLink to="/forgot-password" class="text-sm">{{ $t('auth.forgotPassword') }}</RouterLink>
+                    <RouterLink
+                        to="/forgot-password"
+                        class="text-uk-800 hover:text-uk-900 dark:text-uk-300 dark:hover:text-uk-400 text-sm font-semibold transition-colors"
+                    >
+                        {{ $t('auth.forgotPassword') }}
+                    </RouterLink>
                 </div>
 
                 <Password id="password" name="password" :feedback="false" toggleMask fluid />

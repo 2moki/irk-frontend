@@ -9,5 +9,5 @@ import UniversityIcon from '@/components/ui/UniversityIcon.vue';
         <p class="text-lg">{{ $t('systemName') }}</p>
     </div>
 
-    <Divider class="lg:hidden" />
+    <Divider class="mb-6 lg:hidden" />
 </template>
