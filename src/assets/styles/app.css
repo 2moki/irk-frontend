@@ -17,3 +17,7 @@
     --color-uk-900: #142042;
     --color-uk-950: #0a1128;
 }
+
+body {
+    font-family: 'Inter Variable', sans-serif;
+}

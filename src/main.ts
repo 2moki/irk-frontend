@@ -4,6 +4,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 
 import App from './App.vue';
 import '@/assets/styles/app.css';
+import '@fontsource-variable/inter/opsz.css';
 
 import PrimeVue from 'primevue/config';
 import Uk from '@/themes/uk.ts';
