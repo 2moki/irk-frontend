@@ -4,7 +4,6 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import UniversityHeader from '@/components/ui/UniversityHeader.vue';
 import LoginForm from '@/components/auth/LoginForm.vue';
-import AppFooter from '@/components/layout/AppFooter.vue';
 import AuthHeader from '@/components/auth/AuthHeader.vue';
 
 definePage({
@@ -40,8 +39,4 @@ const options = computed(() => [t('auth.login'), t('auth.register')]);
             {{ $t('auth.signUp') }}
         </RouterLink>
     </p>
-
-    <AppFooter
-        class="absolute right-0 bottom-0 left-0 mb-8 flex items-center justify-center text-sm font-semibold uppercase lg:hidden"
-    />
 </template>
