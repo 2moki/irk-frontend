@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import type { ForgotPasswordForm, LoginForm, ResetPasswordPayload, User } from '@/types/auth.ts';
+import type { ForgotPasswordForm, LoginForm, RegisterForm, ResetPasswordPayload, User } from '@/types/auth.ts';
 import { axiosInstance } from '@/services/api/axiosInstance.ts';
 import { useRouter } from 'vue-router';
 import { useLoadingStore } from '@/stores/loading.ts';
@@ -18,6 +18,15 @@ export const useAuthStore = defineStore(
         const getCsrf = async () => {
             await axiosInstance.get('/sanctum/csrf-cookie');
         };
+
+        const register = withLoading(async (payload: RegisterForm) => {
+            await getCsrf();
+
+            await axiosInstance.post('/api/auth/register', payload);
+            await fetchUser();
+
+            await router.push('/');
+        });
 
         const login = withLoading(async (payload: LoginForm) => {
             await getCsrf();
@@ -69,6 +78,7 @@ export const useAuthStore = defineStore(
             user,
             isAuthenticated,
             redirectPath,
+            register,
             login,
             logout,
             forgotPassword,

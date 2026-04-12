@@ -4,6 +4,9 @@ import ThemeSwitcher from '@/components/features/ThemeSwitcher.vue';
 import UniversityLogo from '@/components/ui/UniversityLogo.vue';
 import AuthHero from '@/components/auth/AuthHero.vue';
 import AppFooter from '@/components/layout/AppFooter.vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 </script>
 
 <template>
@@ -15,23 +18,26 @@ import AppFooter from '@/components/layout/AppFooter.vue';
 
             <AppFooter class="text-uk-300" />
         </div>
-        <div class="relative flex w-full items-center justify-center">
-            <div class="absolute top-0 left-0 p-8 lg:hidden">
-                <UniversityLogo link="/login" :color-variant="true" />
+        <div class="flex h-dvh w-full flex-col overflow-y-auto">
+            <div class="flex shrink-0 items-center justify-between p-8">
+                <div class="lg:hidden">
+                    <UniversityLogo link="/login" :color-variant="true" />
+                </div>
+                <div class="ml-auto flex items-center gap-2">
+                    <ThemeSwitcher />
+                    <LanguageSelector />
+                </div>
             </div>
 
-            <div class="absolute top-0 right-0 p-8">
-                <ThemeSwitcher />
-                <LanguageSelector />
+            <div class="flex flex-1 flex-col items-center justify-center px-6 py-4">
+                <div class="w-full" :class="route.meta?.authMaxWidth || 'max-w-xl'">
+                    <RouterView />
+                </div>
             </div>
 
-            <div class="w-full max-w-xl px-6">
-                <RouterView />
-
-                <AppFooter
-                    class="absolute right-0 bottom-0 left-0 mb-8 flex items-center justify-center text-sm font-semibold uppercase lg:hidden"
-                />
-            </div>
+            <AppFooter
+                class="flex shrink-0 items-center justify-center pt-4 pb-8 text-sm font-semibold uppercase lg:hidden"
+            />
         </div>
     </div>
 </template>

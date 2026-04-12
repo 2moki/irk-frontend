@@ -20,16 +20,51 @@
         "enterNewPasswordMessage": "Enter a new password below to change your password.",
         "passwordResetLinkSent": "An email containing a link to reset your password has been sent to the email address you provided. If you haven't received it, please try again in {remaining} seconds.",
         "passwordChangedSuccessfully": "The password has been changed successfully.",
+        "createCandidateAccount": "Create a candidate account",
+        "enterDataToStart": "Enter the information below to begin the application process.",
         "hero": {
             "title": "Start your academic adventure",
             "subtitle": "Online Candidate Recruitment System for"
+        },
+        "registerProcess": {
+            "personalInformation": "Personal information",
+            "address": "Address",
+            "contactAndLoginInformation": "Account and contact",
+            "noPeselNumber": "I don't have a PESEL number",
+            "mailingAddress": "Mailing address",
+            "otherMailingAddress": "Mailing address is different from residential address"
         }
     },
     "field": {
         "email": "E-mail address",
         "password": "Password",
+        "confirmPassword": "Confirm password",
         "newPassword": "New password",
-        "reenterNewPassword": "Re-enter new password"
+        "reenterNewPassword": "Re-enter new password",
+        "firstName": "First name",
+        "middleName": "Middle name",
+        "lastName": "Last name",
+        "pesel": "PESEL",
+        "otherDocument": "Passport / Foreign ID",
+        "dateOfBirth": "Date of birth",
+        "gender": "Gender",
+        "phone": "Phone number",
+        "phonePrefix": "Area code",
+        "country": "Country",
+        "voivodeship": "Voivodeship",
+        "state": "Province / State",
+        "postCode": "Post code",
+        "city": "City",
+        "street": "Street",
+        "houseNumber": "House number",
+        "apartmentNumber": "Apartment number",
+        "postOffice": "Post office",
+        "optional": "optional"
+    },
+    "gender": {
+        "male": "Male",
+        "female": "Female",
+        "not_specified": "Prefer not to say"
     },
     "greeting": {
         "welcomeBack": "Welcome back"
@@ -40,7 +75,21 @@
     "validation": {
         "isRequired": "Field {field} is required.",
         "minLength": "Minimum {length} characters.",
+        "maxLength": "Maximum {length} characters.",
         "passwordNotMatch": "Passwords don't match.",
-        "invalidEmail": "Invalid email address."
+        "invalidEmail": "Invalid email address.",
+        "invalidDate": "Invalid date.",
+        "invalidGender": "Invalid gender.",
+        "invalidPesel": "Invalid PESEL."
+    },
+    "placeholder": {
+        "dateFormat": "yyyy-mm-dd",
+        "selectGender": "Select gender",
+        "selectCountry": "Select country",
+        "selectVoivodeship": "Select voivodeship"
+    },
+    "stepperPagination": {
+        "back": "Back",
+        "next": "Next"
     }
 }

@@ -20,16 +20,51 @@
         "enterNewPasswordMessage": "Wprowadź nowe hasło poniżej, aby zmienić swoje hasło.",
         "passwordResetLinkSent": "Wiadomość z linkiem do zresetowania hasła została wysłana na podany adres e-mail. Jeśli wiadomość nie dotarła, wyślij wiadomość ponownie za {remaining} sekund.",
         "passwordChangedSuccessfully": "Hasło zostało zmienione pomyślnie.",
+        "createCandidateAccount": "Utwórz konto kandydata",
+        "enterDataToStart": "Wprowadź poniższe dane, aby rozpocząć proces rekrutacyjny.",
         "hero": {
             "title": "Rozpocznij swoją akademicką przygodę",
             "subtitle": "System Internetowej Rejestracji Kandydatów na"
+        },
+        "registerProcess": {
+            "personalInformation": "Dane osobowe",
+            "address": "Adres",
+            "contactAndLoginInformation": "Konto i kontakt",
+            "noPeselNumber": "Nie posiadam numeru PESEL",
+            "mailingAddress": "Adres korespondencyjny",
+            "otherMailingAddress": "Adres korespondencyjny jest inny niż zamieszkania"
         }
     },
     "field": {
         "email": "Adres e-mail",
         "password": "Hasło",
+        "confirmPassword": "Powtórz hasło",
         "newPassword": "Nowe hasło",
-        "reenterNewPassword": "Powtórz nowe hasło"
+        "reenterNewPassword": "Powtórz nowe hasło",
+        "firstName": "Imię",
+        "middleName": "Drugie imię",
+        "lastName": "Nazwisko",
+        "pesel": "PESEL",
+        "otherDocument": "Paszport / dowód zagraniczny",
+        "dateOfBirth": "Data urodzenia",
+        "gender": "Płeć",
+        "phone": "Telefon kontaktowy",
+        "phonePrefix": "Numer kierunkowy",
+        "country": "Kraj",
+        "voivodeship": "Województwo",
+        "state": "Prowincja / Stan",
+        "postCode": "Kod pocztowy",
+        "city": "Miejscowość",
+        "street": "Ulica",
+        "houseNumber": "Numer domu",
+        "apartmentNumber": "Numer lokalu",
+        "postOffice": "Poczta",
+        "optional": "opcjonalne"
+    },
+    "gender": {
+        "male": "Mężczyzna",
+        "female": "Kobieta",
+        "not_specified": "Nie chcę podawać"
     },
     "greeting": {
         "welcomeBack": "Witaj ponownie"
@@ -40,7 +75,21 @@
     "validation": {
         "isRequired": "Pole {field} jest wymagane.",
         "minLength": "Minimum {length} znaków.",
+        "maxLength": "Maksymalnie {length} znaków.",
         "passwordNotMatch": "Hasła nie są takie same.",
-        "invalidEmail": "Nieprawidłowy adres e-mail."
+        "invalidEmail": "Nieprawidłowy adres e-mail.",
+        "invalidDate": "Nieprawidłowa data.",
+        "invalidGender": "Nieprawidłowa płeć.",
+        "invalidPesel": "Nieprawidłowy PESEL."
+    },
+    "placeholder": {
+        "dateFormat": "rrrr-mm-dd",
+        "selectGender": "Wybierz płeć",
+        "selectCountry": "Wybierz kraj",
+        "selectVoivodeship": "Wybierz województwo"
+    },
+    "stepperPagination": {
+        "back": "Powrót",
+        "next": "Dalej"
     }
 }
