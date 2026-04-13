@@ -84,6 +84,7 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
             <DatePicker
                 id="date_of_birth"
                 name="date_of_birth"
+                v-model="registerFormStore.formData.date_of_birth"
                 dateFormat="yy-mm-dd"
                 dataType="string"
                 showIcon

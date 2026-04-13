@@ -38,19 +38,40 @@ export const personalInformationSchema = (t: ComposerTranslation, noPesel: boole
                         length: 100,
                     }),
                 }),
-            date_of_birth: z.coerce
-                .date({
-                    message: t('validation.invalidDate'),
-                })
-                .max(new Date(new Date().setDate(new Date().getDate() - 1)), {
-                    message: t('validation.invalidDate'),
-                })
-                .transform((val) => {
-                    const year = val.getFullYear();
-                    const month = String(val.getMonth() + 1).padStart(2, '0');
-                    const day = String(val.getDate()).padStart(2, '0');
-                    return `${year}-${month}-${day}`;
-                }),
+            date_of_birth: z.preprocess(
+                (val) => {
+                    if (!val) return undefined;
+                    if (val instanceof Date) {
+                        const year = val.getFullYear();
+                        const month = String(val.getMonth() + 1).padStart(2, '0');
+                        const day = String(val.getDate()).padStart(2, '0');
+                        return `${year}-${month}-${day}`;
+                    }
+                    return String(val);
+                },
+                z
+                    .string({
+                        message: t('validation.isRequired', {
+                            field: t('field.dateOfBirth').toLowerCase(),
+                        }),
+                    })
+                    .regex(/^\d{4}-\d{2}-\d{2}$/, {
+                        message: t('validation.invalidDate'),
+                    })
+                    .transform((val) => new Date(val))
+                    .refine((date) => !isNaN(date.getTime()), {
+                        message: t('validation.invalidDate'),
+                    })
+                    .refine((date) => date <= new Date(new Date().setDate(new Date().getDate() - 1)), {
+                        message: t('validation.invalidDate'),
+                    })
+                    .transform((val) => {
+                        const year = val.getFullYear();
+                        const month = String(val.getMonth() + 1).padStart(2, '0');
+                        const day = String(val.getDate()).padStart(2, '0');
+                        return `${year}-${month}-${day}`;
+                    }),
+            ),
             pesel: !noPesel
                 ? z
                       .string({
