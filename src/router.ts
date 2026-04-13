@@ -15,6 +15,8 @@ router.beforeEach((to) => {
 
     document.title = i18nGlobal.t('universityName');
 
+    if (to.meta.notFound) return;
+
     if (to.meta.requiresGuest && authStore.isAuthenticated) {
         return '/';
     } else if (!to.meta.requiresGuest && !authStore.isAuthenticated) {

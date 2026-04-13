@@ -1,6 +1,7 @@
 {
     "helloWorld": "Witaj Świecie",
     "systemName": "Internetowa Rejestracja Kandydatów",
+    "notFound": "Nie znaleziono",
     "auth": {
         "login": "Logowanie",
         "register": "Rejestracja",

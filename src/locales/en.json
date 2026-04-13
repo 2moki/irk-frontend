@@ -1,6 +1,7 @@
 {
     "helloWorld": "Hello World",
     "systemName": "Online Candidate Recruitment",
+    "notFound": "Not found",
     "auth": {
         "login": "Login",
         "register": "Register",

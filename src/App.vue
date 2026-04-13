@@ -5,12 +5,14 @@ import AuthLayout from '@/layouts/AuthLayout.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import { useThemeStore } from '@/stores/theme.ts';
 import { useLanguageStore } from '@/stores/language.ts';
+import EmptyLayout from '@/layouts/EmptyLayout.vue';
 
 const route = useRoute();
 
 const layoutMap: Record<string, Component> = {
     auth: AuthLayout,
     main: MainLayout,
+    empty: EmptyLayout,
 };
 
 const activeLayout = computed(() => {
