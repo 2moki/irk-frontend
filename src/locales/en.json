@@ -16,6 +16,7 @@
         "haveForgotPassword": "Forgot your password?",
         "enterYourEmail": "Enter the email address associated with your account, and we'll send you instructions on how to reset your password.",
         "loggedInSuccessfully": "Logged in successfully",
+        "registrationSuccessful": "Registration successful",
         "sendEmailWithPasswordReset": "Send a link to reset password",
         "changePassword": "Change password",
         "setNewPassword": "Set new password",

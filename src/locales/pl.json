@@ -16,6 +16,7 @@
         "haveForgotPassword": "Zapomniałeś/aś hasła?",
         "enterYourEmail": "Wprowadź swój adres e-mail powiązany z kontem, a wyślemy Ci instrukcje resetowania hasła.",
         "loggedInSuccessfully": "Zalogowano pomyślnie",
+        "registrationSuccessful": "Zarejestrowano pomyślnie",
         "sendEmailWithPasswordReset": "Wyślij link do zresetowania hasła",
         "changePassword": "Zmień hasło",
         "setNewPassword": "Ustaw nowe hasło",

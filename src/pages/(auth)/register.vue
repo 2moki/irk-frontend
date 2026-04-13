@@ -9,6 +9,8 @@ import { useAuthStore } from '@/stores/auth.ts';
 import type { FormSubmitEvent } from '@primevue/forms';
 import { AxiosError } from 'axios';
 import { ref } from 'vue';
+import { useToast } from 'primevue/usetoast';
+import { useI18n } from 'vue-i18n';
 
 definePage({
     meta: {
@@ -17,6 +19,9 @@ definePage({
         authMaxWidth: 'max-w-5xl',
     },
 });
+
+const toast = useToast();
+const { t } = useI18n();
 
 const registerFormStore = useRegisterFormStore();
 const { register } = useAuthStore();
@@ -40,6 +45,8 @@ const registerAccount = async (values: FormSubmitEvent) => {
 
     try {
         await register(registerFormStore.formData);
+        toast.add({ severity: 'success', summary: t('auth.registrationSuccessful'), life: 3000 });
+
         registerFormStore.resetForm();
     } catch (error) {
         if (error instanceof AxiosError) {
