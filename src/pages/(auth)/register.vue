@@ -138,4 +138,14 @@ const registerAccount = async (values: FormSubmitEvent) => {
             </StepPanels>
         </Stepper>
     </div>
+
+    <p class="flex justify-center">
+        {{ $t('auth.haveAccount') }}&nbsp;
+        <RouterLink
+            to="/login"
+            class="text-uk-800 hover:text-uk-900 dark:text-uk-300 dark:hover:text-uk-400 font-semibold transition-colors"
+        >
+            {{ $t('auth.signIn') }}
+        </RouterLink>
+    </p>
 </template>
