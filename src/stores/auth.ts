@@ -73,6 +73,11 @@ export const useAuthStore = defineStore(
             await axiosInstance.post('/api/auth/reset-password', payload);
             await router.push('/login');
         });
+        const updateUser = withLoading(async (payload) => {
+            await getCsrf();
+            const res = await axiosInstance.put('/api/v1/user', payload);
+            user.value = res.data.data;
+        });
 
         return {
             user,
@@ -83,6 +88,8 @@ export const useAuthStore = defineStore(
             logout,
             forgotPassword,
             resetPassword,
+            updateUser,
+            fetchUser,
         };
     },
     {

@@ -54,6 +54,7 @@ declare module 'vue' {
     TabPanel: typeof import('primevue/tabpanel')['default']
     TabPanels: typeof import('primevue/tabpanels')['default']
     Tabs: typeof import('primevue/tabs')['default']
+    TabView: typeof import('primevue/tabview')['default']
     ThemeSwitcher: typeof import('./src/components/features/ThemeSwitcher.vue')['default']
     Toast: typeof import('primevue/toast')['default']
     UniversityHeader: typeof import('./src/components/ui/UniversityHeader.vue')['default']

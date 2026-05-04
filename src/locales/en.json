@@ -2,6 +2,7 @@
     "helloWorld": "Hello World",
     "systemName": "Online Candidate Recruitment",
     "notFound": "Not found",
+    "universityName": "University Name",
     "auth": {
         "login": "Login",
         "register": "Register",

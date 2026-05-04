@@ -2,6 +2,7 @@
     "helloWorld": "Witaj Świecie",
     "systemName": "Internetowa Rejestracja Kandydatów",
     "notFound": "Nie znaleziono",
+    "universityName": "Nazwa uczelni",
     "auth": {
         "login": "Logowanie",
         "register": "Rejestracja",
@@ -25,6 +26,7 @@
         "passwordChangedSuccessfully": "Hasło zostało zmienione pomyślnie.",
         "createCandidateAccount": "Utwórz konto kandydata",
         "enterDataToStart": "Wprowadź poniższe dane, aby rozpocząć proces rekrutacyjny.",
+        "universityName": "Nazwa uczelni",
         "hero": {
             "title": "Rozpocznij swoją akademicką przygodę",
             "subtitle": "System Internetowej Rejestracji Kandydatów na"
