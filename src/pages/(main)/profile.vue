@@ -135,16 +135,13 @@ const changePassword = async () => {
 </script>
 
 <template>
-    <div class="max-w-4xl mx-auto p-6 space-y-6">
-
+    <div class="mx-auto max-w-4xl space-y-6 p-6">
         <h1 class="text-2xl font-bold">Mój profil</h1>
 
         <TabView v-model:activeIndex="activeTab">
-
             <!-- DANE OSOBOWE -->
             <TabPanel header="Dane osobowe">
-                <div class="grid md:grid-cols-2 gap-4 mt-4">
-
+                <div class="mt-4 grid gap-4 md:grid-cols-2">
                     <div>
                         <label>Imię</label>
                         <InputText v-model="personalForm.first_name" class="w-full" />
@@ -188,9 +185,8 @@ const changePassword = async () => {
 
                     <div>
                         <label>Płeć</label>
-                        <Select v-model="personalForm.gender" :options="['male','female','other']" class="w-full" />
+                        <Select v-model="personalForm.gender" :options="['male', 'female', 'other']" class="w-full" />
                     </div>
-
                 </div>
 
                 <Button label="Zapisz dane" class="mt-6 w-full" @click="savePersonal" />
@@ -198,8 +194,7 @@ const changePassword = async () => {
 
             <!-- ADRES -->
             <TabPanel header="Adres">
-                <div class="grid md:grid-cols-2 gap-4 mt-4">
-
+                <div class="mt-4 grid gap-4 md:grid-cols-2">
                     <div>
                         <label>Ulica</label>
                         <InputText v-model="addressForm.street" class="w-full" />
@@ -229,7 +224,6 @@ const changePassword = async () => {
                         <label>Kraj</label>
                         <InputText v-model="addressForm.country" class="w-full" />
                     </div>
-
                 </div>
 
                 <Button label="Zapisz adres" class="mt-6 w-full" @click="saveAddress" />
@@ -237,8 +231,7 @@ const changePassword = async () => {
 
             <!-- HASŁO -->
             <TabPanel header="Bezpieczeństwo">
-                <div class="grid gap-4 mt-4">
-
+                <div class="mt-4 grid gap-4">
                     <div>
                         <label>Aktualne hasło</label>
                         <Password v-model="passwordForm.current_password" toggleMask class="w-full" />
@@ -253,12 +246,10 @@ const changePassword = async () => {
                         <label>Powtórz hasło</label>
                         <Password v-model="passwordForm.password_confirmation" toggleMask class="w-full" />
                     </div>
-
                 </div>
 
                 <Button label="Zmień hasło" class="mt-6 w-full" @click="changePassword" />
             </TabPanel>
-
         </TabView>
     </div>
 </template>

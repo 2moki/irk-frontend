@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import api from '@/plugins/axios';
 import { useToast } from 'primevue/usetoast';
-import { onMounted } from 'vue';
 import { useRecruitmentStore } from '@/stores/recruitment';
+import { storeToRefs } from 'pinia';
 
 const toast = useToast();
+
 const recruitmentStore = useRecruitmentStore();
-const { recruitments } = recruitmentStore;
+const { recruitments } = storeToRefs(recruitmentStore); // ✅ FIX
 
 onMounted(async () => {
     await recruitmentStore.fetchRecruitments();
@@ -16,6 +17,12 @@ onMounted(async () => {
 const form = ref({
     exam_type: '',
 });
+
+const formatDate = (date: string) => {
+    if (!date) return '';
+
+    return new Date(date).toLocaleDateString('pl-PL');
+};
 
 const examTypes = [
     { label: 'Nowa matura', value: 'new_matura' },
@@ -35,39 +42,35 @@ const save = async () => {
             summary: 'Zapisano',
             life: 3000,
         });
-    } catch (e: any) {
+    } catch (e: unknown) {
         console.error(e.response?.data);
     }
 };
 </script>
 
 <template>
-<pre>{{ r }}</pre>
-<TabPanel header="Kierunki i koszty">
-    <div class="space-y-3 mt-4">
+    <TabPanel header="Kierunki i koszty">
+        <div class="mt-4 space-y-3">
+            <div v-for="r in recruitments" :key="r.id" class="flex items-center justify-between rounded border p-4">
+                <div>
+                    <div class="font-bold">
+                        {{ r.major?.name }}
+                        <!-- ✅ FIX -->
+                    </div>
 
-        <div
-            v-for="r in recruitments"
-            :key="r.id"
-            class="p-4 border rounded flex justify-between items-center"
-        >
-            <div class="font-bold">
-    {{ r.major?.name }}
-</div>
+                    <div class="text-sm text-gray-500">
+                        {{ formatDate(r.start_date) }} - {{ formatDate(r.end_date) }}
+                    </div>
+                </div>
 
-<div class="text-sm text-gray-500">
-    Rekrutacja aktywna
-</div>
-
-<div class="text-right font-bold">
-    {{ r.cost?.amount }} PLN
-</div>
+                <div class="text-right font-bold">
+                    {{ r.cost?.price ? r.cost.price + ' PLN' : 'Brak ceny' }}
+                </div>
+            </div>
         </div>
+    </TabPanel>
 
-    </div>
-</TabPanel>
-    <div class="max-w-xl mx-auto p-6 space-y-4">
-
+    <div class="mx-auto max-w-xl space-y-4 p-6">
         <h1 class="text-xl font-bold">Typ egzaminu</h1>
 
         <div class="flex flex-col gap-2">
@@ -83,6 +86,6 @@ const save = async () => {
             />
         </div>
 
-        <Button label="Zapisz" class="w-full mt-4" @click="save" />
+        <Button label="Zapisz" class="mt-4 w-full" @click="save" />
     </div>
 </template>

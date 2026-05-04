@@ -74,10 +74,10 @@ export const useAuthStore = defineStore(
             await router.push('/login');
         });
         const updateUser = withLoading(async (payload) => {
-        await getCsrf();
-        const res = await axiosInstance.put('/api/v1/user', payload)
-        user.value = res.data.data;
-});
+            await getCsrf();
+            const res = await axiosInstance.put('/api/v1/user', payload);
+            user.value = res.data.data;
+        });
 
         return {
             user,
