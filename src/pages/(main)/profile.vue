@@ -46,6 +46,12 @@ const passwordForm = ref({
     password_confirmation: '',
 });
 
+const formatToInputDate = (date: string | null) => {
+    if (!date) return ''
+
+    return date.split('T')[0]
+}
+
 /**
  * MAPOWANIE USER → FORM
  */
@@ -60,7 +66,7 @@ const fillForms = () => {
         phone_prefix: user.value.phone_prefix ?? '+48',
         phone_number: user.value.phone_number ?? '',
         pesel: user.value.pesel ?? '',
-        date_of_birth: user.value.date_of_birth ?? '',
+        date_of_birth: formatToInputDate(user.value?.date_of_birth ?? null),
         gender: user.value.gender ?? '',
     };
 
@@ -95,26 +101,42 @@ const savePersonal = async () => {
 };
 
 const saveAddress = async () => {
-    await auth.updateUser({
-        address: {
-            street: addressForm.value.street,
-            house_number: addressForm.value.house_number,
-            apartment_number: addressForm.value.apartment_number,
-            city: addressForm.value.city,
-            postal_code: addressForm.value.postal_code,
-            post_office: addressForm.value.post_office,
-            state: addressForm.value.state,
+    try {
+        await auth.updateUser({
+            address: {
+                street: addressForm.value.street,
+                house_number: addressForm.value.house_number,
+                apartment_number: addressForm.value.apartment_number,
+                city: addressForm.value.city,
+                post_code: addressForm.value.postal_code, // 🔥 MAPOWANIE
 
-            // 🔥 KLUCZOWE
-            country_id: addressForm.value.country?.id,
-        },
-    });
+                country_id: addressForm.value.country?.id,
+            },
+        });
 
-    toast.add({
-        severity: 'success',
-        summary: 'Zapisano adres',
-        life: 3000,
-    });
+        toast.add({
+            severity: 'success',
+            summary: 'Zapisano adres',
+            life: 3000,
+        });
+
+    } catch (e: any) {
+        const errors = e.response?.data?.errors;
+
+        if (errors) {
+            Object.values(errors).forEach((fieldErrors: any) => {
+                fieldErrors.forEach((msg: string) => {
+                    toast.add({
+                        severity: 'error',
+                        summary: msg,
+                        life: 4000,
+                    });
+                });
+            });
+        } else {
+            console.error(e.response?.data);
+        }
+    }
 };
 
 const changePassword = async () => {
