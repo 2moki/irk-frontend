@@ -62,6 +62,27 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/(main)/application': RouteRecordInfo<
+      '/(main)/application',
+      '/application',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/(main)/dashboard': RouteRecordInfo<
+      '/(main)/dashboard',
+      '/dashboard',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/(main)/profile': RouteRecordInfo<
+      '/(main)/profile',
+      '/profile',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/[...path]': RouteRecordInfo<
       '/[...path]',
       '/:path(.*)',
@@ -109,6 +130,24 @@ declare module 'vue-router/auto-routes' {
     'src/pages/(main)/index.vue': {
       routes:
         | '/(main)/'
+      views:
+        | never
+    }
+    'src/pages/(main)/application.vue': {
+      routes:
+        | '/(main)/application'
+      views:
+        | never
+    }
+    'src/pages/(main)/dashboard.vue': {
+      routes:
+        | '/(main)/dashboard'
+      views:
+        | never
+    }
+    'src/pages/(main)/profile.vue': {
+      routes:
+        | '/(main)/profile'
       views:
         | never
     }
