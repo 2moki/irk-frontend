@@ -31,6 +31,9 @@ git clone https://github.com/2moki/irk-frontend irk-frontend
 # Przejście do katalogu
 cd irk-frontend
 
+# Kopiowanie pliku środowiskowego
+cp .env.example .env
+
 # Instalacja paczek
 npm install
 ```
