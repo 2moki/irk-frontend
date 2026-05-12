@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { useToast } from 'primevue/usetoast';
@@ -47,10 +47,10 @@ const passwordForm = ref({
 });
 
 const formatToInputDate = (date: string | null) => {
-    if (!date) return ''
+    if (!date) return '';
 
-    return date.split('T')[0]
-}
+    return date.split('T')[0];
+};
 
 /**
  * MAPOWANIE USER → FORM
@@ -119,7 +119,6 @@ const saveAddress = async () => {
             summary: 'Zapisano adres',
             life: 3000,
         });
-
     } catch (e: any) {
         const errors = e.response?.data?.errors;
 
@@ -157,7 +156,7 @@ const changePassword = async () => {
 </script>
 
 <template>
-    <div class="mx-auto max-w-4xl space-y-6 p-6">
+    <div class="mx-auto max-w-4xl space-y-6">
         <h1 class="text-2xl font-bold">Mój profil</h1>
 
         <TabView v-model:activeIndex="activeTab">

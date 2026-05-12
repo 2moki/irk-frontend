@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import api from '@/plugins/axios';
 import { useToast } from 'primevue/usetoast';
 import { useRecruitmentStore } from '@/stores/recruitment';
@@ -50,7 +50,7 @@ const save = async () => {
 
 <template>
     <TabPanel header="Kierunki i koszty">
-        <div class="mt-4 space-y-3">
+        <div class="space-y-3">
             <div v-for="r in recruitments" :key="r.id" class="flex items-center justify-between rounded border p-4">
                 <div>
                     <div class="font-bold">
