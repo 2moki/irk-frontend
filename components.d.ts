@@ -13,6 +13,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AddressForm: typeof import('./src/components/auth/AddressForm.vue')['default']
     AppFooter: typeof import('./src/components/layout/AppFooter.vue')['default']
+    AppSidebar: typeof import('./src/components/layout/AppSidebar.vue')['default']
     AuthHeader: typeof import('./src/components/auth/AuthHeader.vue')['default']
     AuthHero: typeof import('./src/components/auth/AuthHero.vue')['default']
     Avatar: typeof import('primevue/avatar')['default']
@@ -23,6 +24,7 @@ declare module 'vue' {
     ContactInformationForm: typeof import('./src/components/auth/ContactInformationForm.vue')['default']
     DatePicker: typeof import('primevue/datepicker')['default']
     Divider: typeof import('primevue/divider')['default']
+    Drawer: typeof import('primevue/drawer')['default']
     FloatLabel: typeof import('primevue/floatlabel')['default']
     ForgotPasswordForm: typeof import('./src/components/auth/ForgotPasswordForm.vue')['default']
     Form: typeof import('@primevue/forms/form')['default']
@@ -43,6 +45,9 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('primevue/select')['default']
     SelectButton: typeof import('primevue/selectbutton')['default']
+    SidebarFooter: typeof import('./src/components/sidebar/SidebarFooter.vue')['default']
+    SidebarLink: typeof import('./src/components/sidebar/SidebarLink.vue')['default']
+    SidebarLinks: typeof import('./src/components/sidebar/SidebarLinks.vue')['default']
     Step: typeof import('primevue/step')['default']
     StepItem: typeof import('primevue/stepitem')['default']
     StepList: typeof import('primevue/steplist')['default']
@@ -63,5 +68,6 @@ declare module 'vue' {
   }
   export interface GlobalDirectives {
     Ripple: typeof import('primevue/ripple')['default']
+    StyleClass: typeof import('primevue/styleclass')['default']
   }
 }
