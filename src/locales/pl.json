@@ -99,7 +99,6 @@
         "next": "Dalej"
     },
     "dashboard": {
-        "recruitingFor": "Obecnie nie rekrutujesz się na żaden kierunek. | Obecnie rekrutujesz się na 1 kierunek. | Obecnie rekrutujesz się na {n} kierunki. | Obecnie rekrutujesz się na {n} kierunków.",
         "checkStatus": "Sprawdź status swoich aplikacji poniżej.",
         "yourApplications": "Twoje Zgłoszenia",
         "status": "Status",
@@ -108,6 +107,12 @@
         "needHelp": "Potrzebujesz pomocy?",
         "recruitmentOffice": "Biuro rekrutacji jest do Twojej dyspozycji.",
         "contactUs": "Skontaktuj się",
+        "recruiting": {
+            "zero": "Obecnie nie rekrutujesz się na żaden kierunek.",
+            "one": "Obecnie rekrutujesz się na 1 kierunek.",
+            "few": "Obecnie rekrutujesz się na {n} kierunki.",
+            "many": "Obecnie rekrutujesz się na {n} kierunków."
+        },
         "statuses": {
             "unqualified": "Niezakwalifikowany",
             "reserve": "Lista rezerwowa",

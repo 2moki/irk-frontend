@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useAuthStore } from '@/stores/auth.ts';
 import { useI18n } from 'vue-i18n';
 import { axiosInstance } from '@/services/api/axiosInstance.ts';
@@ -71,6 +71,17 @@ const getLocalizedMajorField = (field: string, value: string | undefined) => {
     const key = `dashboard.${field}.${value}`;
     return te(key) ? t(key) : value;
 };
+
+const recruitingMessage = computed(() => {
+    const count = totalApplications.value;
+    if (count === 0) return 'dashboard.recruiting.zero';
+    if (count === 1) return 'dashboard.recruiting.one';
+
+    if (count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 10 || count % 100 >= 20)) {
+        return 'dashboard.recruiting.few';
+    }
+    return 'dashboard.recruiting.many';
+});
 </script>
 
 <template>
@@ -82,7 +93,7 @@ const getLocalizedMajorField = (field: string, value: string | undefined) => {
         </template>
         <template #content>
             <p class="text-uk-100 m-0 text-xl">
-                {{ $t('dashboard.recruitingFor', totalApplications) }}
+                {{ $t(recruitingMessage, { n: totalApplications }) }}
                 {{ $t('dashboard.checkStatus') }}
             </p>
         </template>
