@@ -72,7 +72,8 @@
         "not_specified": "Nie chcę podawać"
     },
     "greeting": {
-        "welcomeBack": "Witaj ponownie"
+        "welcomeBack": "Witaj ponownie",
+        "helloName": "Witaj, {name}!"
     },
     "language": {
         "select": "Wybierz język"
@@ -96,5 +97,33 @@
     "stepperPagination": {
         "back": "Powrót",
         "next": "Dalej"
+    },
+    "dashboard": {
+        "recruitingFor": "Obecnie nie rekrutujesz się na żaden kierunek. | Obecnie rekrutujesz się na 1 kierunek. | Obecnie rekrutujesz się na {n} kierunki. | Obecnie rekrutujesz się na {n} kierunków.",
+        "checkStatus": "Sprawdź status swoich aplikacji poniżej.",
+        "yourApplications": "Twoje Zgłoszenia",
+        "status": "Status",
+        "details": "Szczegóły",
+        "noApplications": "Brak zgłoszeń rekrutacyjnych.",
+        "needHelp": "Potrzebujesz pomocy?",
+        "recruitmentOffice": "Biuro rekrutacji jest do Twojej dyspozycji.",
+        "contactUs": "Skontaktuj się",
+        "statuses": {
+            "unqualified": "Niezakwalifikowany",
+            "reserve": "Lista rezerwowa",
+            "qualified": "Zakwalifikowany",
+            "pending": "Oczekuje"
+        },
+        "studyMode": {
+            "Stacjonarne": "Stacjonarne",
+            "Niestacjonarne": "Niestacjonarne",
+            "Online": "Online"
+        },
+        "studyLevel": {
+            "Licencjat": "Licencjat",
+            "Inżynier": "Inżynier",
+            "Magister": "Magister",
+            "Doktorat": "Doktorat"
+        }
     }
 }
