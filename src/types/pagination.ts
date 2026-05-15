@@ -11,3 +11,14 @@ export interface PaginatedResponse<T> {
     data: T[];
     meta: PaginationMeta;
 }
+
+export interface PaginationEvent {
+    page: number;
+    first: number;
+    rows: number;
+}
+
+export interface PaginationState {
+    page: number;
+    rows: number;
+}

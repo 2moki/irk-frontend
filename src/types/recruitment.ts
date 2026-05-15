@@ -17,6 +17,12 @@ export interface Major {
     updated_at: Timestamp;
 }
 
+export interface AcademicYear {
+    id: number;
+    start_year: number;
+    billing_type: string;
+}
+
 export interface Recruitment {
     id: number;
     start_date: Timestamp;
@@ -56,4 +62,15 @@ export interface RecruitmentApplication {
     recruitment?: Recruitment;
     application?: ApplicationData;
     major?: Major;
+}
+
+export interface ApiRecruitment extends Recruitment {
+    price?: string;
+    major?: Major;
+    academic_year?: AcademicYear;
+}
+
+export interface SelectedMajor {
+    recruitment: ApiRecruitment;
+    priority: number;
 }

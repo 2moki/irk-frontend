@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useAuthStore } from '@/stores/auth.ts';
-import { useI18n } from 'vue-i18n';
 import { axiosInstance } from '@/services/api/axiosInstance.ts';
 import type { Major, RecruitmentApplication } from '@/types/recruitment.ts';
-import type { PaginatedResponse } from '@/types/pagination.ts';
+import type { PaginatedResponse, PaginationEvent } from '@/types/pagination.ts';
+import ApplicationHeader from '@/components/application/ApplicationHeader.vue';
+import { useLocalizedEnums } from '@/composables/useLocalizedEnums';
 
 const { user } = useAuthStore();
-const { t, te } = useI18n();
+const { getLocalizedStatus, getLocalizedMajorField } = useLocalizedEnums();
 
 const applications = ref<RecruitmentApplication[]>([]);
 const majors = ref<Major[]>([]);
@@ -50,7 +51,7 @@ const loadDashboardData = async (page = 1) => {
     }
 };
 
-const onPageChange = (event: any) => {
+const onPageChange = (event: PaginationEvent) => {
     const newPage = event.page + 1;
     first.value = event.first;
     loadDashboardData(newPage);
@@ -59,18 +60,6 @@ const onPageChange = (event: any) => {
 onMounted(() => {
     loadDashboardData();
 });
-
-const getLocalizedStatus = (status: string) => {
-    if (!status) return '';
-    const key = `dashboard.statuses.${status}`;
-    return te(key) ? t(key) : status;
-};
-
-const getLocalizedMajorField = (field: string, value: string | undefined) => {
-    if (!value) return '';
-    const key = `dashboard.${field}.${value}`;
-    return te(key) ? t(key) : value;
-};
 
 const recruitingMessage = computed(() => {
     const count = totalApplications.value;
@@ -85,19 +74,11 @@ const recruitingMessage = computed(() => {
 </script>
 
 <template>
-    <Card class="bg-uk-700 mb-16 p-2 text-white md:p-4">
-        <template #title>
-            <p class="text-3xl font-semibold md:text-4xl">
-                {{ $t('greeting.helloName', { name: user?.first_name }) }}
-            </p>
-        </template>
-        <template #content>
-            <p class="text-uk-100 m-0 text-xl">
-                {{ $t(recruitingMessage, { n: totalApplications }) }}
-                {{ $t('dashboard.checkStatus') }}
-            </p>
-        </template>
-    </Card>
+    <ApplicationHeader
+        :title="$t('greeting.helloName', { name: user?.first_name })"
+        :subtitle="`${$t(recruitingMessage, { n: totalApplications })} ${$t('dashboard.checkStatus')}`"
+        class="mb-16"
+    />
 
     <h2 class="mb-5 text-2xl font-semibold">{{ $t('dashboard.yourApplications') }}</h2>
     <div v-if="applications.length > 0">

@@ -98,21 +98,7 @@
         "back": "Powrót",
         "next": "Dalej"
     },
-    "dashboard": {
-        "checkStatus": "Sprawdź status swoich aplikacji poniżej.",
-        "yourApplications": "Twoje Zgłoszenia",
-        "status": "Status",
-        "details": "Szczegóły",
-        "noApplications": "Brak zgłoszeń rekrutacyjnych.",
-        "needHelp": "Potrzebujesz pomocy?",
-        "recruitmentOffice": "Biuro rekrutacji jest do Twojej dyspozycji.",
-        "contactUs": "Skontaktuj się",
-        "recruiting": {
-            "zero": "Obecnie nie rekrutujesz się na żaden kierunek.",
-            "one": "Obecnie rekrutujesz się na 1 kierunek.",
-            "few": "Obecnie rekrutujesz się na {n} kierunki.",
-            "many": "Obecnie rekrutujesz się na {n} kierunków."
-        },
+    "enums": {
         "statuses": {
             "unqualified": "Niezakwalifikowany",
             "reserve": "Lista rezerwowa",
@@ -130,5 +116,50 @@
             "Magister": "Magister",
             "Doktorat": "Doktorat"
         }
+    },
+    "dashboard": {
+        "checkStatus": "Sprawdź status swoich aplikacji poniżej.",
+        "yourApplications": "Twoje Zgłoszenia",
+        "status": "Status",
+        "details": "Szczegóły",
+        "noApplications": "Brak zgłoszeń rekrutacyjnych.",
+        "needHelp": "Potrzebujesz pomocy?",
+        "recruitmentOffice": "Biuro rekrutacji jest do Twojej dyspozycji.",
+        "contactUs": "Skontaktuj się",
+        "recruiting": {
+            "zero": "Obecnie nie rekrutujesz się na żaden kierunek.",
+            "one": "Obecnie rekrutujesz się na 1 kierunek.",
+            "few": "Obecnie rekrutujesz się na {n} kierunki.",
+            "many": "Obecnie rekrutujesz się na {n} kierunków."
+        }
+    },
+    "study_programs": {
+        "create_application": "Utwórz aplikację",
+        "error_fetch": "Wystąpił błąd podczas pobierania danych.",
+        "error": "Błąd",
+        "validation": {
+            "select_at_least_one": "Wybierz co najmniej jeden kierunek."
+        },
+        "success": "Sukces",
+        "proceeding": "Przechodzenie do kolejnego kroku...",
+        "step_indicator": "Krok {current} z {steps}",
+        "title": "Wybór kierunków i priorytetów",
+        "subtitle": "Wybierz interesujące Cię studia oraz określ ich ważność w procesie rekrutacyjnym.",
+        "available_majors": "Dostępne Kierunki Studiów",
+        "search": "Szukaj kierunku...",
+        "no_records": "Brak dostępnych kierunków.",
+        "major": "Kierunek",
+        "suspended": "Zawieszone",
+        "price": "Cena",
+        "semesters": "Semestry",
+        "slots": "Miejsca",
+        "priority_list": "Lista Priorytetów",
+        "drag_instruction": "Użyj strzałek, aby zmienić priorytet kierunków (1 - najważniejszy).",
+        "empty_selection": "Brak wybranych kierunków",
+        "recruitment_fee": "Opłata rekrutacyjna",
+        "total_to_pay": "Suma do zapłaty",
+        "next_step": "Następny krok",
+        "remember_deadlines": "Pamiętaj o terminach",
+        "fee_deadline_info": "Opłata rekrutacyjna musi zostać zaksięgowana na Twoim indywidualnym subkoncie do końca trwania rekrutacji."
     }
 }

@@ -7,7 +7,11 @@ const { user, logout } = useAuthStore();
 </script>
 
 <template>
-    <div class="mt-auto">
+    <div class="mt-auto flex flex-col">
+        <Button as="router-link" to="/application/study-programs" class="mx-4 mb-1">{{
+            $t('study_programs.create_application')
+        }}</Button>
+
         <div class="flex items-center justify-around gap-1 px-4 py-1">
             <LanguageSelector />
             <ThemeSwitcher />
