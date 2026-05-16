@@ -52,7 +52,7 @@ const loadDashboardData = loadingStore.withLoading(async () => {
         );
 
         applications.value = mapApplicationsWithMajors(response.data.data, majors.value);
-        totalApplications.value = response.data.meta.total;
+        totalApplications.value = response.data.meta?.total || 0;
         paginationParams.value.rows = response.data.meta.per_page || 10;
     } catch (error) {
         console.error('Failed to load dashboard data: ', error);

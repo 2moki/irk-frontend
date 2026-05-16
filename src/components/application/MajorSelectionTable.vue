@@ -42,7 +42,8 @@ const loadRecruitments = loadingStore.withLoading(async () => {
         });
 
         recruitments.value = response.data.data;
-        totalRecords.value = response.data.meta?.total || response.data.data.length;
+        totalRecords.value = response.data.meta?.total || 0;
+        paginationParams.value.rows = response.data.meta.per_page || 10;
     } catch {
         error.value = t('study_programs.error_fetch');
         toast.add({ severity: 'error', summary: t('study_programs.error'), detail: error.value, life: 3000 });
