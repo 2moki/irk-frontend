@@ -60,6 +60,7 @@ declare module 'vue' {
     SidebarFooter: typeof import('./src/components/sidebar/SidebarFooter.vue')['default']
     SidebarLink: typeof import('./src/components/sidebar/SidebarLink.vue')['default']
     SidebarLinks: typeof import('./src/components/sidebar/SidebarLinks.vue')['default']
+    Skeleton: typeof import('primevue/skeleton')['default']
     Step: typeof import('primevue/step')['default']
     StepItem: typeof import('primevue/stepitem')['default']
     StepList: typeof import('primevue/steplist')['default']

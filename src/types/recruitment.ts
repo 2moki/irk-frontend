@@ -59,7 +59,7 @@ export interface RecruitmentApplication {
     application_status: string;
     created_at: Timestamp;
     updated_at: Timestamp;
-    recruitment?: Recruitment;
+    recruitment?: ApiRecruitment;
     application?: ApplicationData;
     major?: Major;
 }

@@ -76,13 +76,6 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/(main)/dashboard': RouteRecordInfo<
-      '/(main)/dashboard',
-      '/dashboard',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
     '/(main)/profile': RouteRecordInfo<
       '/(main)/profile',
       '/profile',
@@ -149,12 +142,6 @@ declare module 'vue-router/auto-routes' {
     'src/pages/(main)/application/study-programs.vue': {
       routes:
         | '/(main)/application/study-programs'
-      views:
-        | never
-    }
-    'src/pages/(main)/dashboard.vue': {
-      routes:
-        | '/(main)/dashboard'
       views:
         | never
     }

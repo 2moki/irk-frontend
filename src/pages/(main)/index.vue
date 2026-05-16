@@ -3,31 +3,28 @@ import { computed, onMounted, ref } from 'vue';
 import { useAuthStore } from '@/stores/auth.ts';
 import { axiosInstance } from '@/services/api/axiosInstance.ts';
 import type { Major, RecruitmentApplication } from '@/types/recruitment.ts';
-import type { PaginatedResponse, PaginationEvent } from '@/types/pagination.ts';
+import type { PaginatedResponse, PaginationEvent, PaginationState } from '@/types/pagination.ts';
 import ApplicationHeader from '@/components/application/ApplicationHeader.vue';
 import { useLocalizedEnums } from '@/composables/useLocalizedEnums';
+import { useToast } from 'primevue/usetoast';
+import { useLoadingStore } from '@/stores/loading';
+import { useI18n } from 'vue-i18n';
 
 const { user } = useAuthStore();
 const { getLocalizedStatus, getLocalizedMajorField } = useLocalizedEnums();
 
+const toast = useToast();
+const loadingStore = useLoadingStore();
+const { t } = useI18n();
+
 const applications = ref<RecruitmentApplication[]>([]);
 const majors = ref<Major[]>([]);
 const totalApplications = ref(0);
-const first = ref(0);
-const rows = ref(10);
+const paginationParams = ref<PaginationState>({
+    page: 1,
+    rows: 10,
+});
 const universityEmail = import.meta.env.VITE_CONTACT_EMAIL;
-
-const fetchMajors = async (): Promise<Major[]> => {
-    const { data } = await axiosInstance.get<{ data: Major[] } | Major[]>('/api/v1/majors');
-    return Array.isArray(data) ? data : data.data;
-};
-
-const fetchApplications = async (page: number = 1): Promise<PaginatedResponse<RecruitmentApplication>> => {
-    const { data } = await axiosInstance.get<PaginatedResponse<RecruitmentApplication>>(
-        `/api/v1/recruitment-applications?include=application,recruitment&page=${page}`,
-    );
-    return data;
-};
 
 const mapApplicationsWithMajors = (apps: RecruitmentApplication[], majorsList: Major[]) => {
     return apps.map((app) => ({
@@ -36,30 +33,62 @@ const mapApplicationsWithMajors = (apps: RecruitmentApplication[], majorsList: M
     }));
 };
 
-const loadDashboardData = async (page = 1) => {
+const loadDashboardData = loadingStore.withLoading(async () => {
     try {
         if (majors.value.length === 0) {
-            majors.value = await fetchMajors();
+            const majorsRes = await axiosInstance.get<{ data: Major[] } | Major[]>('/api/v1/majors');
+            majors.value = Array.isArray(majorsRes.data) ? majorsRes.data : majorsRes.data.data;
         }
 
-        const applicationsRes = await fetchApplications(page);
-        applications.value = mapApplicationsWithMajors(applicationsRes.data, majors.value);
-        totalApplications.value = applicationsRes.meta.total;
-        rows.value = applicationsRes.meta.per_page;
+        const response = await axiosInstance.get<PaginatedResponse<RecruitmentApplication>>(
+            '/api/v1/recruitment-applications',
+            {
+                params: {
+                    include: 'recruitment,recruitment.academicYear',
+                    sort: 'application_status',
+                    page: paginationParams.value.page,
+                },
+            },
+        );
+
+        applications.value = mapApplicationsWithMajors(response.data.data, majors.value);
+        totalApplications.value = response.data.meta.total;
+        paginationParams.value.rows = response.data.meta.per_page || 10;
     } catch (error) {
         console.error('Failed to load dashboard data: ', error);
+        toast.add({
+            severity: 'error',
+            summary: t('study_programs.error'),
+            detail: t('study_programs.error_fetch'),
+            life: 3000,
+        });
     }
-};
+});
 
 const onPageChange = (event: PaginationEvent) => {
-    const newPage = event.page + 1;
-    first.value = event.first;
-    loadDashboardData(newPage);
+    paginationParams.value.page = event.page + 1;
+    paginationParams.value.rows = event.rows;
+    loadDashboardData();
 };
 
 onMounted(() => {
     loadDashboardData();
 });
+
+const getStatusSeverity = (status: string | undefined) => {
+    switch (status) {
+        case 'qualified':
+            return 'success';
+        case 'unqualified':
+            return 'danger';
+        case 'reserve':
+            return 'warn';
+        case 'pending':
+            return 'info';
+        default:
+            return 'secondary';
+    }
+};
 
 const recruitingMessage = computed(() => {
     const count = totalApplications.value;
@@ -81,41 +110,77 @@ const recruitingMessage = computed(() => {
     />
 
     <h2 class="mb-5 text-2xl font-semibold">{{ $t('dashboard.yourApplications') }}</h2>
-    <div v-if="applications.length > 0">
-        <div class="mb-8 grid gap-8 lg:grid-cols-2">
-            <Card v-for="app in applications" :key="app.id">
-                <template #title>
-                    <Badge class="mb-3">{{ getLocalizedMajorField('studyLevel', app.major?.study_level) }}</Badge>
-                    <div>
-                        <p class="text-xl font-semibold">{{ app.major?.name }}</p>
-                        <p class="text-sm">{{ getLocalizedMajorField('studyMode', app.major?.study_mode) }}</p>
+
+    <div v-if="loadingStore.isLoading" class="mb-8 flex flex-col gap-10">
+        <div
+            class="bg-surface-0 dark:bg-surface-900 border-surface-200 dark:border-surface-700 overflow-hidden rounded-lg border shadow-sm"
+        >
+            <div class="divide-surface-200 dark:divide-surface-700 flex flex-col divide-y">
+                <div
+                    v-for="i in 3"
+                    :key="i"
+                    class="flex flex-col items-start justify-between gap-4 p-4 md:flex-row md:items-center"
+                >
+                    <div class="flex w-full flex-1 flex-col gap-2">
+                        <Skeleton class="max-w-md" />
+                        <Skeleton class="max-w-sm" />
                     </div>
-                </template>
-
-                <template #content>
-                    <Divider />
-                </template>
-
-                <template #footer>
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="mb-1 text-xs font-semibold uppercase">{{ $t('dashboard.status') }}</p>
-                            <Tag severity="info" class="text-xs">{{ getLocalizedStatus(app.application_status) }}</Tag>
-                        </div>
-
-                        <Button>{{ $t('dashboard.details') }}</Button>
+                    <div class="flex min-w-max flex-col items-start gap-4 sm:flex-row sm:items-center">
+                        <Skeleton width="5rem" height="1.5rem" borderRadius="1rem" />
+                        <Skeleton width="6rem" height="2rem" borderRadius="0.5rem" />
                     </div>
-                </template>
-            </Card>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div v-else-if="applications.length > 0" class="mb-8 flex flex-col gap-10">
+        <div
+            class="bg-surface-0 dark:bg-surface-900 border-surface-200 dark:border-surface-700 overflow-hidden rounded-lg border shadow-sm"
+        >
+            <div class="divide-surface-200 dark:divide-surface-700 flex flex-col divide-y">
+                <div
+                    v-for="app in applications"
+                    :key="app.id"
+                    class="hover:bg-surface-50 dark:hover:bg-surface-800 flex flex-col items-start justify-between gap-4 p-4 transition-colors md:flex-row md:items-center"
+                >
+                    <div class="flex flex-1 flex-col gap-1">
+                        <h3
+                            class="text-surface-900 dark:text-surface-0 group-hover:text-primary text-lg leading-tight font-bold transition-colors"
+                        >
+                            {{ app.major?.name }}
+                        </h3>
+                        <p class="text-surface-500 dark:text-surface-400 text-sm">
+                            {{ getLocalizedMajorField('studyLevel', app.major?.study_level) }},
+                            {{ getLocalizedMajorField('studyMode', app.major?.study_mode) }}
+                            <span v-if="app.recruitment?.academic_year">
+                                &bull; {{ app.recruitment.academic_year.start_year }}/{{
+                                    app.recruitment.academic_year.start_year + 1
+                                }}
+                            </span>
+                        </p>
+                    </div>
+                    <div class="flex min-w-max flex-col items-start gap-4 sm:flex-row sm:items-center">
+                        <Tag :severity="getStatusSeverity(app.application_status)" class="text-xs">{{
+                            getLocalizedStatus(app.application_status)
+                        }}</Tag>
+                        <Button
+                            :label="$t('dashboard.details')"
+                            icon="pi pi-chevron-right"
+                            iconPos="right"
+                            size="small"
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
 
         <Paginator
-            v-if="totalApplications > rows"
-            v-model:first="first"
-            :rows="rows"
+            v-if="totalApplications > paginationParams.rows"
+            :first="(paginationParams.page - 1) * paginationParams.rows"
+            :rows="paginationParams.rows"
             :totalRecords="totalApplications"
             @page="onPageChange"
-            class="mb-16"
         />
     </div>
     <div v-else>
