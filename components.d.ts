@@ -49,6 +49,7 @@ declare module 'vue' {
     SidebarLink: typeof import('./src/components/sidebar/SidebarLink.vue')['default']
     SidebarLinks: typeof import('./src/components/sidebar/SidebarLinks.vue')['default']
     Step: typeof import('primevue/step')['default']
+    Step4: typeof import('./src/components/recruitment/Step4.vue')['default']
     StepItem: typeof import('primevue/stepitem')['default']
     StepList: typeof import('primevue/steplist')['default']
     StepPanel: typeof import('primevue/steppanel')['default']

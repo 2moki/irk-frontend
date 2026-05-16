@@ -3,11 +3,12 @@ import { onMounted, ref, watch } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { useToast } from 'primevue/usetoast';
+import axios from 'axios';
 
 const auth = useAuthStore();
 const { user } = storeToRefs(auth);
 const toast = useToast();
-
+const countriesList = ref<{ id: number; name_pl: string }[]>([]);
 const activeTab = ref(0);
 
 /**
@@ -34,7 +35,7 @@ const addressForm = ref({
     apartment_number: '',
     post_code: '',
     city: '',
-    country: '',
+    country: { id: null as number | null, name_pl: '' },
 });
 
 /**
@@ -70,17 +71,34 @@ const fillForms = () => {
         gender: user.value.gender ?? '',
     };
 
+    // Pobieramy ID kraju użytkownika z profilu
+    const userCountryId = user.value.address?.country?.id;
+
+    // 🔥 Szukamy całego obiektu kraju na liście pobranej z API
+    const matchedCountry = countriesList.value.find(c => c.id === userCountryId);
+
     addressForm.value = {
         street: user.value.address?.street ?? '',
         house_number: user.value.address?.house_number ?? '',
         apartment_number: user.value.address?.apartment_number ?? '',
         post_code: user.value.address?.post_code ?? '',
         city: user.value.address?.city ?? '',
-        country: user.value.address?.country?.name_pl ?? '',
+        // 🔥 Jeśli znaleźliśmy kraj na liście, podstawiamy go. 
+        // Jeśli nie (lub użytkownik nie ma jeszcze adresu), dajemy pustą strukturę.
+        country: matchedCountry ?? { id: null, name_pl: '' }
     };
 };
 
 onMounted(async () => {
+    // 1. Najpierw pobieramy listę krajów, żeby fillForms() miało z czego wybierać
+    try {
+        const response = await axios.get('/api/v1/countries');
+        countriesList.value = response.data?.data || response.data;
+    } catch (error) {
+        console.error('Nie udało się pobrać listy krajów:', error);
+    }
+
+    // 2. Dopiero teraz pobieramy użytkownika i uzupełniamy formularze
     await auth.fetchUser();
     fillForms();
 });
@@ -108,9 +126,8 @@ const saveAddress = async () => {
                 house_number: addressForm.value.house_number,
                 apartment_number: addressForm.value.apartment_number,
                 city: addressForm.value.city,
-                post_code: addressForm.value.postal_code, // 🔥 MAPOWANIE
-
-                country_id: addressForm.value.country?.id,
+                post_code: addressForm.value.post_code, // 🔥 Naprawiona literówka (było postal_code)
+                country_id: addressForm.value.country?.id, // 🔥 Teraz id pobierze się prawidłowo
             },
         });
 
@@ -139,19 +156,45 @@ const saveAddress = async () => {
 };
 
 const changePassword = async () => {
-    await auth.updateUser(passwordForm.value);
+    try {
+        // Przesyłamy: current_password, password oraz password_confirmation
+        await auth.updateUser(passwordForm.value);
 
-    passwordForm.value = {
-        current_password: '',
-        password: '',
-        password_confirmation: '',
-    };
+        // Czyszczenie pól po sukcesie
+        passwordForm.value = {
+            current_password: '',
+            password: '',
+            password_confirmation: '',
+        };
 
-    toast.add({
-        severity: 'success',
-        summary: 'Zmieniono hasło',
-        life: 3000,
-    });
+        toast.add({
+            severity: 'success',
+            summary: 'Zmieniono hasło pomyślnie',
+            life: 3000,
+        });
+    } catch (e: any) {
+        const errors = e.response?.data?.errors;
+
+        if (errors) {
+            // Wyświetlenie błędów walidacji z backendu (np. "złe hasło", "hasła nie są identyczne")
+            Object.values(errors).forEach((fieldErrors: any) => {
+                fieldErrors.forEach((msg: string) => {
+                    toast.add({
+                        severity: 'error',
+                        summary: msg,
+                        life: 4000,
+                    });
+                });
+            });
+        } else {
+            console.error(e.response?.data);
+            toast.add({
+                severity: 'error',
+                summary: 'Wystąpił nieoczekiwany błąd podczas zmiany hasła.',
+                life: 4000,
+            });
+        }
+    }
 };
 </script>
 
@@ -242,9 +285,16 @@ const changePassword = async () => {
                     </div>
 
                     <div>
-                        <label>Kraj</label>
-                        <InputText v-model="addressForm.country" class="w-full" />
-                    </div>
+    <label>Kraj</label>
+    <Select 
+        v-model="addressForm.country" 
+        :options="countriesList" 
+        optionLabel="name_pl" 
+        placeholder="Wybierz kraj" 
+        class="w-full" 
+        filter
+    /> 
+</div>
                 </div>
 
                 <Button label="Zapisz adres" class="mt-6 w-full" @click="saveAddress" />
