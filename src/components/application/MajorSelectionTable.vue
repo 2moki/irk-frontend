@@ -38,7 +38,6 @@ const loadRecruitments = loadingStore.withLoading(async () => {
                 'filter[status]': 'ongoing,suspended',
                 'filter[major_name]': debouncedSearch.value || undefined,
                 page: paginationParams.value.page,
-                per_page: paginationParams.value.rows,
             },
         });
 
