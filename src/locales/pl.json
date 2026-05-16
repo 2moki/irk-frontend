@@ -145,7 +145,7 @@
         "step_indicator": "Krok {current} z {steps}",
         "title": "Wybór kierunków i priorytetów",
         "subtitle": "Wybierz interesujące Cię studia oraz określ ich ważność w procesie rekrutacyjnym.",
-        "available_majors": "Dostępne Kierunki Studiów",
+        "active_recruitments": "Trwające Rekrutacje",
         "search": "Szukaj kierunku...",
         "no_records": "Brak dostępnych kierunków.",
         "major": "Kierunek",

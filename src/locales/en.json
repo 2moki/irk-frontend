@@ -144,7 +144,7 @@
         "step_indicator": "Step {current} of {steps}",
         "title": "Selection of majors and priorities",
         "subtitle": "Select the studies you are interested in and specify their importance in the recruitment process.",
-        "available_majors": "Available Study Majors",
+        "active_recruitments": "Active Recruitments",
         "search": "Search for a major...",
         "no_records": "No majors available.",
         "major": "Major",

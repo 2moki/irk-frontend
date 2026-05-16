@@ -84,7 +84,7 @@ watch(debouncedSearch, () => {
     <section class="space-y-6">
         <div class="flex items-center justify-between">
             <h3 class="text-xl font-semibold">
-                {{ $t('study_programs.available_majors') }}
+                {{ $t('study_programs.active_recruitments') }}
             </h3>
             <IconField iconPosition="left">
                 <InputIcon class="pi pi-search" />
