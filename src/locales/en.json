@@ -71,7 +71,8 @@
         "not_specified": "Prefer not to say"
     },
     "greeting": {
-        "welcomeBack": "Welcome back"
+        "welcomeBack": "Welcome back",
+        "helloName": "Hello, {name}!"
     },
     "language": {
         "select": "Select language"
@@ -95,5 +96,69 @@
     "stepperPagination": {
         "back": "Back",
         "next": "Next"
+    },
+    "enums": {
+        "statuses": {
+            "unqualified": "Unqualified",
+            "reserve": "Reserve list",
+            "qualified": "Qualified",
+            "pending": "Pending"
+        },
+        "studyMode": {
+            "Stacjonarne": "Full-time",
+            "Niestacjonarne": "Part-time",
+            "Online": "Online"
+        },
+        "studyLevel": {
+            "Licencjat": "Bachelor's degree",
+            "Inżynier": "Engineer's degree",
+            "Magister": "Master's degree",
+            "Doktorat": "Doctorate"
+        }
+    },
+    "dashboard": {
+        "checkStatus": "Check the status of your applications below.",
+        "yourApplications": "Your Applications",
+        "status": "Status",
+        "details": "Details",
+        "noApplications": "No recruitment applications.",
+        "needHelp": "Need help?",
+        "recruitmentOffice": "The recruitment office is at your disposal.",
+        "contactUs": "Contact us",
+        "recruiting": {
+            "zero": "Currently you are not recruiting for any major.",
+            "one": "Currently you are recruiting for 1 major.",
+            "few": "Currently you are recruiting for {n} majors.",
+            "many": "Currently you are recruiting for {n} majors."
+        }
+    },
+    "study_programs": {
+        "create_application": "Create application",
+        "error_fetch": "An error occurred while fetching data.",
+        "error": "Error",
+        "validation": {
+            "select_at_least_one": "Please select at least one major."
+        },
+        "success": "Success",
+        "proceeding": "Proceeding to the next step...",
+        "step_indicator": "Step {current} of {steps}",
+        "title": "Selection of majors and priorities",
+        "subtitle": "Select the studies you are interested in and specify their importance in the recruitment process.",
+        "active_recruitments": "Active Recruitments",
+        "search": "Search for a major...",
+        "no_records": "No majors available.",
+        "major": "Major",
+        "suspended": "Suspended",
+        "price": "Price",
+        "semesters": "Semesters",
+        "slots": "Slots",
+        "priority_list": "Priority List",
+        "drag_instruction": "Use arrows to change major's priority (1 - most important).",
+        "empty_selection": "No majors selected",
+        "recruitment_fee": "Recruitment fee",
+        "total_to_pay": "Total to pay",
+        "next_step": "Next step",
+        "remember_deadlines": "Remember the deadlines",
+        "fee_deadline_info": "The recruitment fee must be credited to your individual sub-account by the end of recruitment."
     }
 }
