@@ -16,6 +16,7 @@ declare module 'vue' {
     AppSidebar: typeof import('./src/components/layout/AppSidebar.vue')['default']
     AuthHeader: typeof import('./src/components/auth/AuthHeader.vue')['default']
     AuthHero: typeof import('./src/components/auth/AuthHero.vue')['default']
+    AutoComplete: typeof import('primevue/autocomplete')['default']
     Avatar: typeof import('primevue/avatar')['default']
     Badge: typeof import('primevue/badge')['default']
     BaseFooter: typeof import('./src/components/layout/BaseFooter.vue')['default']

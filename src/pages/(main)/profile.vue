@@ -5,14 +5,78 @@ import { storeToRefs } from 'pinia';
 import { useToast } from 'primevue/usetoast';
 import axios from 'axios';
 
+// Poprawne importy dla Formularzy PrimeVue oraz Zod
+import { z } from 'zod';
+import { zodResolver } from '@primevue/forms/resolvers/zod';
+
 const auth = useAuthStore();
 const { user } = storeToRefs(auth);
 const toast = useToast();
 const countriesList = ref<{ id: number; name_pl: string }[]>([]);
 const activeTab = ref(0);
+const isSaving = ref(false);
 
 /**
- * DANE OSOBOWE (POŁĄCZONE Z PROFILE)
+ * =========================================================================
+ * SCHEMATY WALIDACJI ZOD (Zabezpieczone przed pustymi polami)
+ * =========================================================================
+ */
+
+const personalSchema = z.object({
+    first_name: z.string().min(1, 'Imię jest wymagane'),
+    middle_name: z.string().optional().nullable().or(z.literal('')),
+    last_name: z.string().min(1, 'Nazwisko jest wymagane'),
+    email: z.string().min(1, 'Email jest wymagany').email('Niepoprawny format adresu email'),
+    phone_prefix: z.string().min(1, 'Prefiks jest wymagany'),
+    phone_number: z.string().min(7, 'Numer telefonu jest za krótki').regex(/^\d+$/, 'Numer może zawierać tylko cyfry'),
+    pesel: z
+        .string()
+        .length(11, 'PESEL musi mieć 11 znaków')
+        .regex(/^\d+$/, 'PESEL może zawierać tylko cyfry')
+        .or(z.literal('')),
+    date_of_birth: z.string().min(1, 'Data urodzenia jest wymagana'),
+    gender: z.string().min(1, 'Wybierz płeć'),
+});
+
+const addressSchema = z.object({
+    street: z.string().min(1, 'Ulica jest wymagana'),
+    house_number: z.string().min(1, 'Numer domu jest wymagany'),
+    apartment_number: z.string().optional().nullable().or(z.literal('')),
+    post_code: z
+        .string()
+        .min(1, 'Kod pocztowy jest wymagany')
+        .regex(/^\d{2}-\d{3}$/, 'Niepoprawny format (00-000)'),
+    city: z.string().min(1, 'Miasto jest wymagane'),
+    country: z
+        .object({
+            id: z.number({ required_error: 'Wybierz kraj' }),
+            name_pl: z.string(),
+        })
+        .refine((data) => data.id !== null, {
+            message: 'Wybierz kraj',
+            path: ['id'],
+        }),
+});
+
+const passwordSchema = z
+    .object({
+        current_password: z.string().min(1, 'Aktualne hasło jest wymagane'),
+        password: z.string().min(8, 'Nowe hasło musi mieć minimum 8 znaków'),
+        password_confirmation: z.string().min(1, 'Potwierdzenie hasła jest wymagane'),
+    })
+    .refine((data) => data.password === data.password_confirmation, {
+        message: 'Hasła nie są identyczne',
+        path: ['password_confirmation'],
+    });
+
+const personalResolver = zodResolver(personalSchema);
+const addressResolver = zodResolver(addressSchema);
+const passwordResolver = zodResolver(passwordSchema);
+
+/**
+ * =========================================================================
+ * REAKTYWNE MODELE FORMULARZY
+ * =========================================================================
  */
 const personalForm = ref({
     first_name: '',
@@ -26,9 +90,6 @@ const personalForm = ref({
     gender: '',
 });
 
-/**
- * ADRES
- */
 const addressForm = ref({
     street: '',
     house_number: '',
@@ -38,9 +99,6 @@ const addressForm = ref({
     country: { id: null as number | null, name_pl: '' },
 });
 
-/**
- * HASŁO
- */
 const passwordForm = ref({
     current_password: '',
     password: '',
@@ -49,13 +107,9 @@ const passwordForm = ref({
 
 const formatToInputDate = (date: string | null) => {
     if (!date) return '';
-
     return date.split('T')[0];
 };
 
-/**
- * MAPOWANIE USER → FORM
- */
 const fillForms = () => {
     if (!user.value) return;
 
@@ -71,11 +125,10 @@ const fillForms = () => {
         gender: user.value.gender ?? '',
     };
 
-    // Pobieramy ID kraju użytkownika z profilu
-    const userCountryId = user.value.address?.country?.id;
-
-    // 🔥 Szukamy całego obiektu kraju na liście pobranej z API
-    const matchedCountry = countriesList.value.find(c => c.id === userCountryId);
+    const userCountryId = user.value.address?.country?.id || user.value.address?.country_id;
+    const matchedCountry = countriesList.value.find((c) => Number(c.id) === Number(userCountryId));
+    const finalCountry =
+        matchedCountry || (addressForm.value.country?.id ? addressForm.value.country : { id: null, name_pl: '' });
 
     addressForm.value = {
         street: user.value.address?.street ?? '',
@@ -83,14 +136,21 @@ const fillForms = () => {
         apartment_number: user.value.address?.apartment_number ?? '',
         post_code: user.value.address?.post_code ?? '',
         city: user.value.address?.city ?? '',
-        // 🔥 Jeśli znaleźliśmy kraj na liście, podstawiamy go. 
-        // Jeśli nie (lub użytkownik nie ma jeszcze adresu), dajemy pustą strukturę.
-        country: matchedCountry ?? { id: null, name_pl: '' }
+        country: finalCountry,
     };
 };
 
+watch(
+    user,
+    () => {
+        if (!isSaving.value) {
+            fillForms();
+        }
+    },
+    { immediate: true, deep: true },
+);
+
 onMounted(async () => {
-    // 1. Najpierw pobieramy listę krajów, żeby fillForms() miało z czego wybierać
     try {
         const response = await axios.get('/api/v1/countries');
         countriesList.value = response.data?.data || response.data;
@@ -98,69 +158,75 @@ onMounted(async () => {
         console.error('Nie udało się pobrać listy krajów:', error);
     }
 
-    // 2. Dopiero teraz pobieramy użytkownika i uzupełniamy formularze
     await auth.fetchUser();
     fillForms();
 });
 
-watch(user, () => fillForms(), { immediate: true });
-
 /**
- * SAVE
+ * =========================================================================
+ * METODY ZAPISU (SUBMIT) - NAPRAWIONE ODBIERANIE EMBEDDED EVENTÓW
+ * =========================================================================
  */
-const savePersonal = async () => {
-    await auth.updateUser(personalForm.value);
+const savePersonal = async (event: any) => {
+    // W PrimeVue Forms poprawny parametr to event.valid
+    if (!event.valid) return;
 
-    toast.add({
-        severity: 'success',
-        summary: 'Zapisano dane',
-        life: 3000,
-    });
+    try {
+        isSaving.value = true;
+        await auth.updateUser(personalForm.value);
+
+        toast.add({
+            severity: 'success',
+            summary: 'Zapisano dane',
+            detail: 'Dane osobowe zostały zaktualizowane.',
+            life: 3000,
+        });
+    } catch (err) {
+        console.error(err);
+    } finally {
+        isSaving.value = false;
+    }
 };
 
-const saveAddress = async () => {
+const saveAddress = async (event: any) => {
+    if (!event.valid) return;
+
     try {
+        isSaving.value = true;
+
         await auth.updateUser({
             address: {
                 street: addressForm.value.street,
                 house_number: addressForm.value.house_number,
                 apartment_number: addressForm.value.apartment_number,
                 city: addressForm.value.city,
-                post_code: addressForm.value.post_code, // 🔥 Naprawiona literówka (było postal_code)
-                country_id: addressForm.value.country?.id, // 🔥 Teraz id pobierze się prawidłowo
+                post_code: addressForm.value.post_code,
+                country_id: addressForm.value.country?.id,
             },
         });
+
+        await auth.fetchUser();
+        fillForms();
 
         toast.add({
             severity: 'success',
             summary: 'Zapisano adres',
+            detail: 'Adres został pomyślnie zaktualizowany.',
             life: 3000,
         });
-    } catch (e: any) {
-        const errors = e.response?.data?.errors;
-
-        if (errors) {
-            Object.values(errors).forEach((fieldErrors: any) => {
-                fieldErrors.forEach((msg: string) => {
-                    toast.add({
-                        severity: 'error',
-                        summary: msg,
-                        life: 4000,
-                    });
-                });
-            });
-        } else {
-            console.error(e.response?.data);
-        }
+    } catch (err) {
+        console.error(err);
+    } finally {
+        isSaving.value = false;
     }
 };
 
-const changePassword = async () => {
+const changePassword = async (event: any) => {
+    if (!event.valid) return;
+
     try {
-        // Przesyłamy: current_password, password oraz password_confirmation
         await auth.updateUser(passwordForm.value);
 
-        // Czyszczenie pól po sukcesie
         passwordForm.value = {
             current_password: '',
             password: '',
@@ -170,28 +236,16 @@ const changePassword = async () => {
         toast.add({
             severity: 'success',
             summary: 'Zmieniono hasło pomyślnie',
+            detail: 'Twoje hasło zostało zmienione.',
             life: 3000,
         });
     } catch (e: any) {
         const errors = e.response?.data?.errors;
-
         if (errors) {
-            // Wyświetlenie błędów walidacji z backendu (np. "złe hasło", "hasła nie są identyczne")
             Object.values(errors).forEach((fieldErrors: any) => {
                 fieldErrors.forEach((msg: string) => {
-                    toast.add({
-                        severity: 'error',
-                        summary: msg,
-                        life: 4000,
-                    });
+                    toast.add({ severity: 'error', summary: msg, life: 4000 });
                 });
-            });
-        } else {
-            console.error(e.response?.data);
-            toast.add({
-                severity: 'error',
-                summary: 'Wystąpił nieoczekiwany błąd podczas zmiany hasła.',
-                life: 4000,
             });
         }
     }
@@ -203,123 +257,223 @@ const changePassword = async () => {
         <h1 class="text-2xl font-bold">Mój profil</h1>
 
         <TabView v-model:activeIndex="activeTab">
-            <!-- DANE OSOBOWE -->
             <TabPanel header="Dane osobowe">
-                <div class="mt-4 grid gap-4 md:grid-cols-2">
-                    <div>
+                <Form
+                    v-slot="$form"
+                    :initialValues="personalForm"
+                    :resolver="personalResolver"
+                    @submit="savePersonal"
+                    class="mt-4 grid gap-4 md:grid-cols-2"
+                >
+                    <div class="flex flex-col gap-1">
                         <label>Imię</label>
-                        <InputText v-model="personalForm.first_name" class="w-full" />
+                        <InputText name="first_name" v-model="personalForm.first_name" class="w-full" />
+                        <Message v-if="$form?.first_name?.invalid" severity="error" variant="text" size="small">{{
+                            $form.first_name.error?.message
+                        }}</Message>
                     </div>
 
-                    <div>
+                    <div class="flex flex-col gap-1">
                         <label>Drugie imię</label>
-                        <InputText v-model="personalForm.middle_name" class="w-full" />
+                        <InputText name="middle_name" v-model="personalForm.middle_name" class="w-full" />
+                        <Message v-if="$form?.middle_name?.invalid" severity="error" variant="text" size="small">{{
+                            $form.middle_name.error?.message
+                        }}</Message>
                     </div>
 
-                    <div>
+                    <div class="flex flex-col gap-1">
                         <label>Nazwisko</label>
-                        <InputText v-model="personalForm.last_name" class="w-full" />
+                        <InputText name="last_name" v-model="personalForm.last_name" class="w-full" />
+                        <Message v-if="$form?.last_name?.invalid" severity="error" variant="text" size="small">{{
+                            $form.last_name.error?.message
+                        }}</Message>
                     </div>
 
-                    <div>
+                    <div class="flex flex-col gap-1">
                         <label>Email</label>
-                        <InputText v-model="personalForm.email" class="w-full" />
+                        <InputText name="email" v-model="personalForm.email" class="w-full" />
+                        <Message v-if="$form?.email?.invalid" severity="error" variant="text" size="small">{{
+                            $form.email.error?.message
+                        }}</Message>
                     </div>
 
-                    <div class="flex gap-2">
-                        <div>
-                            <label>Prefiks</label>
-                            <InputText v-model="personalForm.phone_prefix" class="w-24" />
+                    <div class="flex flex-col gap-1">
+                        <label>Telefon</label>
+                        <div class="flex gap-2">
+                            <InputText name="phone_prefix" v-model="personalForm.phone_prefix" class="w-24" />
+                            <InputText name="phone_number" v-model="personalForm.phone_number" class="w-full" />
                         </div>
-                        <div class="w-full">
-                            <label>Telefon</label>
-                            <InputText v-model="personalForm.phone_number" class="w-full" />
-                        </div>
+                        <Message v-if="$form?.phone_number?.invalid" severity="error" variant="text" size="small">{{
+                            $form.phone_number.error?.message
+                        }}</Message>
                     </div>
 
-                    <div>
+                    <div class="flex flex-col gap-1">
                         <label>PESEL</label>
-                        <InputText v-model="personalForm.pesel" class="w-full" />
+                        <InputText name="pesel" v-model="personalForm.pesel" class="w-full" />
+                        <Message v-if="$form?.pesel?.invalid" severity="error" variant="text" size="small">{{
+                            $form.pesel.error?.message
+                        }}</Message>
                     </div>
 
-                    <div>
+                    <div class="flex flex-col gap-1">
                         <label>Data urodzenia</label>
-                        <InputText v-model="personalForm.date_of_birth" type="date" class="w-full" />
+                        <InputText
+                            name="date_of_birth"
+                            v-model="personalForm.date_of_birth"
+                            type="date"
+                            class="w-full"
+                        />
+                        <Message v-if="$form?.date_of_birth?.invalid" severity="error" variant="text" size="small">{{
+                            $form.date_of_birth.error?.message
+                        }}</Message>
                     </div>
 
-                    <div>
+                    <div class="flex flex-col gap-1">
                         <label>Płeć</label>
-                        <Select v-model="personalForm.gender" :options="['male', 'female', 'other']" class="w-full" />
+                        <Select
+                            name="gender"
+                            v-model="personalForm.gender"
+                            :options="['male', 'female', 'other']"
+                            class="w-full"
+                        />
+                        <Message v-if="$form?.gender?.invalid" severity="error" variant="text" size="small">{{
+                            $form.gender.error?.message
+                        }}</Message>
                     </div>
-                </div>
 
-                <Button label="Zapisz dane" class="mt-6 w-full" @click="savePersonal" />
+                    <div class="md:col-span-2">
+                        <Button type="submit" label="Zapisz dane" class="mt-2 w-full" />
+                    </div>
+                </Form>
             </TabPanel>
 
-            <!-- ADRES -->
             <TabPanel header="Adres">
-                <div class="mt-4 grid gap-4 md:grid-cols-2">
-                    <div>
+                <Form
+                    v-slot="$form"
+                    :initialValues="addressForm"
+                    :resolver="addressResolver"
+                    @submit="saveAddress"
+                    class="mt-4 grid gap-4 md:grid-cols-2"
+                >
+                    <div class="flex flex-col gap-1">
                         <label>Ulica</label>
-                        <InputText v-model="addressForm.street" class="w-full" />
+                        <InputText name="street" v-model="addressForm.street" class="w-full" />
+                        <Message v-if="$form?.street?.invalid" severity="error" variant="text" size="small">{{
+                            $form.street.error?.message
+                        }}</Message>
                     </div>
 
-                    <div>
+                    <div class="flex flex-col gap-1">
                         <label>Numer domu</label>
-                        <InputText v-model="addressForm.house_number" class="w-full" />
+                        <InputText name="house_number" v-model="addressForm.house_number" class="w-full" />
+                        <Message v-if="$form?.house_number?.invalid" severity="error" variant="text" size="small">{{
+                            $form.house_number.error?.message
+                        }}</Message>
                     </div>
 
-                    <div>
+                    <div class="flex flex-col gap-1">
                         <label>Mieszkanie</label>
-                        <InputText v-model="addressForm.apartment_number" class="w-full" />
+                        <InputText name="apartment_number" v-model="addressForm.apartment_number" class="w-full" />
+                        <Message v-if="$form?.apartment_number?.invalid" severity="error" variant="text" size="small">{{
+                            $form.apartment_number.error?.message
+                        }}</Message>
                     </div>
 
-                    <div>
+                    <div class="flex flex-col gap-1">
                         <label>Kod pocztowy</label>
-                        <InputText v-model="addressForm.post_code" class="w-full" />
+                        <InputText name="post_code" v-model="addressForm.post_code" class="w-full" />
+                        <Message v-if="$form?.post_code?.invalid" severity="error" variant="text" size="small">{{
+                            $form.post_code.error?.message
+                        }}</Message>
                     </div>
 
-                    <div>
+                    <div class="flex flex-col gap-1">
                         <label>Miasto</label>
-                        <InputText v-model="addressForm.city" class="w-full" />
+                        <InputText name="city" v-model="addressForm.city" class="w-full" />
+                        <Message v-if="$form?.city?.invalid" severity="error" variant="text" size="small">{{
+                            $form.city.error?.message
+                        }}</Message>
                     </div>
 
-                    <div>
-    <label>Kraj</label>
-    <Select 
-        v-model="addressForm.country" 
-        :options="countriesList" 
-        optionLabel="name_pl" 
-        placeholder="Wybierz kraj" 
-        class="w-full" 
-        filter
-    /> 
-</div>
-                </div>
+                    <div class="flex flex-col gap-1">
+                        <label>Kraj</label>
+                        <Select
+                            name="country"
+                            v-model="addressForm.country"
+                            :options="countriesList"
+                            optionLabel="name_pl"
+                            placeholder="Wybierz kraj"
+                            class="w-full"
+                            filter
+                        />
+                        <Message v-if="$form?.['country.id']?.invalid" severity="error" variant="text" size="small">{{
+                            $form['country.id'].error?.message
+                        }}</Message>
+                    </div>
 
-                <Button label="Zapisz adres" class="mt-6 w-full" @click="saveAddress" />
+                    <div class="md:col-span-2">
+                        <Button type="submit" label="Zapisz adres" class="mt-2 w-full" />
+                    </div>
+                </Form>
             </TabPanel>
 
-            <!-- HASŁO -->
             <TabPanel header="Bezpieczeństwo">
-                <div class="mt-4 grid gap-4">
-                    <div>
+                <Form
+                    v-slot="$form"
+                    :initialValues="passwordForm"
+                    :resolver="passwordResolver"
+                    @submit="changePassword"
+                    class="mt-4 grid gap-4"
+                >
+                    <div class="flex flex-col gap-1">
                         <label>Aktualne hasło</label>
-                        <Password v-model="passwordForm.current_password" toggleMask class="w-full" />
+                        <Password
+                            name="current_password"
+                            v-model="passwordForm.current_password"
+                            :feedback="false"
+                            toggleMask
+                            class="w-full"
+                        />
+                        <Message v-if="$form?.current_password?.invalid" severity="error" variant="text" size="small">{{
+                            $form.current_password.error?.message
+                        }}</Message>
                     </div>
 
-                    <div>
+                    <div class="flex flex-col gap-1">
                         <label>Nowe hasło</label>
-                        <Password v-model="passwordForm.password" toggleMask class="w-full" />
+                        <Password
+                            name="password"
+                            v-model="passwordForm.password"
+                            :feedback="false"
+                            toggleMask
+                            class="w-full"
+                        />
+                        <Message v-if="$form?.password?.invalid" severity="error" variant="text" size="small">{{
+                            $form.password.error?.message
+                        }}</Message>
                     </div>
 
-                    <div>
+                    <div class="flex flex-col gap-1">
                         <label>Powtórz hasło</label>
-                        <Password v-model="passwordForm.password_confirmation" toggleMask class="w-full" />
+                        <Password
+                            name="password_confirmation"
+                            v-model="passwordForm.password_confirmation"
+                            :feedback="false"
+                            toggleMask
+                            class="w-full"
+                        />
+                        <Message
+                            v-if="$form?.password_confirmation?.invalid"
+                            severity="error"
+                            variant="text"
+                            size="small"
+                            >{{ $form.password_confirmation.error?.message }}</Message
+                        >
                     </div>
-                </div>
 
-                <Button label="Zmień hasło" class="mt-6 w-full" @click="changePassword" />
+                    <Button type="submit" label="Zmień hasło" class="mt-2 w-full" />
+                </Form>
             </TabPanel>
         </TabView>
     </div>
