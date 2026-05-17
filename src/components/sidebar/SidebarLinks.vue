@@ -7,6 +7,9 @@ import SidebarLink from '@/components/sidebar/SidebarLink.vue';
             <li>
                 <SidebarLink icon="home" link="/">Dashboard</SidebarLink>
             </li>
+            <li>
+                <SidebarLink icon="book" link="/recruitment/Step4">Application</SidebarLink>
+            </li>
         </ul>
     </div>
 </template>
