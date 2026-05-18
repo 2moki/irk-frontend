@@ -1,6 +1,5 @@
 <template>
     <div class="mx-auto w-full max-w-5xl text-slate-800 transition-colors duration-200 dark:text-slate-100">
-        
         <ApplicationHeader
             :current-step="2"
             :steps="10"
@@ -8,9 +7,10 @@
             :subtitle="$t('application.education.subtitle', 'Wybór Dokumentu i Szkoły')"
         />
 
-        <form @submit.prevent="handleSubmit" class="space-y-6 mt-8">
-            
-            <div class="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <form @submit.prevent="handleSubmit" class="mt-8 space-y-6">
+            <div
+                class="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800"
+            >
                 <div class="mb-2 flex items-center gap-3">
                     <div class="rounded-xl bg-blue-100 p-2.5 text-blue-700 dark:bg-blue-900/50 dark:text-blue-400">
                         <i class="pi pi-graduation-cap text-xl"></i>
@@ -19,8 +19,10 @@
                 </div>
 
                 <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Wyszukaj szkołę średnią</label>
-                    
+                    <label class="text-sm font-semibold text-gray-700 dark:text-gray-300"
+                        >Wyszukaj szkołę średnią</label
+                    >
+
                     <div v-if="!formData.hasCustomSchool" class="w-full">
                         <AutoComplete
                             v-model="formData.school"
@@ -34,7 +36,9 @@
                             class="w-full"
                             :inputClass="{ 'p-invalid': errors.school_id }"
                         />
-                        <small v-if="errors.school_id" class="p-error block mt-1 text-red-500 dark:text-red-400">{{ errors.school_id }}</small>
+                        <small v-if="errors.school_id" class="p-error mt-1 block text-red-500 dark:text-red-400">{{
+                            errors.school_id
+                        }}</small>
                     </div>
 
                     <div v-else class="w-full">
@@ -45,7 +49,11 @@
                             class="w-full"
                             :class="{ 'p-invalid': errors.school_custom_name }"
                         />
-                        <small v-if="errors.school_custom_name" class="p-error block mt-1 text-red-500 dark:text-red-400">{{ errors.school_custom_name }}</small>
+                        <small
+                            v-if="errors.school_custom_name"
+                            class="p-error mt-1 block text-red-500 dark:text-red-400"
+                            >{{ errors.school_custom_name }}</small
+                        >
                     </div>
 
                     <div class="mt-2 flex items-center gap-2">
@@ -55,14 +63,19 @@
                             :binary="true"
                             @change="handleSchoolModeChange"
                         />
-                        <label for="hasCustomSchool" class="text-xs font-medium text-gray-600 dark:text-gray-400 cursor-pointer select-none">
+                        <label
+                            for="hasCustomSchool"
+                            class="cursor-pointer text-xs font-medium text-gray-600 select-none dark:text-gray-400"
+                        >
                             Mojej szkoły nie ma na liście
                         </label>
                     </div>
                 </div>
             </div>
 
-            <div class="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+            <div
+                class="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800"
+            >
                 <div class="mb-2 flex items-center gap-3">
                     <div class="rounded-xl bg-blue-100 p-2.5 text-blue-700 dark:bg-blue-900/50 dark:text-blue-400">
                         <i class="pi pi-file text-xl"></i>
@@ -72,7 +85,9 @@
 
                 <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div class="flex flex-col gap-2">
-                        <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Rodzaj świadectwa maturalnego</label>
+                        <label class="text-sm font-semibold text-gray-700 dark:text-gray-300"
+                            >Rodzaj świadectwa maturalnego</label
+                        >
                         <Dropdown
                             v-model="formData.maturityType"
                             :options="maturityOptions"
@@ -83,11 +98,15 @@
                             class="w-full"
                             :class="{ 'p-invalid': errors.maturityType }"
                         />
-                        <small v-if="errors.maturityType" class="p-error block mt-1 text-red-500 dark:text-red-400">{{ errors.maturityType }}</small>
+                        <small v-if="errors.maturityType" class="p-error mt-1 block text-red-500 dark:text-red-400">{{
+                            errors.maturityType
+                        }}</small>
                     </div>
 
                     <div class="flex flex-col gap-2">
-                        <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Kraj wydania dokumentu</label>
+                        <label class="text-sm font-semibold text-gray-700 dark:text-gray-300"
+                            >Kraj wydania dokumentu</label
+                        >
                         <div class="w-full">
                             <AutoComplete
                                 v-if="isForeignMatura"
@@ -106,15 +125,21 @@
                                 v-else
                                 value="Polska"
                                 disabled
-                                class="w-full opacity-70 cursor-not-allowed bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-gray-400"
+                                class="w-full cursor-not-allowed bg-gray-100 text-gray-500 opacity-70 dark:bg-slate-700 dark:text-gray-400"
                             />
                         </div>
-                        <small v-if="errors.country_id && isForeignMatura" class="p-error block mt-1 text-red-500 dark:text-red-400">{{ errors.country_id }}</small>
+                        <small
+                            v-if="errors.country_id && isForeignMatura"
+                            class="p-error mt-1 block text-red-500 dark:text-red-400"
+                            >{{ errors.country_id }}</small
+                        >
                     </div>
                 </div>
             </div>
 
-            <div class="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+            <div
+                class="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800"
+            >
                 <div class="mb-2 flex items-center gap-3">
                     <div class="rounded-xl bg-blue-100 p-2.5 text-blue-700 dark:bg-blue-900/50 dark:text-blue-400">
                         <i class="pi pi-id-card text-xl"></i>
@@ -132,7 +157,9 @@
                             class="w-full"
                             :class="{ 'p-invalid': errors.docNumber }"
                         />
-                        <small v-if="errors.docNumber" class="p-error block mt-1 text-red-500 dark:text-red-400">{{ errors.docNumber }}</small>
+                        <small v-if="errors.docNumber" class="p-error mt-1 block text-red-500 dark:text-red-400">{{
+                            errors.docNumber
+                        }}</small>
                     </div>
 
                     <div class="flex flex-col gap-2">
@@ -145,7 +172,9 @@
                             maxlength="4"
                             :class="{ 'p-invalid': errors.docYear }"
                         />
-                        <small v-if="errors.docYear" class="p-error block mt-1 text-red-500 dark:text-red-400">{{ errors.docYear }}</small>
+                        <small v-if="errors.docYear" class="p-error mt-1 block text-red-500 dark:text-red-400">{{
+                            errors.docYear
+                        }}</small>
                     </div>
 
                     <div class="flex flex-col gap-2">
@@ -157,12 +186,16 @@
                             class="w-full"
                             :class="{ 'p-invalid': errors.docIssuer }"
                         />
-                        <small v-if="errors.docIssuer" class="p-error block mt-1 text-red-500 dark:text-red-400">{{ errors.docIssuer }}</small>
+                        <small v-if="errors.docIssuer" class="p-error mt-1 block text-red-500 dark:text-red-400">{{
+                            errors.docIssuer
+                        }}</small>
                     </div>
                 </div>
 
-                <div class="flex items-start gap-3 rounded-xl border border-gray-200/60 bg-gray-50 p-4 dark:border-slate-700/50 dark:bg-slate-900/40">
-                    <i class="pi pi-info-circle text-slate-600 dark:text-slate-400 mt-0.5"></i>
+                <div
+                    class="flex items-start gap-3 rounded-xl border border-gray-200/60 bg-gray-50 p-4 dark:border-slate-700/50 dark:bg-slate-900/40"
+                >
+                    <i class="pi pi-info-circle mt-0.5 text-slate-600 dark:text-slate-400"></i>
                     <p class="text-xs leading-relaxed text-gray-600 dark:text-gray-400">
                         Prosimy o dokładne wprowadzenie danych zgodnie z oryginałem świadectwa. Błędne dane mogą
                         skutkować odrzuceniem wniosku na etapie weryfikacji dokumentów papierowych.
@@ -175,7 +208,7 @@
                     type="button"
                     label="Wstecz"
                     icon="pi pi-arrow-left"
-                    class="p-button-outlined p-button-secondary px-6 py-3 rounded-xl transition-colors duration-200 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
+                    class="p-button-outlined p-button-secondary rounded-xl px-6 py-3 transition-colors duration-200 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
                     @click="handleBack"
                 />
                 <Button
@@ -183,7 +216,7 @@
                     label="Zapisz i kontynuuj"
                     icon="pi pi-arrow-right"
                     iconPos="right"
-                    class="p-button-primary bg-[#11224d] hover:bg-[#1a316c] px-6 py-3 rounded-xl border-none transition-colors duration-200 dark:bg-blue-600 dark:hover:bg-blue-500 dark:text-white font-semibold shadow-md dark:shadow-blue-900/30"
+                    class="p-button-primary rounded-xl border-none bg-[#11224d] px-6 py-3 font-semibold shadow-md transition-colors duration-200 hover:bg-[#1a316c] dark:bg-blue-600 dark:text-white dark:shadow-blue-900/30 dark:hover:bg-blue-500"
                 />
             </div>
         </form>
@@ -203,7 +236,7 @@ import Button from 'primevue/button';
 import ApplicationHeader from '@/components/application/ApplicationHeader.vue';
 
 import { useApplicationStore } from '@/stores/application';
-import { useCountryStore } from "@/stores/country"; 
+import { useCountryStore } from '@/stores/country';
 
 const toast = useToast();
 const appStore = useApplicationStore();
@@ -217,7 +250,7 @@ const maturityOptions = ref([
     { label: 'Stara matura (1992 - 2004 r.)', value: 'old_matura_post_1991' },
     { label: 'Matura Międzynarodowa (IB)', value: 'international_baccalaureate' },
     { label: 'Matura Europejska (EB)', value: 'european_baccalaureate' },
-    { label: 'Świadectwo uzyskane za granicą', value: 'foreign' }
+    { label: 'Świadectwo uzyskane za granicą', value: 'foreign' },
 ]);
 
 const formData = reactive({
@@ -225,7 +258,7 @@ const formData = reactive({
     hasCustomSchool: false,
     school_custom_name: '',
     maturityType: '',
-    country: 'Polska' as any, 
+    country: 'Polska' as any,
     docNumber: '',
     docYear: '',
     docIssuer: '',
@@ -303,7 +336,7 @@ const localSchools = [
 
 const searchSchool = (event: { query: string }) => {
     const query = event.query ? event.query.toLowerCase().trim() : '';
-    
+
     if (!query) {
         filteredSchools.value = [...localSchools];
     } else {
@@ -316,19 +349,17 @@ const searchSchool = (event: { query: string }) => {
 const searchCountry = (event: { query: string }) => {
     const query = event.query ? event.query.toLowerCase().trim() : '';
     const rawCountries = countriesStore.countries || [];
-    
+
     if (!query) {
         filteredCountries.value = [...rawCountries];
     } else {
-        filteredCountries.value = rawCountries.filter((c: any) => 
-            c.name_pl && c.name_pl.toLowerCase().includes(query)
-        );
+        filteredCountries.value = rawCountries.filter((c: any) => c.name_pl && c.name_pl.toLowerCase().includes(query));
     }
 };
 
 const validateForm = () => {
     let isValid = true;
-    Object.keys(errors).forEach((k) => errors[k as keyof typeof errors] = '');
+    Object.keys(errors).forEach((k) => (errors[k as keyof typeof errors] = ''));
 
     if (!formData.hasCustomSchool) {
         if (!formData.school || !formData.school.id) {
@@ -391,14 +422,19 @@ const handleSubmit = async () => {
             country: formData.country,
             docNumber: formData.docNumber,
             docYear: formData.docYear,
-            docIssuer: formData.docIssuer
+            docIssuer: formData.docIssuer,
         };
 
         if (typeof appStore.updateStep4 === 'function') {
             appStore.updateStep4(payload);
         }
 
-        toast.add({ severity: 'success', summary: 'Zapisano', detail: 'Dane edukacyjne zostały zapamiętane.', life: 3000 });
+        toast.add({
+            severity: 'success',
+            summary: 'Zapisano',
+            detail: 'Dane edukacyjne zostały zapamiętane.',
+            life: 3000,
+        });
     } catch (error) {
         console.error(error);
     }

@@ -119,8 +119,15 @@ const passwordResolver = zodResolver(passwordSchema);
  * =========================================================================
  */
 const personalForm = ref<any>({
-    first_name: '', middle_name: '', last_name: '', email: '',
-    phone_prefix: '+48', phone_number: '', pesel: '', date_of_birth: '', gender: '',
+    first_name: '',
+    middle_name: '',
+    last_name: '',
+    email: '',
+    phone_prefix: '+48',
+    phone_number: '',
+    pesel: '',
+    date_of_birth: '',
+    gender: '',
 });
 
 const addressForm = ref<any>({
@@ -131,7 +138,9 @@ const addressForm = ref<any>({
 });
 
 const passwordForm = ref({
-    current_password: '', password: '', password_confirmation: '',
+    current_password: '',
+    password: '',
+    password_confirmation: '',
 });
 
 const formatToInputDate = (date: string | null) => {
@@ -187,10 +196,10 @@ onMounted(async () => {
     try {
         const response = await axios.get('/api/v1/countries');
         countriesList.value = response.data?.data || response.data;
-        
+
         await auth.fetchUser();
         fillForms();
-        
+
         isLoaded.value = true;
     } catch (error) {
         console.error('Błąd podczas ładowania profilu:', error);
@@ -293,7 +302,7 @@ const changePassword = async (event: any) => {
     <div class="mx-auto max-w-4xl space-y-6">
         <h1 class="text-2xl font-bold">Mój profil</h1>
 
-        <div v-if="!isLoaded" class="flex justify-center items-center py-12">
+        <div v-if="!isLoaded" class="flex items-center justify-center py-12">
             <ProgressSpinner style="width: 50px; height: 50px" />
         </div>
 
@@ -444,9 +453,13 @@ const changePassword = async (event: any) => {
                         </Message>
                     </div>
 
-                    <div class="md:col-span-2 flex items-center gap-2 py-2 border-t border-b border-gray-100 my-2">
-                        <Checkbox id="correspondence_toggle" v-model="hasDifferentCorrespondenceAddress" :binary="true" />
-                        <label for="correspondence_toggle" class="text-sm font-medium cursor-pointer select-none">
+                    <div class="my-2 flex items-center gap-2 border-t border-b border-gray-100 py-2 md:col-span-2">
+                        <Checkbox
+                            id="correspondence_toggle"
+                            v-model="hasDifferentCorrespondenceAddress"
+                            :binary="true"
+                        />
+                        <label for="correspondence_toggle" class="cursor-pointer text-sm font-medium select-none">
                             Inny adres do korespondencji
                         </label>
                     </div>

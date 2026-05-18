@@ -70,7 +70,7 @@ const validateAndProceed = () => {
     });
 
     // Przekierowanie na nową stronę po udanej walidacji
-    router.push('/application/education'); 
+    router.push('/application/education');
 };
 </script>
 

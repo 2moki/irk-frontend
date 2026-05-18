@@ -6,10 +6,10 @@ import type { PaginatedResponse, PaginationEvent, PaginationState } from '@/type
 import { axiosInstance } from '@/services/api/axiosInstance';
 import { useI18n } from 'vue-i18n';
 import { useToast } from 'primevue/usetoast';
-import dayjs from 'dayjs';
 import { useLoadingStore } from '@/stores/loading';
 import { refDebounced } from '@vueuse/core';
 import { useLocalizedEnums } from '@/composables/useLocalizedEnums';
+import dayjs from 'dayjs';
 
 const { t } = useI18n();
 const { getLocalizedMajorField } = useLocalizedEnums();
@@ -35,8 +35,8 @@ const loadRecruitments = loadingStore.withLoading(async () => {
         const response = await axiosInstance.get<PaginatedResponse<ApiRecruitment>>(`/api/v1/recruitments`, {
             params: {
                 include: 'major,cost,academicYear',
-                // 'filter[status]': 'ongoing,suspended', //
-                'filter[major_name]': debouncedSearch.value || undefined, 
+                'filter[status]': 'ongoing,suspended',
+                'filter[major_name]': debouncedSearch.value || undefined,
                 page: paginationParams.value.page,
             },
         });

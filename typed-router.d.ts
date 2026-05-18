@@ -97,6 +97,20 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/(main)/recruitment/Step5': RouteRecordInfo<
+      '/(main)/recruitment/Step5',
+      '/recruitment/Step5',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/(main)/recruitment/Step6': RouteRecordInfo<
+      '/(main)/recruitment/Step6',
+      '/recruitment/Step6',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/[...path]': RouteRecordInfo<
       '/[...path]',
       '/:path(.*)',
@@ -174,6 +188,18 @@ declare module 'vue-router/auto-routes' {
     'src/pages/(main)/profile.vue': {
       routes:
         | '/(main)/profile'
+      views:
+        | never
+    }
+    'src/pages/(main)/recruitment/Step5.vue': {
+      routes:
+        | '/(main)/recruitment/Step5'
+      views:
+        | never
+    }
+    'src/pages/(main)/recruitment/Step6.vue': {
+      routes:
+        | '/(main)/recruitment/Step6'
       views:
         | never
     }
