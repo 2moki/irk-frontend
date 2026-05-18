@@ -76,16 +76,23 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/(main)/profile': RouteRecordInfo<
-      '/(main)/profile',
-      '/profile',
+    '/(main)/major/': RouteRecordInfo<
+      '/(main)/major/',
+      '/major',
       Record<never, never>,
       Record<never, never>,
       | never
     >,
-    '/(main)/recruitment/Step4': RouteRecordInfo<
-      '/(main)/recruitment/Step4',
-      '/recruitment/Step4',
+    '/(main)/major/[id]': RouteRecordInfo<
+      '/(main)/major/[id]',
+      '/major/:id',
+      { id: ParamValue<true> },
+      { id: ParamValue<false> },
+      | never
+    >,
+    '/(main)/profile': RouteRecordInfo<
+      '/(main)/profile',
+      '/profile',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -166,15 +173,21 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/pages/(main)/profile.vue': {
+    'src/pages/(main)/major/index.vue': {
       routes:
-        | '/(main)/profile'
+        | '/(main)/major/'
       views:
         | never
     }
-    'src/pages/(main)/recruitment/Step4.vue': {
+    'src/pages/(main)/major/[id].vue': {
       routes:
-        | '/(main)/recruitment/Step4'
+        | '/(main)/major/[id]'
+      views:
+        | never
+    }
+    'src/pages/(main)/profile.vue': {
+      routes:
+        | '/(main)/profile'
       views:
         | never
     }
