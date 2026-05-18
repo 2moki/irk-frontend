@@ -35,8 +35,8 @@ const loadRecruitments = loadingStore.withLoading(async () => {
         const response = await axiosInstance.get<PaginatedResponse<ApiRecruitment>>(`/api/v1/recruitments`, {
             params: {
                 include: 'major,cost,academicYear',
-                'filter[status]': 'ongoing,suspended',
-                'filter[major_name]': debouncedSearch.value || undefined,
+                // 'filter[status]': 'ongoing,suspended', //
+                'filter[major_name]': debouncedSearch.value || undefined, 
                 page: paginationParams.value.page,
             },
         });

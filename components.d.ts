@@ -53,6 +53,7 @@ declare module 'vue' {
     Password: typeof import('primevue/password')['default']
     PersonalDataForm: typeof import('./src/components/auth/PersonalDataForm.vue')['default']
     PersonalInformationForm: typeof import('./src/components/auth/PersonalInformationForm.vue')['default']
+    ProgressSpinner: typeof import('primevue/progressspinner')['default']
     ResetPasswordForm: typeof import('./src/components/auth/ResetPasswordForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

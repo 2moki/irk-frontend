@@ -6,11 +6,13 @@ import { useToast } from 'primevue/usetoast';
 import { z } from 'zod';
 import ApplicationDeadlinesInfo from '@/components/application/ApplicationDeadlinesInfo.vue';
 import { useLocalizedEnums } from '@/composables/useLocalizedEnums';
+import { useRouter } from 'vue-router';
 
 const { t } = useI18n();
 const { getLocalizedMajorField } = useLocalizedEnums();
 const majorStore = useMajorStore();
 const toast = useToast();
+const router = useRouter();
 
 const orderedMajors = computed({
     get: () => majorStore.selectedMajors,
@@ -67,7 +69,8 @@ const validateAndProceed = () => {
         life: 3000,
     });
 
-    // TODO: Proceed to next step
+    // Przekierowanie na nową stronę po udanej walidacji
+    router.push('/application/education'); 
 };
 </script>
 
