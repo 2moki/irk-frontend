@@ -28,7 +28,7 @@ const progressPercentage = computed(() => {
 </script>
 
 <template>
-    <div class="w-full bg-white border border-gray-200 rounded-lg p-6 shadow-sm mb-6 transition-colors duration-200 dark:bg-slate-800 dark:border-slate-700">
+    
         <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
             <div class="space-y-1">
                 <h2 class="text-xl font-bold text-gray-900 dark:text-white">{{ title }}</h2>
@@ -48,5 +48,4 @@ const progressPercentage = computed(() => {
                 ></div>
             </div>
         </div>
-    </div>
 </template>
