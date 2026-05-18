@@ -48,55 +48,77 @@ const personalSchema = z.object({
     gender: z.string().min(1, 'Wybierz płeć'),
 });
 
-const addressSchema = z.object({
-    street: z.string().min(1, 'Ulica jest wymagana'),
-    house_number: z.string().min(1, 'Numer domu jest wymagany'),
-    apartment_number: z.string().optional().nullable().or(z.literal('')),
-    post_code: z
-        .string()
-        .min(1, 'Kod pocztowy jest wymagany')
-        .regex(/^\d{2}-\d{3}$/, 'Niepoprawny format (00-000)'),
-    city: z.string().min(1, 'Miasto jest wymagane'),
-    country: z
-        .object({
-            id: z.number({ required_error: 'Wybierz kraj' }).nullable(),
-            name_pl: z.string(),
-        })
-        .refine((data) => data.id !== null, {
-            message: 'Wybierz kraj',
-            path: ['id'],
-        }),
-    c_street: z.string().optional().nullable().or(z.literal('')),
-    c_house_number: z.string().optional().nullable().or(z.literal('')),
-    c_apartment_number: z.string().optional().nullable().or(z.literal('')),
-    c_post_code: z.string().optional().nullable().or(z.literal('')),
-    c_city: z.string().optional().nullable().or(z.literal('')),
-    c_country: z
-        .object({
-            id: z.number().nullable().optional(),
-            name_pl: z.string().optional(),
-        })
-        .optional()
-        .nullable(),
-}).superRefine((data, ctx) => {
-    if (hasDifferentCorrespondenceAddress.value) {
-        if (!data.c_street || data.c_street.trim() === '') {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Ulica korespondencyjna jest wymagana', path: ['c_street'] });
+const addressSchema = z
+    .object({
+        street: z.string().min(1, 'Ulica jest wymagana'),
+        house_number: z.string().min(1, 'Numer domu jest wymagany'),
+        apartment_number: z.string().optional().nullable().or(z.literal('')),
+        post_code: z
+            .string()
+            .min(1, 'Kod pocztowy jest wymagany')
+            .regex(/^\d{2}-\d{3}$/, 'Niepoprawny format (00-000)'),
+        city: z.string().min(1, 'Miasto jest wymagane'),
+        country: z
+            .object({
+                id: z.number({ required_error: 'Wybierz kraj' }).nullable(),
+                name_pl: z.string(),
+            })
+            .refine((data) => data.id !== null, {
+                message: 'Wybierz kraj',
+                path: ['id'],
+            }),
+        c_street: z.string().optional().nullable().or(z.literal('')),
+        c_house_number: z.string().optional().nullable().or(z.literal('')),
+        c_apartment_number: z.string().optional().nullable().or(z.literal('')),
+        c_post_code: z.string().optional().nullable().or(z.literal('')),
+        c_city: z.string().optional().nullable().or(z.literal('')),
+        c_country: z
+            .object({
+                id: z.number().nullable().optional(),
+                name_pl: z.string().optional(),
+            })
+            .optional()
+            .nullable(),
+    })
+    .superRefine((data, ctx) => {
+        if (hasDifferentCorrespondenceAddress.value) {
+            if (!data.c_street || data.c_street.trim() === '') {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Ulica korespondencyjna jest wymagana',
+                    path: ['c_street'],
+                });
+            }
+            if (!data.c_house_number || data.c_house_number.trim() === '') {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Numer domu jest wymagany',
+                    path: ['c_house_number'],
+                });
+            }
+            if (!data.c_city || data.c_city.trim() === '') {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Miasto korespondencyjne jest wymagane',
+                    path: ['c_city'],
+                });
+            }
+            if (!data.c_post_code || !/^\d{2}-\d{3}$/.test(data.c_post_code)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Niepoprawny format (00-000)',
+                    path: ['c_post_code'],
+                });
+            }
+            if (!data.c_country || data.c_country.id === null) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Wybierz kraj korespondencji',
+                    path: ['c_country.id'],
+                });
+            }
         }
-        if (!data.c_house_number || data.c_house_number.trim() === '') {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Numer domu jest wymagany', path: ['c_house_number'] });
-        }
-        if (!data.c_city || data.c_city.trim() === '') {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Miasto korespondencyjne jest wymagane', path: ['c_city'] });
-        }
-        if (!data.c_post_code || !/^\d{2}-\d{3}$/.test(data.c_post_code)) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Niepoprawny format (00-000)', path: ['c_post_code'] });
-        }
-        if (!data.c_country || data.c_country.id === null) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Wybierz kraj korespondencji', path: ['c_country.id'] });
-        }
-    }
-});
+    });
 
 const passwordSchema = z
     .object({
@@ -119,19 +141,36 @@ const passwordResolver = zodResolver(passwordSchema);
  * =========================================================================
  */
 const personalForm = ref<any>({
-    first_name: '', middle_name: '', last_name: '', email: '',
-    phone_prefix: '+48', phone_number: '', pesel: '', date_of_birth: '', gender: '',
+    first_name: '',
+    middle_name: '',
+    last_name: '',
+    email: '',
+    phone_prefix: '+48',
+    phone_number: '',
+    pesel: '',
+    date_of_birth: '',
+    gender: '',
 });
 
 const addressForm = ref<any>({
-    street: '', house_number: '', apartment_number: '', post_code: '', city: '',
+    street: '',
+    house_number: '',
+    apartment_number: '',
+    post_code: '',
+    city: '',
     country: { id: null, name_pl: '' },
-    c_street: '', c_house_number: '', c_apartment_number: '', c_post_code: '', c_city: '',
-    c_country: { id: null, name_pl: '' }
+    c_street: '',
+    c_house_number: '',
+    c_apartment_number: '',
+    c_post_code: '',
+    c_city: '',
+    c_country: { id: null, name_pl: '' },
 });
 
 const passwordForm = ref({
-    current_password: '', password: '', password_confirmation: '',
+    current_password: '',
+    password: '',
+    password_confirmation: '',
 });
 
 const formatToInputDate = (date: string | null) => {
@@ -176,14 +215,14 @@ const fillForms = () => {
         post_code: user.value.address?.post_code ?? '',
         city: user.value.address?.city ?? '',
         country: finalCountry,
-        
+
         // FIX: Pobieranie wartości z relacji 'mailing_address' i przypisywanie do pól formularza z prefiksem 'c_'
         c_street: user.value.mailing_address?.street ?? '',
         c_house_number: user.value.mailing_address?.house_number ?? '',
         c_apartment_number: user.value.mailing_address?.apartment_number ?? '',
         c_post_code: user.value.mailing_address?.post_code ?? '',
         c_city: user.value.mailing_address?.city ?? '',
-        c_country: finalCorrCountry
+        c_country: finalCorrCountry,
     };
 };
 
@@ -191,10 +230,10 @@ onMounted(async () => {
     try {
         const response = await axios.get('/api/v1/countries');
         countriesList.value = response.data?.data || response.data;
-        
+
         await auth.fetchUser();
         fillForms();
-        
+
         isLoaded.value = true;
     } catch (error) {
         console.error('Błąd podczas ładowania profilu:', error);
@@ -235,7 +274,7 @@ const saveAddress = async (event: FormSubmitEvent) => {
             has_correspondence: hasDifferentCorrespondenceAddress.value,
         };
 
-        // Jeśli użytkownik zaznaczył inny adres korespondencyjny, 
+        // Jeśli użytkownik zaznaczył inny adres korespondencyjny,
         // pakujemy go w strukturę, którą Laravel łatwo przypisze do relacji mailingAddress
         if (hasDifferentCorrespondenceAddress.value) {
             payload.mailing_address = {
@@ -291,7 +330,7 @@ const changePassword = async (event: any) => {
     <div class="mx-auto max-w-4xl space-y-6">
         <h1 class="text-2xl font-bold">Mój profil</h1>
 
-        <div v-if="!isLoaded" class="flex justify-center items-center py-12">
+        <div v-if="!isLoaded" class="flex items-center justify-center py-12">
             <ProgressSpinner style="width: 50px; height: 50px" />
         </div>
 
@@ -431,9 +470,13 @@ const changePassword = async (event: any) => {
                         />
                     </div>
 
-                    <div class="md:col-span-2 flex items-center gap-2 py-2 border-t border-b border-gray-100 my-2">
-                        <Checkbox id="correspondence_toggle" v-model="hasDifferentCorrespondenceAddress" :binary="true" />
-                        <label for="correspondence_toggle" class="text-sm font-medium cursor-pointer select-none">
+                    <div class="my-2 flex items-center gap-2 border-t border-b border-gray-100 py-2 md:col-span-2">
+                        <Checkbox
+                            id="correspondence_toggle"
+                            v-model="hasDifferentCorrespondenceAddress"
+                            :binary="true"
+                        />
+                        <label for="correspondence_toggle" class="cursor-pointer text-sm font-medium select-none">
                             Inny adres do korespondencji
                         </label>
                     </div>
@@ -484,40 +527,45 @@ const changePassword = async (event: any) => {
             </TabPanel>
 
             <TabPanel header="Bezpieczeństwo">
-    <Form
-        v-slot="$form"
-        :initialValues="passwordForm"
-        :resolver="passwordResolver"
-        @submit="changePassword"
-        class="mt-4 grid gap-4 max-w-md" 
-    >
-        <div class="flex flex-col gap-1">
-            <label>Aktualne hasło</label>
-            <Password name="current_password" :feedback="false" toggleMask fluid />
-            <Message v-if="$form?.current_password?.invalid" severity="error" variant="text" size="small">
-                {{ $form.current_password.error?.message }}
-            </Message>
-        </div>
+                <Form
+                    v-slot="$form"
+                    :initialValues="passwordForm"
+                    :resolver="passwordResolver"
+                    @submit="changePassword"
+                    class="mt-4 grid max-w-md gap-4"
+                >
+                    <div class="flex flex-col gap-1">
+                        <label>Aktualne hasło</label>
+                        <Password name="current_password" :feedback="false" toggleMask fluid />
+                        <Message v-if="$form?.current_password?.invalid" severity="error" variant="text" size="small">
+                            {{ $form.current_password.error?.message }}
+                        </Message>
+                    </div>
 
-        <div class="flex flex-col gap-1">
-            <label>Nowe hasło</label>
-            <Password name="password" :feedback="false" toggleMask fluid />
-            <Message v-if="$form?.password?.invalid" severity="error" variant="text" size="small">
-                {{ $form.password.error?.message }}
-            </Message>
-        </div>
+                    <div class="flex flex-col gap-1">
+                        <label>Nowe hasło</label>
+                        <Password name="password" :feedback="false" toggleMask fluid />
+                        <Message v-if="$form?.password?.invalid" severity="error" variant="text" size="small">
+                            {{ $form.password.error?.message }}
+                        </Message>
+                    </div>
 
-        <div class="flex flex-col gap-1">
-            <label>Powtórz hasło</label>
-            <Password name="password_confirmation" :feedback="false" toggleMask fluid />
-            <Message v-if="$form?.password_confirmation?.invalid" severity="error" variant="text" size="small">
-                {{ $form.password_confirmation.error?.message }}
-            </Message>
-        </div>
+                    <div class="flex flex-col gap-1">
+                        <label>Powtórz hasło</label>
+                        <Password name="password_confirmation" :feedback="false" toggleMask fluid />
+                        <Message
+                            v-if="$form?.password_confirmation?.invalid"
+                            severity="error"
+                            variant="text"
+                            size="small"
+                        >
+                            {{ $form.password_confirmation.error?.message }}
+                        </Message>
+                    </div>
 
-        <Button type="submit" label="Zmień hasło" class="mt-2 w-full" />
-    </Form>
-</TabPanel>
+                    <Button type="submit" label="Zmień hasło" class="mt-2 w-full" />
+                </Form>
+            </TabPanel>
         </TabView>
     </div>
 </template>

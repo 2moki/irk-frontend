@@ -25,8 +25,8 @@ export const useApplicationStore = defineStore(
                     headers: {
                         'Content-Type': 'application/json',
                         // Jeśli API wymaga autoryzacji tokenem, odkomentuj poniższą linię:
-                        // 'Authorization': `Bearer ${localStorage.getItem('token')}` 
-                    }
+                        // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
                 });
 
                 if (!response.ok) {
@@ -34,9 +34,9 @@ export const useApplicationStore = defineStore(
                 }
 
                 const data = await response.json();
-                
+
                 // Zwracamy tablicę obiektów ze szkołami (np. [{ id: 1, name: '...' }])
-                return data; 
+                return data;
             } catch (error) {
                 console.error('Błąd podczas pobierania szkół z API:', error);
                 return []; // Zwracamy pustą tablicę w razie błędu, żeby aplikacja się nie zawiesiła
