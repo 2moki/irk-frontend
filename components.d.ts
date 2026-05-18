@@ -13,6 +13,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AddressForm: typeof import('./src/components/auth/AddressForm.vue')['default']
     AppFooter: typeof import('./src/components/layout/AppFooter.vue')['default']
+    ApplicationHeader: typeof import('./src/components/application/ApplicationHeader.vue')['default']
     AppSidebar: typeof import('./src/components/layout/AppSidebar.vue')['default']
     AuthHeader: typeof import('./src/components/auth/AuthHeader.vue')['default']
     AuthHero: typeof import('./src/components/auth/AuthHero.vue')['default']
@@ -41,6 +42,7 @@ declare module 'vue' {
     Password: typeof import('primevue/password')['default']
     PersonalDataForm: typeof import('./src/components/auth/PersonalDataForm.vue')['default']
     PersonalInformationForm: typeof import('./src/components/auth/PersonalInformationForm.vue')['default']
+    ProgressSpinner: typeof import('primevue/progressspinner')['default']
     ResetPasswordForm: typeof import('./src/components/auth/ResetPasswordForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
