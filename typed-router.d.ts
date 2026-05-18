@@ -62,16 +62,16 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/(main)/application': RouteRecordInfo<
-      '/(main)/application',
-      '/application',
+    '/(main)/application/education': RouteRecordInfo<
+      '/(main)/application/education',
+      '/application/education',
       Record<never, never>,
       Record<never, never>,
       | never
     >,
-    '/(main)/dashboard': RouteRecordInfo<
-      '/(main)/dashboard',
-      '/dashboard',
+    '/(main)/application/study-programs': RouteRecordInfo<
+      '/(main)/application/study-programs',
+      '/application/study-programs',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -140,15 +140,15 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/pages/(main)/application.vue': {
+    'src/pages/(main)/application/education.vue': {
       routes:
-        | '/(main)/application'
+        | '/(main)/application/education'
       views:
         | never
     }
-    'src/pages/(main)/dashboard.vue': {
+    'src/pages/(main)/application/study-programs.vue': {
       routes:
-        | '/(main)/dashboard'
+        | '/(main)/application/study-programs'
       views:
         | never
     }

@@ -48,16 +48,16 @@ export const useAuthStore = defineStore(
         };
 
         const logout = async () => {
-            await getCsrf();
-
             try {
+                await getCsrf();
                 await axiosInstance.post('/api/auth/logout');
+            } catch (error) {
+                console.error(error);
+            } finally {
                 user.value = null;
                 isAuthenticated.value = false;
 
                 await router.push('/login');
-            } catch (error) {
-                console.error(error);
             }
         };
 
