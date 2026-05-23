@@ -43,60 +43,86 @@ const personalSchema = z.object({
     gender: z.string().min(1, 'Wybierz płeć'),
 });
 
-const addressSchema = z.object({
-    street: z.string().min(1, 'Ulica jest wymagana'),
-    house_number: z.string().min(1, 'Numer domu jest wymagany'),
-    apartment_number: z.string().optional().nullable().or(z.literal('')),
-    post_code: z
-        .string()
-        .min(1, 'Kod pocztowy jest wymagany')
-        .regex(/^\d{2}-\d{3}$/, 'Niepoprawny format (00-000)'),
-    city: z.string().min(1, 'Miasto jest wymagane'),
-    post_office: z.string().min(1, 'Poczta jest wymagana'),
-    country: z
-        .object({
-            id: z.number({ required_error: 'Wybierz kraj' }).nullable(),
-            name_pl: z.string(),
-        })
-        .refine((data) => data.id !== null, {
-            message: 'Wybierz kraj',
-            path: ['id'],
-        }),
-    c_street: z.string().optional().nullable().or(z.literal('')),
-    c_house_number: z.string().optional().nullable().or(z.literal('')),
-    c_apartment_number: z.string().optional().nullable().or(z.literal('')),
-    c_post_code: z.string().optional().nullable().or(z.literal('')),
-    c_city: z.string().optional().nullable().or(z.literal('')),
-    c_post_office: z.string().optional().nullable().or(z.literal('')),
-    c_country: z
-        .object({
-            id: z.number().nullable().optional(),
-            name_pl: z.string().optional(),
-        })
-        .optional()
-        .nullable(),
-}).superRefine((data, ctx) => {
-    if (hasDifferentCorrespondenceAddress.value) {
-        if (!data.c_street || data.c_street.trim() === '') {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Ulica korespondencyjna jest wymagana', path: ['c_street'] });
+const addressSchema = z
+    .object({
+        street: z.string().min(1, 'Ulica jest wymagana'),
+        house_number: z.string().min(1, 'Numer domu jest wymagany'),
+        apartment_number: z.string().optional().nullable().or(z.literal('')),
+        post_code: z
+            .string()
+            .min(1, 'Kod pocztowy jest wymagany')
+            .regex(/^\d{2}-\d{3}$/, 'Niepoprawny format (00-000)'),
+        city: z.string().min(1, 'Miasto jest wymagane'),
+        post_office: z.string().min(1, 'Poczta jest wymagana'),
+        country: z
+            .object({
+                id: z.number({ required_error: 'Wybierz kraj' }).nullable(),
+                name_pl: z.string(),
+            })
+            .refine((data) => data.id !== null, {
+                message: 'Wybierz kraj',
+                path: ['id'],
+            }),
+        c_street: z.string().optional().nullable().or(z.literal('')),
+        c_house_number: z.string().optional().nullable().or(z.literal('')),
+        c_apartment_number: z.string().optional().nullable().or(z.literal('')),
+        c_post_code: z.string().optional().nullable().or(z.literal('')),
+        c_city: z.string().optional().nullable().or(z.literal('')),
+        c_post_office: z.string().optional().nullable().or(z.literal('')),
+        c_country: z
+            .object({
+                id: z.number().nullable().optional(),
+                name_pl: z.string().optional(),
+            })
+            .optional()
+            .nullable(),
+    })
+    .superRefine((data, ctx) => {
+        if (hasDifferentCorrespondenceAddress.value) {
+            if (!data.c_street || data.c_street.trim() === '') {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Ulica korespondencyjna jest wymagana',
+                    path: ['c_street'],
+                });
+            }
+            if (!data.c_house_number || data.c_house_number.trim() === '') {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Numer domu jest wymagany',
+                    path: ['c_house_number'],
+                });
+            }
+            if (!data.c_city || data.c_city.trim() === '') {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Miasto korespondencyjne jest wymagane',
+                    path: ['c_city'],
+                });
+            }
+            if (!data.c_post_office || data.c_post_office.trim() === '') {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Placówka pocztowa jest wymagana',
+                    path: ['c_post_office'],
+                });
+            }
+            if (!data.c_post_code || !/^\d{2}-\d{3}$/.test(data.c_post_code)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Niepoprawny format (00-000)',
+                    path: ['c_post_code'],
+                });
+            }
+            if (!data.c_country || data.c_country.id === undefined || data.c_country.id === null) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Wybierz kraj korespondencji',
+                    path: ['c_country'],
+                });
+            }
         }
-        if (!data.c_house_number || data.c_house_number.trim() === '') {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Numer domu jest wymagany', path: ['c_house_number'] });
-        }
-        if (!data.c_city || data.c_city.trim() === '') {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Miasto korespondencyjne jest wymagane', path: ['c_city'] });
-        }
-        if (!data.c_post_office || data.c_post_office.trim() === '') {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Placówka pocztowa jest wymagana', path: ['c_post_office'] });
-        }
-        if (!data.c_post_code || !/^\d{2}-\d{3}$/.test(data.c_post_code)) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Niepoprawny format (00-000)', path: ['c_post_code'] });
-        }
-        if (!data.c_country || data.c_country.id === undefined || data.c_country.id === null) {
-            ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Wybierz kraj korespondencji', path: ['c_country'] });
-        }
-    }
-});
+    });
 
 const passwordSchema = z
     .object({
@@ -131,10 +157,20 @@ const personalForm = ref<any>({
 });
 
 const addressForm = ref<any>({
-    street: '', house_number: '', apartment_number: '', post_code: '', city: '', post_office: '',
+    street: '',
+    house_number: '',
+    apartment_number: '',
+    post_code: '',
+    city: '',
+    post_office: '',
     country: { id: null, name_pl: '' },
-    c_street: '', c_house_number: '', c_apartment_number: '', c_post_code: '', c_city: '', c_post_office: '',
-    c_country: { id: null, name_pl: '' }
+    c_street: '',
+    c_house_number: '',
+    c_apartment_number: '',
+    c_post_code: '',
+    c_city: '',
+    c_post_office: '',
+    c_country: { id: null, name_pl: '' },
 });
 
 const passwordForm = ref({
@@ -181,14 +217,14 @@ const fillForms = () => {
         city: user.value.address?.city ?? '',
         post_office: user.value.address?.post_office ?? '',
         country: finalCountry,
-        
+
         c_street: user.value.mailing_address?.street ?? '',
         c_house_number: user.value.mailing_address?.house_number ?? '',
         c_apartment_number: user.value.mailing_address?.apartment_number ?? '',
         c_post_code: user.value.mailing_address?.post_code ?? '',
         c_city: user.value.mailing_address?.city ?? '',
         c_post_office: user.value.mailing_address?.post_office ?? '',
-        c_country: finalCorrCountry
+        c_country: finalCorrCountry,
     };
 };
 
@@ -284,7 +320,7 @@ const changePassword = async (event: any) => {
         await auth.updateUser({
             current_password: event.values.current_password,
             password: event.values.password,
-            password_confirmation: event.values.password_confirmation
+            password_confirmation: event.values.password_confirmation,
         });
         toast.add({ severity: 'success', summary: 'Zmieniono hasło pomyślnie', life: 3000 });
         passwordForm.value = { current_password: '', password: '', password_confirmation: '' };
@@ -538,7 +574,7 @@ const changePassword = async (event: any) => {
                     :initialValues="passwordForm"
                     :resolver="passwordResolver"
                     @submit="changePassword"
-                    class="mt-4 grid gap-4 max-w-md" 
+                    class="mt-4 grid max-w-md gap-4"
                 >
                     <div class="flex flex-col gap-1">
                         <label>Aktualne hasło</label>
@@ -559,7 +595,12 @@ const changePassword = async (event: any) => {
                     <div class="flex flex-col gap-1">
                         <label>Powtórz hasło</label>
                         <Password name="password_confirmation" :feedback="false" toggleMask fluid />
-                        <Message v-if="$form?.password_confirmation?.invalid" severity="error" variant="text" size="small">
+                        <Message
+                            v-if="$form?.password_confirmation?.invalid"
+                            severity="error"
+                            variant="text"
+                            size="small"
+                        >
                             {{ $form.password_confirmation.error?.message }}
                         </Message>
                     </div>
