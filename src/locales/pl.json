@@ -126,6 +126,8 @@
         "needHelp": "Potrzebujesz pomocy?",
         "recruitmentOffice": "Biuro rekrutacji jest do Twojej dyspozycji.",
         "contactUs": "Skontaktuj się",
+        "active": "Aktywne",
+        "completed": "Zakończone",
         "recruiting": {
             "zero": "Obecnie nie rekrutujesz się na żaden kierunek.",
             "one": "Obecnie rekrutujesz się na 1 kierunek.",
