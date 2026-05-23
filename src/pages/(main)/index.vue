@@ -22,7 +22,6 @@ const completedApplications = ref<RecruitmentApplication[]>([]);
 const majors = ref<Major[]>([]);
 const totalActiveApplications = ref(0);
 const totalCompletedApplications = ref(0);
-const totalApplications = computed(() => totalActiveApplications.value + totalCompletedApplications.value);
 const activePaginationParams = ref<PaginationState>({
     page: 1,
     rows: 5,
@@ -151,7 +150,7 @@ const getStatusSeverity = (status: string | undefined) => {
 };
 
 const recruitingMessage = computed(() => {
-    const count = totalApplications.value;
+    const count = totalActiveApplications.value;
     if (count === 0) return 'dashboard.recruiting.zero';
     if (count === 1) return 'dashboard.recruiting.one';
 
@@ -165,7 +164,7 @@ const recruitingMessage = computed(() => {
 <template>
     <ApplicationHeader
         :title="$t('greeting.helloName', { name: user?.first_name })"
-        :subtitle="`${$t(recruitingMessage, { n: totalApplications })} ${$t('dashboard.checkStatus')}`"
+        :subtitle="`${$t(recruitingMessage, { n: totalActiveApplications })} ${$t('dashboard.checkStatus')}`"
         class="mb-16"
     />
 
