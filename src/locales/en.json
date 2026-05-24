@@ -114,7 +114,38 @@
             "Inżynier": "Engineer's degree",
             "Magister": "Master's degree",
             "Doktorat": "Doctorate"
+        },
+        "examType": {
+            "new_matura": "New Matura",
+            "old_matura_pre_1991": "Old Matura (before 1991)",
+            "old_matura_post_1991": "Old Matura (after 1991)",
+            "international_baccalaureate": "International Baccalaureate (IB)",
+            "european_baccalaureate": "European Baccalaureate (EB)",
+            "foreign": "Foreign Exam"
         }
+    },
+    "applicationDetail": {
+        "applicationId": "Application #{id}",
+        "withdrawApplication": "Withdraw application",
+        "points": "Points",
+        "payment": "Payment",
+        "documents": "Documents",
+        "paid": "Paid",
+        "notPaid": "Not paid",
+        "delivered": "Delivered",
+        "notDelivered": "Not delivered",
+        "majorDetails": "Major details",
+        "studyLevel": "Study level",
+        "mode": "Mode",
+        "duration": "Duration",
+        "academicYear": "Academic year",
+        "examType": "Exam type",
+        "preferences": "Preferences",
+        "majorPriority": "Major priority",
+        "selectedLanguages": "Selected foreign languages",
+        "priority": "Priority: {n}",
+        "semesters": "{n} semesters",
+        "loadingError": "Failed to load application data."
     },
     "dashboard": {
         "checkStatus": "Check the status of your applications below.",

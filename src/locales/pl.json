@@ -115,7 +115,38 @@
             "Inżynier": "Inżynier",
             "Magister": "Magister",
             "Doktorat": "Doktorat"
+        },
+        "examType": {
+            "new_matura": "Nowa Matura",
+            "old_matura_pre_1991": "Stara Matura (przed 1991)",
+            "old_matura_post_1991": "Stara Matura (po 1991)",
+            "international_baccalaureate": "Matura Międzynarodowa (IB)",
+            "european_baccalaureate": "Matura Europejska (EB)",
+            "foreign": "Matura Zagraniczna"
         }
+    },
+    "applicationDetail": {
+        "applicationId": "Zgłoszenie #{id}",
+        "withdrawApplication": "Wycofaj zgłoszenie",
+        "points": "Punkty",
+        "payment": "Opłata",
+        "documents": "Dokumenty",
+        "paid": "Opłacone",
+        "notPaid": "Nieopłacone",
+        "delivered": "Dostarczone",
+        "notDelivered": "Niedostarczone",
+        "majorDetails": "Szczegóły kierunku",
+        "studyLevel": "Poziom studiów",
+        "mode": "Tryb",
+        "duration": "Czas trwania",
+        "academicYear": "Rok akademicki",
+        "examType": "Typ egzaminu",
+        "preferences": "Preferencje",
+        "majorPriority": "Priorytet kierunku",
+        "selectedLanguages": "Wybrane języki obce",
+        "priority": "Priorytet: {n}",
+        "semesters": "{n} semestrów",
+        "loadingError": "Nie udało się załadować danych zgłoszenia."
     },
     "dashboard": {
         "checkStatus": "Sprawdź status swoich aplikacji poniżej.",

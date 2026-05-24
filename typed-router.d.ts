@@ -111,6 +111,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/(main)/recruitment-application/[id]': RouteRecordInfo<
+      '/(main)/recruitment-application/[id]',
+      '/recruitment-application/:id',
+      { id: ParamValue<true> },
+      { id: ParamValue<false> },
+      | never
+    >,
     '/[...path]': RouteRecordInfo<
       '/[...path]',
       '/:path(.*)',
@@ -200,6 +207,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/(main)/recruitment/Step6.vue': {
       routes:
         | '/(main)/recruitment/Step6'
+      views:
+        | never
+    }
+    'src/pages/(main)/recruitment-application/[id].vue': {
+      routes:
+        | '/(main)/recruitment-application/[id]'
       views:
         | never
     }

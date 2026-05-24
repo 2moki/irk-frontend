@@ -17,8 +17,16 @@ export const useLocalizedEnums = () => {
         return te(key) ? t(key) : value;
     };
 
+    const getLocalizedExamType = (type: string | undefined) => {
+        if (!type) return '';
+
+        const key = `enums.examType.${type}`;
+        return te(key) ? t(key) : type;
+    };
+
     return {
         getLocalizedStatus,
         getLocalizedMajorField,
+        getLocalizedExamType,
     };
 };

@@ -8,10 +8,12 @@ import ApplicationHeader from '@/components/application/ApplicationHeader.vue';
 import { useLocalizedEnums } from '@/composables/useLocalizedEnums';
 import { useToast } from 'primevue/usetoast';
 import { useLoadingStore } from '@/stores/loading';
+import { useStatusSeverity } from '@/composables/useStatusSeverity';
 import { useI18n } from 'vue-i18n';
 
 const { user } = useAuthStore();
 const { getLocalizedStatus, getLocalizedMajorField } = useLocalizedEnums();
+const { getStatusSeverity } = useStatusSeverity();
 
 const toast = useToast();
 const loadingStore = useLoadingStore();
@@ -134,21 +136,6 @@ onMounted(() => {
     loadDashboardData();
 });
 
-const getStatusSeverity = (status: string | undefined) => {
-    switch (status) {
-        case 'qualified':
-            return 'success';
-        case 'unqualified':
-            return 'danger';
-        case 'reserve':
-            return 'warn';
-        case 'pending':
-            return 'info';
-        default:
-            return 'secondary';
-    }
-};
-
 const recruitingMessage = computed(() => {
     const count = totalActiveApplications.value;
     if (count === 0) return 'dashboard.recruiting.zero';
@@ -259,6 +246,8 @@ const recruitingMessage = computed(() => {
                                 getLocalizedStatus(app.application_status)
                             }}</Tag>
                             <Button
+                                as="router-link"
+                                :to="`/recruitment-application/${app.id}`"
                                 :label="$t('dashboard.details')"
                                 icon="pi pi-chevron-right"
                                 iconPos="right"
@@ -343,6 +332,8 @@ const recruitingMessage = computed(() => {
                                 getLocalizedStatus(app.application_status)
                             }}</Tag>
                             <Button
+                                as="router-link"
+                                :to="`/recruitment-application/${app.id}`"
                                 :label="$t('dashboard.details')"
                                 icon="pi pi-chevron-right"
                                 iconPos="right"
