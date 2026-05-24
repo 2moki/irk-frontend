@@ -38,7 +38,8 @@
             "noPeselNumber": "Nie posiadam numeru PESEL",
             "mailingAddress": "Adres korespondencyjny",
             "otherMailingAddress": "Adres korespondencyjny jest inny niż zamieszkania"
-        }
+        },
+        "sessionExpired": "Twoja sesja wygasła. Zaloguj się ponownie."
     },
     "field": {
         "email": "Adres e-mail",

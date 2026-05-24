@@ -37,7 +37,8 @@
             "noPeselNumber": "I don't have a PESEL number",
             "mailingAddress": "Mailing address",
             "otherMailingAddress": "Mailing address is different from residential address"
-        }
+        },
+        "sessionExpired": "Your session has expired. Please log in again."
     },
     "field": {
         "email": "E-mail address",
