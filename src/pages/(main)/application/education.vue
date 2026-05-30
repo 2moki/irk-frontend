@@ -224,7 +224,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, onMounted, computed } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useToast } from 'primevue/usetoast';
 
 import AutoComplete from 'primevue/autocomplete';
@@ -237,10 +237,12 @@ import ApplicationHeader from '@/components/application/ApplicationHeader.vue';
 
 import { useApplicationStore } from '@/stores/application';
 import { useCountryStore } from '@/stores/country';
+import { useRouter } from 'vue-router';
 
 const toast = useToast();
 const appStore = useApplicationStore();
 const countriesStore = useCountryStore();
+const router = useRouter();
 
 // POPRAWKA 1: Dodano "Wybierz rodzaj matury" z pustą wartością jako pierwszą pozycję
 const maturityOptions = ref([
@@ -435,6 +437,8 @@ const handleSubmit = async () => {
             detail: 'Dane edukacyjne zostały zapamiętane.',
             life: 3000,
         });
+
+        await router.push('/application/language-selection');
     } catch (error) {
         console.error(error);
     }

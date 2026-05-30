@@ -54,6 +54,11 @@ export interface Language {
     priority: number;
 }
 
+export interface LanguageSelection {
+    recruitmentId: number;
+    orderedLanguages: Language[];
+}
+
 export interface RecruitmentApplication {
     id: number;
     application_id: number;

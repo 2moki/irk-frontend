@@ -36,6 +36,7 @@ declare module 'vue' {
     InputIcon: typeof import('primevue/inputicon')['default']
     InputMask: typeof import('primevue/inputmask')['default']
     InputText: typeof import('primevue/inputtext')['default']
+    LanguageOrderCard: typeof import('./src/components/application/LanguageOrderCard.vue')['default']
     LanguageSelector: typeof import('./src/components/features/LanguageSelector.vue')['default']
     LoginForm: typeof import('./src/components/auth/LoginForm.vue')['default']
     MajorPrioritySidebar: typeof import('./src/components/application/MajorPrioritySidebar.vue')['default']

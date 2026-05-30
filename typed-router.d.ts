@@ -69,6 +69,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/(main)/application/language-selection': RouteRecordInfo<
+      '/(main)/application/language-selection',
+      '/application/language-selection',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/(main)/application/study-programs': RouteRecordInfo<
       '/(main)/application/study-programs',
       '/application/study-programs',
@@ -171,6 +178,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/(main)/application/education.vue': {
       routes:
         | '/(main)/application/education'
+      views:
+        | never
+    }
+    'src/pages/(main)/application/language-selection.vue': {
+      routes:
+        | '/(main)/application/language-selection'
       views:
         | never
     }

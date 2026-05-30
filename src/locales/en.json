@@ -194,5 +194,15 @@
         "next_step": "Next step",
         "remember_deadlines": "Remember the deadlines",
         "fee_deadline_info": "The recruitment fee must be credited to your individual sub-account by the end of recruitment."
+    },
+    "language_selection": {
+        "title": "Foreign Language Selection",
+        "subtitle": "Set your preferred order for foreign language courses. The first language on the list will be your priority when assigning to language groups.",
+        "drag_instruction": "Use arrows to change the language priority (1 – highest priority).",
+        "priority_label": "Priority",
+        "highest_priority": "Highest priority",
+        "no_majors_selected": "No majors have been selected. Please go back to the study programs step first.",
+        "success": "Success",
+        "proceeding": "Proceeding to the next step..."
     }
 }

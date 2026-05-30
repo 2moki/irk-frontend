@@ -195,5 +195,15 @@
         "next_step": "Następny krok",
         "remember_deadlines": "Pamiętaj o terminach",
         "fee_deadline_info": "Opłata rekrutacyjna musi zostać zaksięgowana na Twoim indywidualnym subkoncie do końca trwania rekrutacji."
+    },
+    "language_selection": {
+        "title": "Wybór języków obcych",
+        "subtitle": "Ustal preferowaną kolejność nauki języków obcych. Pierwszy język na liście będzie Twoim priorytetem w przydziale do grup językowych.",
+        "drag_instruction": "Użyj strzałek, aby zmienić priorytet języków (1 – najwyższy priorytet).",
+        "priority_label": "Priorytet",
+        "highest_priority": "Najwyższy priorytet",
+        "no_majors_selected": "Nie wybrano żadnych kierunków. Wróć najpierw do kroku wyboru kierunków.",
+        "success": "Sukces",
+        "proceeding": "Przechodzenie do kolejnego kroku..."
     }
 }
