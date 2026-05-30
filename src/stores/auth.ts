@@ -61,7 +61,7 @@ export const useAuthStore = defineStore(
         const clearAuth = async () => {
             user.value = null;
             isAuthenticated.value = false;
-            
+
             await router.push('/login');
         };
 
