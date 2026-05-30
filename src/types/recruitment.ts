@@ -48,6 +48,17 @@ export interface ApplicationData {
     updated_at: Timestamp;
 }
 
+export interface Language {
+    id: number;
+    name: string;
+    priority: number;
+}
+
+export interface LanguageSelection {
+    recruitmentId: number;
+    orderedLanguages: Language[];
+}
+
 export interface RecruitmentApplication {
     id: number;
     application_id: number;
@@ -62,6 +73,7 @@ export interface RecruitmentApplication {
     recruitment?: ApiRecruitment;
     application?: ApplicationData;
     major?: Major;
+    languages?: Language[];
 }
 
 export interface ApiRecruitment extends Recruitment {

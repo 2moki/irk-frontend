@@ -54,11 +54,15 @@ export const useAuthStore = defineStore(
             } catch (error) {
                 console.error(error);
             } finally {
-                user.value = null;
-                isAuthenticated.value = false;
-
-                await router.push('/login');
+                await clearAuth();
             }
+        };
+
+        const clearAuth = async () => {
+            user.value = null;
+            isAuthenticated.value = false;
+
+            await router.push('/login');
         };
 
         const forgotPassword = withLoading(async (payload: ForgotPasswordForm) => {
@@ -86,6 +90,7 @@ export const useAuthStore = defineStore(
             register,
             login,
             logout,
+            clearAuth,
             forgotPassword,
             resetPassword,
             updateUser,

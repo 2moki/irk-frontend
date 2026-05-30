@@ -12,7 +12,7 @@ const errorMessage = ref<string | null>(null);
 
 // Dla dokumentów pozwalamy na PDF, JPG i PNG oraz zwiększamy limit do 5MB per plik
 const ALLOWED_TYPES = ['application/pdf', 'image/jpeg', 'image/png'];
-const MAX_FILE_SIZE = 5 * 1024 * 1024; 
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 const triggerFileSelect = () => {
     fileInput.value?.click();
@@ -21,7 +21,7 @@ const triggerFileSelect = () => {
 const handleFileChange = (event: Event) => {
     const target = event.target as HTMLInputElement;
     const files = target.files;
-    
+
     if (!files) return;
 
     errorMessage.value = null;
@@ -41,7 +41,7 @@ const handleFileChange = (event: Event) => {
         }
 
         // Unikanie duplikatów o tej samej nazwie
-        if (!uploadedFiles.value.some(f => f.name === file.name)) {
+        if (!uploadedFiles.value.some((f) => f.name === file.name)) {
             uploadedFiles.value.push(file);
         }
     }
@@ -80,9 +80,9 @@ const submitDocuments = async () => {
     try {
         // Endpoint dostosowany pod Twój backend dla skanów dokumentów
         await api.post('/recruitment/documents', formData);
-        
+
         // Po udanym uplodzie idziemy dalej (np. profil lub Krok 7)
-        router.push('/recruitment/profile'); 
+        router.push('/recruitment/profile');
     } catch (error: any) {
         errorMessage.value = error.response?.data?.message || 'Błąd podczas przesyłania dokumentów.';
     } finally {
@@ -92,110 +92,165 @@ const submitDocuments = async () => {
 </script>
 
 <template>
-    <div class="max-w-4xl mx-auto p-6 text-slate-800">
-        <div class="flex justify-between items-end mb-2">
+    <div class="mx-auto max-w-4xl p-6 text-slate-800">
+        <div class="mb-2 flex items-end justify-between">
             <div>
-                <span class="text-blue-600 font-bold text-xs uppercase tracking-wider">KROK 6 Z 10</span>
-                <h1 class="text-2xl font-bold text-[#1d2d5b] mt-1">Skany dokumentów</h1>
+                <span class="text-xs font-bold tracking-wider text-blue-600 uppercase">KROK 6 Z 10</span>
+                <h1 class="mt-1 text-2xl font-bold text-[#1d2d5b]">Skany dokumentów</h1>
             </div>
-            <span class="text-xs text-gray-400 font-medium">Postęp aplikacji</span>
+            <span class="text-xs font-medium text-gray-400">Postęp aplikacji</span>
         </div>
 
-        <div class="w-full bg-gray-200 h-2 rounded-full mb-8">
-            <div class="bg-[#1d2d5b] h-2 rounded-full transition-all duration-300" style="width: 60%"></div>
+        <div class="mb-8 h-2 w-full rounded-full bg-gray-200">
+            <div class="h-2 rounded-full bg-[#1d2d5b] transition-all duration-300" style="width: 60%"></div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
+        <div class="mb-6 rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
             <div class="flex items-start gap-4">
-                <div class="p-3 bg-blue-50 text-blue-600 rounded-xl flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                <div class="flex-shrink-0 rounded-xl bg-blue-50 p-3 text-blue-600">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
                     </svg>
                 </div>
-                
-                <div class="flex-1 w-full">
+
+                <div class="w-full flex-1">
                     <h3 class="text-lg font-semibold text-slate-800">Wymagane dokumenty</h3>
-                    <p class="text-sm text-gray-500 mt-1 mb-6">
-                        Proszę przesłać czytelne skany lub zdjęcia dokumentów potwierdzających wykształcenie (np. świadectwo dojrzałości). Akceptowane formaty: PDF, JPG, PNG. Maksymalny rozmiar jednego pliku: 5MB.
+                    <p class="mt-1 mb-6 text-sm text-gray-500">
+                        Proszę przesłać czytelne skany lub zdjęcia dokumentów potwierdzających wykształcenie (np.
+                        świadectwo dojrzałości). Akceptowane formaty: PDF, JPG, PNG. Maksymalny rozmiar jednego pliku:
+                        5MB.
                     </p>
 
-                    <input 
-                        type="file" 
-                        ref="fileInput" 
-                        class="hidden" 
+                    <input
+                        type="file"
+                        ref="fileInput"
+                        class="hidden"
                         accept="application/pdf, image/jpeg, image/png"
                         multiple
-                        @change="handleFileChange" 
+                        @change="handleFileChange"
                     />
 
-                    <div 
+                    <div
                         @click="triggerFileSelect"
-                        class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer bg-slate-50 hover:border-blue-500 hover:bg-blue-50/30 transition-all mb-6"
+                        class="mb-6 cursor-pointer rounded-xl border-2 border-dashed border-gray-300 bg-slate-50 p-8 text-center transition-all hover:border-blue-500 hover:bg-blue-50/30"
                     >
-                        <span class="text-4xl block mb-3">📁</span>
+                        <span class="mb-3 block text-4xl">📁</span>
                         <span class="text-sm font-medium text-blue-600 hover:text-blue-700">
                             Kliknij tutaj, aby wybrać pliki z dysku
                         </span>
-                        <span class="block text-xs text-gray-400 mt-1">Możesz wybrać kilka plików jednocześnie (PDF, JPG, PNG do 5MB)</span>
+                        <span class="mt-1 block text-xs text-gray-400"
+                            >Możesz wybrać kilka plików jednocześnie (PDF, JPG, PNG do 5MB)</span
+                        >
                     </div>
 
                     <div v-if="uploadedFiles.length > 0" class="space-y-2">
-                        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Lista wybranych plików ({{ uploadedFiles.length }}):</h4>
-                        <div 
-                            v-for="(file, index) in uploadedFiles" 
+                        <h4 class="mb-2 text-xs font-bold tracking-wider text-gray-400 uppercase">
+                            Lista wybranych plików ({{ uploadedFiles.length }}):
+                        </h4>
+                        <div
+                            v-for="(file, index) in uploadedFiles"
                             :key="file.name"
-                            class="flex items-center justify-between p-3 bg-slate-50 border border-gray-200 rounded-lg text-sm"
+                            class="flex items-center justify-between rounded-lg border border-gray-200 bg-slate-50 p-3 text-sm"
                         >
                             <div class="flex items-center gap-3 truncate pr-4">
-                                <span class="text-xl shrink-0">{{ file.type === 'application/pdf' ? '📕' : '🖼️' }}</span>
+                                <span class="shrink-0 text-xl">{{
+                                    file.type === 'application/pdf' ? '📕' : '🖼️'
+                                }}</span>
                                 <div class="truncate">
-                                    <p class="font-medium text-slate-700 truncate">{{ file.name }}</p>
+                                    <p class="truncate font-medium text-slate-700">{{ file.name }}</p>
                                     <p class="text-xs text-gray-400">{{ formatSize(file.size) }}</p>
                                 </div>
                             </div>
-                            
-                            <button 
-                                type="button" 
+
+                            <button
+                                type="button"
                                 @click="removeFile(index)"
-                                class="text-gray-400 hover:text-red-500 p-1 rounded-md hover:bg-gray-100 transition-colors shrink-0"
+                                class="shrink-0 rounded-md p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-red-500"
                                 title="Usuń plik"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-5 w-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                    />
                                 </svg>
                             </button>
                         </div>
                     </div>
 
-                    <div v-if="errorMessage" class="mt-4 p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-100">
+                    <div
+                        v-if="errorMessage"
+                        class="mt-4 rounded-lg border border-red-100 bg-red-50 p-3 text-sm text-red-600"
+                    >
                         {{ errorMessage }}
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="flex justify-between items-center mt-8">
-            <button 
-                type="button" 
-                class="border border-gray-300 text-gray-700 bg-white rounded-lg px-5 py-2 flex items-center gap-2 hover:bg-gray-50 transition-colors text-sm font-medium"
+        <div class="mt-8 flex items-center justify-between">
+            <button
+                type="button"
+                class="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-5 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
                 :disabled="isUploading"
                 @click="router.push('/recruitment/Step5')"
             >
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                    />
                 </svg>
                 Wstecz
             </button>
-            
-            <button 
-                type="button" 
-                class="bg-[#1d2d5b] text-white rounded-lg px-5 py-2.5 flex items-center gap-2 hover:bg-[#152244] disabled:bg-gray-300 disabled:cursor-not-allowed transition-all text-sm font-medium shadow-sm"
+
+            <button
+                type="button"
+                class="flex items-center gap-2 rounded-lg bg-[#1d2d5b] px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:bg-[#152244] disabled:cursor-not-allowed disabled:bg-gray-300"
                 :disabled="uploadedFiles.length === 0 || isUploading"
                 @click="submitDocuments"
             >
                 <span>{{ isUploading ? 'Przesyłanie...' : 'Zapisz i kontynuuj' }}</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    />
                 </svg>
             </button>
         </div>

@@ -69,6 +69,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/(main)/application/language-selection': RouteRecordInfo<
+      '/(main)/application/language-selection',
+      '/application/language-selection',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/(main)/application/study-programs': RouteRecordInfo<
       '/(main)/application/study-programs',
       '/application/study-programs',
@@ -109,6 +116,13 @@ declare module 'vue-router/auto-routes' {
       '/recruitment/Step6',
       Record<never, never>,
       Record<never, never>,
+      | never
+    >,
+    '/(main)/recruitment-application/[id]': RouteRecordInfo<
+      '/(main)/recruitment-application/[id]',
+      '/recruitment-application/:id',
+      { id: ParamValue<true> },
+      { id: ParamValue<false> },
       | never
     >,
     '/[...path]': RouteRecordInfo<
@@ -167,6 +181,12 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
+    'src/pages/(main)/application/language-selection.vue': {
+      routes:
+        | '/(main)/application/language-selection'
+      views:
+        | never
+    }
     'src/pages/(main)/application/study-programs.vue': {
       routes:
         | '/(main)/application/study-programs'
@@ -200,6 +220,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/(main)/recruitment/Step6.vue': {
       routes:
         | '/(main)/recruitment/Step6'
+      views:
+        | never
+    }
+    'src/pages/(main)/recruitment-application/[id].vue': {
+      routes:
+        | '/(main)/recruitment-application/[id]'
       views:
         | never
     }

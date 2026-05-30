@@ -37,7 +37,8 @@
             "noPeselNumber": "I don't have a PESEL number",
             "mailingAddress": "Mailing address",
             "otherMailingAddress": "Mailing address is different from residential address"
-        }
+        },
+        "sessionExpired": "Your session has expired. Please log in again."
     },
     "field": {
         "email": "E-mail address",
@@ -114,7 +115,38 @@
             "Inżynier": "Engineer's degree",
             "Magister": "Master's degree",
             "Doktorat": "Doctorate"
+        },
+        "examType": {
+            "new_matura": "New Matura",
+            "old_matura_pre_1991": "Old Matura (before 1991)",
+            "old_matura_post_1991": "Old Matura (after 1991)",
+            "international_baccalaureate": "International Baccalaureate (IB)",
+            "european_baccalaureate": "European Baccalaureate (EB)",
+            "foreign": "Foreign Exam"
         }
+    },
+    "applicationDetail": {
+        "applicationId": "Application #{id}",
+        "withdrawApplication": "Withdraw application",
+        "points": "Points",
+        "payment": "Payment",
+        "documents": "Documents",
+        "paid": "Paid",
+        "notPaid": "Not paid",
+        "delivered": "Delivered",
+        "notDelivered": "Not delivered",
+        "majorDetails": "Major details",
+        "studyLevel": "Study level",
+        "mode": "Mode",
+        "duration": "Duration",
+        "academicYear": "Academic year",
+        "examType": "Exam type",
+        "preferences": "Preferences",
+        "majorPriority": "Major priority",
+        "selectedLanguages": "Selected foreign languages",
+        "priority": "Priority: {n}",
+        "semesters": "{n} semesters",
+        "loadingError": "Failed to load application data."
     },
     "dashboard": {
         "checkStatus": "Check the status of your applications below.",
@@ -125,6 +157,8 @@
         "needHelp": "Need help?",
         "recruitmentOffice": "The recruitment office is at your disposal.",
         "contactUs": "Contact us",
+        "active": "Active",
+        "completed": "Completed",
         "recruiting": {
             "zero": "Currently you are not recruiting for any major.",
             "one": "Currently you are recruiting for 1 major.",
@@ -160,5 +194,15 @@
         "next_step": "Next step",
         "remember_deadlines": "Remember the deadlines",
         "fee_deadline_info": "The recruitment fee must be credited to your individual sub-account by the end of recruitment."
+    },
+    "language_selection": {
+        "title": "Foreign Language Selection",
+        "subtitle": "Set your preferred order for foreign language courses. The first language on the list will be your priority when assigning to language groups.",
+        "drag_instruction": "Use arrows to change the language priority (1 – highest priority).",
+        "priority_label": "Priority",
+        "highest_priority": "Highest priority",
+        "no_majors_selected": "No majors have been selected. Please go back to the study programs step first.",
+        "success": "Success",
+        "proceeding": "Proceeding to the next step..."
     }
 }

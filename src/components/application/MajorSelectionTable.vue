@@ -3,6 +3,7 @@ import { onMounted, ref, watch } from 'vue';
 import { useMajorStore } from '@/stores/major';
 import type { ApiRecruitment } from '@/types/recruitment';
 import type { PaginatedResponse, PaginationEvent, PaginationState } from '@/types/pagination';
+import { AxiosError } from 'axios';
 import { axiosInstance } from '@/services/api/axiosInstance';
 import { useI18n } from 'vue-i18n';
 import { useToast } from 'primevue/usetoast';
@@ -56,8 +57,28 @@ const onPage = (event: PaginationEvent) => {
     loadRecruitments();
 };
 
+const verifySelectedMajors = async () => {
+    const selectedCopy = [...majorStore.selectedMajors];
+
+    for (const selected of selectedCopy) {
+        try {
+            const response = await axiosInstance.get<ApiRecruitment>(`/api/v1/recruitments/${selected.recruitment.id}`);
+            const recruitment = response.data;
+
+            if (recruitment && recruitment.status !== 'ongoing') {
+                majorStore.removeMajor(selected.recruitment.id);
+            }
+        } catch (error) {
+            if (error instanceof AxiosError && error.response && error.response.status === 404) {
+                majorStore.removeMajor(selected.recruitment.id);
+            }
+        }
+    }
+};
+
 onMounted(() => {
     loadRecruitments();
+    verifySelectedMajors();
 });
 
 const isSelected = (recruitment: ApiRecruitment) => {
@@ -95,6 +116,7 @@ watch(debouncedSearch, () => {
         <div class="overflow-hidden rounded-lg shadow-sm">
             <DataTable
                 :value="recruitments"
+                dataKey="id"
                 :lazy="true"
                 :loading="loadingStore.isLoading"
                 :paginator="true"
@@ -120,8 +142,9 @@ watch(debouncedSearch, () => {
                         <Checkbox
                             :modelValue="isSelected(data)"
                             :binary="true"
+                            readonly
+                            class="pointer-events-none"
                             :disabled="data.status === 'suspended'"
-                            @click.stop="toggleSelection(data)"
                         />
                     </template>
                 </Column>

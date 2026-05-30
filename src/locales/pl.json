@@ -38,7 +38,8 @@
             "noPeselNumber": "Nie posiadam numeru PESEL",
             "mailingAddress": "Adres korespondencyjny",
             "otherMailingAddress": "Adres korespondencyjny jest inny niż zamieszkania"
-        }
+        },
+        "sessionExpired": "Twoja sesja wygasła. Zaloguj się ponownie."
     },
     "field": {
         "email": "Adres e-mail",
@@ -115,7 +116,38 @@
             "Inżynier": "Inżynier",
             "Magister": "Magister",
             "Doktorat": "Doktorat"
+        },
+        "examType": {
+            "new_matura": "Nowa Matura",
+            "old_matura_pre_1991": "Stara Matura (przed 1991)",
+            "old_matura_post_1991": "Stara Matura (po 1991)",
+            "international_baccalaureate": "Matura Międzynarodowa (IB)",
+            "european_baccalaureate": "Matura Europejska (EB)",
+            "foreign": "Matura Zagraniczna"
         }
+    },
+    "applicationDetail": {
+        "applicationId": "Zgłoszenie #{id}",
+        "withdrawApplication": "Wycofaj zgłoszenie",
+        "points": "Punkty",
+        "payment": "Opłata",
+        "documents": "Dokumenty",
+        "paid": "Opłacone",
+        "notPaid": "Nieopłacone",
+        "delivered": "Dostarczone",
+        "notDelivered": "Niedostarczone",
+        "majorDetails": "Szczegóły kierunku",
+        "studyLevel": "Poziom studiów",
+        "mode": "Tryb",
+        "duration": "Czas trwania",
+        "academicYear": "Rok akademicki",
+        "examType": "Typ egzaminu",
+        "preferences": "Preferencje",
+        "majorPriority": "Priorytet kierunku",
+        "selectedLanguages": "Wybrane języki obce",
+        "priority": "Priorytet: {n}",
+        "semesters": "{n} semestrów",
+        "loadingError": "Nie udało się załadować danych zgłoszenia."
     },
     "dashboard": {
         "checkStatus": "Sprawdź status swoich aplikacji poniżej.",
@@ -126,6 +158,8 @@
         "needHelp": "Potrzebujesz pomocy?",
         "recruitmentOffice": "Biuro rekrutacji jest do Twojej dyspozycji.",
         "contactUs": "Skontaktuj się",
+        "active": "Aktywne",
+        "completed": "Zakończone",
         "recruiting": {
             "zero": "Obecnie nie rekrutujesz się na żaden kierunek.",
             "one": "Obecnie rekrutujesz się na 1 kierunek.",
@@ -161,5 +195,15 @@
         "next_step": "Następny krok",
         "remember_deadlines": "Pamiętaj o terminach",
         "fee_deadline_info": "Opłata rekrutacyjna musi zostać zaksięgowana na Twoim indywidualnym subkoncie do końca trwania rekrutacji."
+    },
+    "language_selection": {
+        "title": "Wybór języków obcych",
+        "subtitle": "Ustal preferowaną kolejność nauki języków obcych. Pierwszy język na liście będzie Twoim priorytetem w przydziale do grup językowych.",
+        "drag_instruction": "Użyj strzałek, aby zmienić priorytet języków (1 – najwyższy priorytet).",
+        "priority_label": "Priorytet",
+        "highest_priority": "Najwyższy priorytet",
+        "no_majors_selected": "Nie wybrano żadnych kierunków. Wróć najpierw do kroku wyboru kierunków.",
+        "success": "Sukces",
+        "proceeding": "Przechodzenie do kolejnego kroku..."
     }
 }
