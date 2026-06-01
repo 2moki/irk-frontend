@@ -83,9 +83,7 @@ const withdrawApplication = () => {
 
         accept: async () => {
             try {
-                await axiosInstance.delete(
-                    `/api/v1/recruitment-applications/${application.value!.id}`,
-                );
+                await axiosInstance.delete(`/api/v1/recruitment-applications/${application.value!.id}`);
 
                 toast.add({
                     severity: 'success',
@@ -167,13 +165,13 @@ onMounted(async () => {
                 </p>
             </div>
 
-           <Button
-            :label="t('applicationDetail.withdrawApplication')"
-            icon="pi pi-times-circle"
-            severity="danger"
-            variant="outlined"
-            class="shrink-0"
-            @click="withdrawApplication"
+            <Button
+                :label="t('applicationDetail.withdrawApplication')"
+                icon="pi pi-times-circle"
+                severity="danger"
+                variant="outlined"
+                class="shrink-0"
+                @click="withdrawApplication"
             />
         </div>
 

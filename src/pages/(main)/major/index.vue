@@ -15,8 +15,19 @@
             >
                 <div class="relative md:col-span-2">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 dark:text-gray-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                            />
                         </svg>
                     </span>
                     <input
@@ -53,7 +64,9 @@
         </div>
 
         <div v-if="isLoading" class="py-12 text-center text-gray-500">
-            <div class="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+            <div
+                class="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"
+            ></div>
             <p class="animate-pulse">Pobieranie oferty kierunków...</p>
         </div>
 
@@ -80,17 +93,23 @@
                             v-if="course.study_mode"
                             class="rounded-full bg-slate-50 px-2.5 py-0.5 text-[11px] font-semibold text-slate-600 dark:bg-slate-700/50 dark:text-slate-300"
                         >
-                            {{ $te(`enums.studyMode.${course.study_mode}`) ? $t(`enums.studyMode.${course.study_mode}`) : course.study_mode }}
+                            {{
+                                $te(`enums.studyMode.${course.study_mode}`)
+                                    ? $t(`enums.studyMode.${course.study_mode}`)
+                                    : course.study_mode
+                            }}
                         </span>
                     </div>
 
                     <div class="min-h-[4.5rem]">
-                        <h2 class="line-clamp-2 text-xl font-bold tracking-tight text-[#11224d] transition-colors group-hover:text-blue-600 dark:text-slate-100 dark:group-hover:text-blue-400">
+                        <h2
+                            class="line-clamp-2 text-xl font-bold tracking-tight text-[#11224d] transition-colors group-hover:text-blue-600 dark:text-slate-100 dark:group-hover:text-blue-400"
+                        >
                             {{ course.name }}
                         </h2>
                         <p class="mt-2 text-xs font-medium text-gray-400 dark:text-gray-500">
-                            Uzyskiwany tytuł: 
-                            <span class="text-gray-600 dark:text-gray-300 font-semibold">
+                            Uzyskiwany tytuł:
+                            <span class="font-semibold text-gray-600 dark:text-gray-300">
                                 {{ formatDegreeTitle(course.degree_title) }}
                             </span>
                         </p>
@@ -102,7 +121,10 @@
                         <div>
                             <span class="mb-0.5 block font-medium text-gray-400 dark:text-gray-500">Czas trwania</span>
                             <span class="font-semibold text-gray-700 dark:text-gray-200">
-                                {{ course.semesters }} {{ course.semesters === 1 ? 'semestr' : (course.semesters < 5 ? 'semestry' : 'semestrów') }}
+                                {{ course.semesters }}
+                                {{
+                                    course.semesters === 1 ? 'semestr' : course.semesters < 5 ? 'semestry' : 'semestrów'
+                                }}
                             </span>
                         </div>
                         <div>
@@ -119,7 +141,14 @@
                     class="flex w-full items-center justify-center gap-2 rounded-xl border border-gray-100 bg-[#f8fafc] py-3 text-sm font-bold text-[#11224d] transition duration-200 hover:border-transparent hover:bg-[#11224d] hover:text-white dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-blue-600 dark:hover:text-white"
                 >
                     {{ $t('dashboard.details') }}
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-4 w-4 transition-transform group-hover:translate-x-1"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
                 </RouterLink>
@@ -164,19 +193,19 @@ const resetFilters = () => {
 
 // SŁOWNIK MAPOWANIA (wzbogacony o potencjalne kropki i spacje)
 const degreeMap: Record<string, string> = {
-    'lic': 'Licencjat',
+    lic: 'Licencjat',
     'lic.': 'Licencjat',
-    'inż': 'Inżynier',
+    inż: 'Inżynier',
     'inż.': 'Inżynier',
-    'inz': 'Inżynier',
+    inz: 'Inżynier',
     'inz.': 'Inżynier',
-    'mgr': 'Magister',
+    mgr: 'Magister',
     'mgr.': 'Magister',
     'mgr inż.': 'Magister Inżynier',
     'mgr inż': 'Magister Inżynier',
     'mgr inz.': 'Magister Inżynier',
     'mgr inz': 'Magister Inżynier',
-    'dr': 'Doktor',
+    dr: 'Doktor',
     'dr.': 'Doktor',
 };
 
@@ -190,7 +219,7 @@ onMounted(async () => {
     try {
         const response = await axiosInstance.get<PaginatedResponse<LaravelMajor[]>>(`/api/v1/majors`);
         let rawData: LaravelMajor[] = [];
-        
+
         if (response.data && Array.isArray(response.data)) {
             rawData = response.data;
         } else if (response.data && 'data' in response.data) {
@@ -199,18 +228,17 @@ onMounted(async () => {
 
         courses.value = rawData.map((course) => {
             const mode = (course.study_mode || '').toLowerCase().trim();
-            
+
             if (mode.includes('online') || mode.includes('internet') || mode.includes('zdaln')) {
                 return {
                     ...course,
-                    study_mode: 'Niestacjonarne', 
-                    study_mode_id: 2 
+                    study_mode: 'Niestacjonarne',
+                    study_mode_id: 2,
                 };
             }
-            
+
             return course;
         });
-
     } catch (error) {
         console.error('Błąd pobierania kierunków IRK:', error);
         hasError.value = true;
@@ -223,7 +251,7 @@ const filteredCourses = computed(() => {
     return courses.value.filter((course) => {
         // 1. Wyszukiwarka po nazwie
         const matchesSearch = course.name.toLowerCase().includes(filters.search.toLowerCase());
-        
+
         // 2. NOWY: Filtr oparty wyłącznie na czyszczonym skrócie uzyskiwanego tytułu
         const degreeText = (course.degree_title || '').toLowerCase().trim();
         const selectedLevel = Number(filters.studyLevelId);
@@ -249,19 +277,15 @@ const filteredCourses = computed(() => {
         // 3. Filtr trybów (zostaje bez zmian)
         const modeText = (course.study_mode || '').toLowerCase().trim();
         const selectedMode = Number(filters.studyModeId);
-        
-        const matchesMode = 
-            filters.studyModeId === '' || 
+
+        const matchesMode =
+            filters.studyModeId === '' ||
             Number(course.study_mode_id) === selectedMode ||
-            (selectedMode === 1 && (
-                modeText === 'stacjonarne' || 
-                modeText === 'stac' || 
-                (modeText.includes('stacjonarn') && !modeText.includes('niestacjonarn'))
-            )) || 
-            (selectedMode === 2 && (
-                modeText.includes('niestacjonarn') || 
-                modeText === 'niestac'
-            ));
+            (selectedMode === 1 &&
+                (modeText === 'stacjonarne' ||
+                    modeText === 'stac' ||
+                    (modeText.includes('stacjonarn') && !modeText.includes('niestacjonarn')))) ||
+            (selectedMode === 2 && (modeText.includes('niestacjonarn') || modeText === 'niestac'));
 
         return matchesSearch && matchesLevel && matchesMode;
     });
