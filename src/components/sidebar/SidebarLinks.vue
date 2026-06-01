@@ -9,7 +9,7 @@ import SidebarLink from '@/components/sidebar/SidebarLink.vue';
                 <SidebarLink icon="home" link="/">Dashboard</SidebarLink>
             </li>
             <li>
-                <SidebarLink icon="book" link="/major">Majors</SidebarLink>
+                <SidebarLink icon="book" link="/major">Kierunki</SidebarLink>
             </li>
             <li>
                 <SidebarLink icon="camera" link="/recruitment/Step5">Zdjęcie do legitymacji</SidebarLink>
