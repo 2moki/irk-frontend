@@ -66,7 +66,7 @@ watch(localLanguages, (newVal) => {
                     {{ $t('language_selection.drag_instruction') }}
                 </p>
 
-                <OrderList v-model="localLanguages" dataKey="id">
+                <OrderList v-if="localLanguages.length > 0" v-model="localLanguages" dataKey="id">
                     <template #option="{ option, index: langIndex }">
                         <div
                             v-if="option"
@@ -96,6 +96,10 @@ watch(localLanguages, (newVal) => {
                         </div>
                     </template>
                 </OrderList>
+
+                <p v-else class="text-surface-500">
+                    {{ $t('language_selection.major_without_foreign_langs') }}
+                </p>
             </div>
         </template>
     </Card>

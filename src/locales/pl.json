@@ -204,6 +204,7 @@
         "highest_priority": "Najwyższy priorytet",
         "no_majors_selected": "Nie wybrano żadnych kierunków. Wróć najpierw do kroku wyboru kierunków.",
         "success": "Sukces",
-        "proceeding": "Przechodzenie do kolejnego kroku..."
+        "proceeding": "Przechodzenie do kolejnego kroku...",
+        "major_without_foreign_langs": "Ten kierunek nie oferuje żadnych języków obcych do wyboru."
     }
 }

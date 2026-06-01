@@ -203,6 +203,7 @@
         "highest_priority": "Highest priority",
         "no_majors_selected": "No majors have been selected. Please go back to the study programs step first.",
         "success": "Success",
-        "proceeding": "Proceeding to the next step..."
+        "proceeding": "Proceeding to the next step...",
+        "major_without_foreign_langs": "This major doesn't offer any foreign languages to choose from."
     }
 }
