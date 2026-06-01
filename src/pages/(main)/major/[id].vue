@@ -18,6 +18,7 @@
         </RouterLink>
 
         <div v-if="isLoading" class="py-12 text-center text-gray-500">
+            <div class="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
             <p class="animate-pulse">Ładowanie szczegółów kierunku...</p>
         </div>
 
@@ -31,42 +32,37 @@
                 class="relative flex flex-col gap-6 overflow-hidden rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:flex-row md:items-center md:justify-between md:p-8 dark:border-slate-700 dark:bg-slate-800"
             >
                 <div class="relative z-10">
-                    <div class="mb-3 flex flex-wrap gap-2">
+                    <div class="mb-4 flex flex-wrap gap-1.5">
                         <span
-                            class="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600 dark:bg-blue-950/50 dark:text-blue-400"
+                            v-if="course.study_mode"
+                            class="rounded-full bg-slate-50 px-2.5 py-0.5 text-[11px] font-semibold text-slate-600 dark:bg-slate-700/50 dark:text-slate-300"
                         >
-                            {{ course.study_level?.name }}
-                        </span>
-                        <span
-                            class="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600 dark:bg-blue-950/50 dark:text-blue-400"
-                        >
-                            {{ course.study_mode?.name }}
+                            {{ $te(`enums.studyMode.${course.study_mode}`) ? $t(`enums.studyMode.${course.study_mode}`) : course.study_mode }}
                         </span>
                     </div>
+                    
                     <h1 class="text-3xl font-extrabold tracking-tight text-[#11224d] md:text-4xl dark:text-white">
                         {{ course.name }}
                     </h1>
-                    <p class="mt-1 font-medium text-gray-500 dark:text-gray-400">
-                        Tytuł zawodowy: {{ course.degree_title?.name || 'Brak' }}
+                    
+                    <p class="mt-2 text-sm font-medium text-gray-400 dark:text-gray-500">
+                        Uzyskiwany tytuł: 
+                        <span class="text-gray-600 dark:text-gray-300 font-semibold">
+                            {{ formatDegreeTitle(course.degree_title) }}
+                        </span>
                     </p>
                 </div>
 
                 <div class="relative z-10 flex w-full shrink-0 flex-col items-center gap-2 md:w-auto md:items-end">
                     <button
                         @click="handleApply"
-                        :disabled="isAlreadyAdded"
-                        :class="[
-                            'w-full rounded-xl px-8 py-3.5 text-center text-sm font-semibold shadow-md transition md:w-auto',
-                            isAlreadyAdded
-                                ? 'cursor-not-allowed bg-emerald-600 text-white opacity-90'
-                                : 'bg-[#11224d] text-white hover:bg-[#1a316c] dark:bg-blue-600 dark:hover:bg-blue-500',
-                        ]"
+                        class="w-full rounded-xl bg-[#11224d] px-8 py-3.5 text-center text-sm font-semibold text-white shadow-md transition hover:bg-[#1a316c] md:w-auto dark:bg-blue-600 dark:hover:bg-blue-500"
                     >
-                        {{ isAlreadyAdded ? 'Kierunek został już wybrany ✓' : 'Zapisz się na kierunek' }}
+                        {{ isAlreadyAdded ? 'Przejdź do aplikacji ✓' : 'Zapisz się na kierunek' }}
                     </button>
 
-                    <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                        Liczba semestrów: {{ course.semesters }}
+                    <div class="mt-1 text-xs text-gray-500 dark:text-gray-400 font-medium">
+                        Czas trwania: <span class="font-semibold text-gray-700 dark:text-gray-200">{{ course.semesters }} {{ course.semesters === 1 ? 'semestr' : (course.semesters < 5 ? 'semestry' : 'semestrów') }}</span>
                     </div>
                 </div>
             </div>
@@ -76,8 +72,7 @@
                     <h2 class="text-xl font-bold text-[#11224d] dark:text-slate-100">Informacje o kierunku</h2>
                     <p class="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
                         Ten kierunek oferuje limit języków obcych wynoszący:
-                        <span class="font-bold">{{ course.languages_limit ?? 'brak limitu' }}</span
-                        >.
+                        <span class="font-bold text-slate-800 dark:text-slate-200">{{ course.languages_limit ?? 'brak limitu' }}</span>.
                     </p>
                 </div>
             </div>
@@ -87,15 +82,9 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-import { axiosInstance } from '@/services/api/axiosInstance'; // Używamy Twojego działającego instance
+import { useRoute, useRouter } from 'vue-router'; // <-- Dodany useRouter
+import { axiosInstance } from '@/services/api/axiosInstance';
 import { useMajorStore } from '@/stores/major';
-
-// Definicja typów identyczna jak w pliku index.vue
-interface StudyRelation {
-    id: number;
-    name: string;
-}
 
 interface LaravelMajor {
     id: number;
@@ -105,43 +94,76 @@ interface LaravelMajor {
     study_mode_id: number;
     degree_title_id: number;
     languages_limit: number | null;
-    study_level?: StudyRelation;
-    study_mode?: StudyRelation;
-    degree_title?: StudyRelation;
+    study_level?: string;
+    study_mode?: string;
+    degree_title?: string;
 }
 
-// Interfejs dla Resource z Laravela (często zawija obiekt w klucz data)
 interface LaravelResourceResponse<T> {
     data: T;
 }
 
 const route = useRoute();
+const router = useRouter(); // <-- Inicjalizacja routera
 const majorStore = useMajorStore();
 
 const course = ref<LaravelMajor | null>(null);
 const isLoading = ref(true);
 const hasError = ref(false);
 
-// Sprawdzanie w Pinia store (dopasowane do Twojego useMajorStore)
+// MAPOWANIE SKRÓTÓW TYTUŁÓW NA PEŁNE SŁOWA
+const degreeMap: Record<string, string> = {
+    'lic': 'Licencjat',
+    'lic.': 'Licencjat',
+    'inż': 'Inżynier',
+    'inż.': 'Inżynier',
+    'inz': 'Inżynier',
+    'inz.': 'Inżynier',
+    'mgr': 'Magister',
+    'mgr.': 'Magister',
+    'mgr inż.': 'Magister Inżynier',
+    'mgr inż': 'Magister Inżynier',
+    'mgr inz.': 'Magister Inżynier',
+    'mgr inz': 'Magister Inżynier',
+    'dr': 'Doktor',
+    'dr.': 'Doktor',
+};
+
+const formatDegreeTitle = (title: string | undefined): string => {
+    if (!title) return '—';
+    const cleanTitle = title.toLowerCase().trim();
+    return degreeMap[cleanTitle] || title;
+};
+
 const isAlreadyAdded = computed(() => {
     if (!course.value) return false;
-    return majorStore.selectedMajors.some((item) => item.recruitment.id === course.value?.id);
+    return majorStore.selectedMajors.some((item: any) => {
+        const selectedId = item?.recruitment?.id || item?.id;
+        return selectedId === course.value?.id;
+    });
 });
 
 onMounted(async () => {
     try {
-        // 1. Zmieniony endpoint na /api/v1/majors/{id}
-        // 2. Obsługa opakowania w .data.data (jeśli LaravelResource zwraca obiekt zagnieżdżony)
-        const response = await axiosInstance.get<LaravelResourceResponse<LaravelMajor>>(
+        const response = await axiosInstance.get<LaravelResourceResponse<LaravelMajor> | LaravelMajor>(
             `/api/v1/majors/${route.params.id}`,
         );
 
-        // Sprawdzamy czy odpowiedź ma strukturę resource (.data.data) czy bezpośrednią
+        let rawCourse: LaravelMajor;
         if (response.data && 'data' in response.data) {
-            course.value = response.data.data;
+            rawCourse = response.data.data;
         } else {
-            course.value = response.data as any;
+            rawCourse = response.data as LaravelMajor;
         }
+
+        // Ujednolicenie trybów zdalnych/online na "Niestacjonarne"
+        const mode = (rawCourse.study_mode || '').toLowerCase().trim();
+        if (mode.includes('online') || mode.includes('internet') || mode.includes('zdaln')) {
+            rawCourse.study_mode = 'Niestacjonarne';
+            rawCourse.study_mode_id = 2;
+        }
+
+        course.value = rawCourse;
     } catch (error) {
         console.error('Błąd pobierania szczegółów kierunku:', error);
         hasError.value = true;
@@ -150,10 +172,13 @@ onMounted(async () => {
     }
 });
 
+// LOGIKA DODAWANIA I PRZEKIEROWANIA
 const handleApply = () => {
     if (course.value) {
-        // Rzutujemy obiekt na ApiRecruitment, jeśli struktury w Pinia są identyczne z modelem
-        majorStore.addMajor(course.value as any);
+        if (!isAlreadyAdded.value) {
+            majorStore.addMajor(course.value);
+        }
+        router.push('/application/study-programs');
     }
 };
 </script>

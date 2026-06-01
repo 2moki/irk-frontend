@@ -47,6 +47,7 @@ axiosInstance.interceptors.response.use(
 
 <template>
     <Toast />
+    <ConfirmDialog />
 
     <component :is="activeLayout">
         <RouterView />

@@ -7,12 +7,16 @@ import { useStatusSeverity } from '@/composables/useStatusSeverity';
 import { useLoadingStore } from '@/stores/loading';
 import { useI18n } from 'vue-i18n';
 import type { Major, RecruitmentApplication } from '@/types/recruitment';
+import { useConfirm } from 'primevue/useconfirm';
+import { useToast } from 'primevue/usetoast';
 
 const route = useRoute();
 const loadingStore = useLoadingStore();
 const { t } = useI18n();
 const { getLocalizedStatus, getLocalizedMajorField, getLocalizedExamType } = useLocalizedEnums();
 const { getStatusSeverity } = useStatusSeverity();
+const confirm = useConfirm();
+const toast = useToast();
 
 const application = ref<RecruitmentApplication | null>(null);
 const major = ref<Major | null>(null);
@@ -65,6 +69,42 @@ const loadMajor = async (majorId: number) => {
     const response = await axiosInstance.get<Major>(`/api/v1/majors/${majorId}`);
 
     major.value = response.data;
+};
+
+const withdrawApplication = () => {
+    if (!application.value) return;
+
+    confirm.require({
+        message: 'Czy na pewno chcesz wycofać to zgłoszenie?',
+        header: 'Potwierdzenie',
+        icon: 'pi pi-exclamation-triangle',
+        acceptLabel: 'Tak',
+        rejectLabel: 'Nie',
+
+        accept: async () => {
+            try {
+                await axiosInstance.delete(
+                    `/api/v1/recruitment-applications/${application.value!.id}`,
+                );
+
+                toast.add({
+                    severity: 'success',
+                    summary: 'Usunięto zgłoszenie',
+                    life: 3000,
+                });
+
+                window.history.back();
+            } catch (error) {
+                toast.add({
+                    severity: 'error',
+                    summary: 'Błąd podczas usuwania',
+                    life: 4000,
+                });
+
+                console.error(error);
+            }
+        },
+    });
 };
 
 onMounted(async () => {
@@ -127,12 +167,13 @@ onMounted(async () => {
                 </p>
             </div>
 
-            <Button
-                :label="t('applicationDetail.withdrawApplication')"
-                icon="pi pi-times-circle"
-                severity="danger"
-                variant="outlined"
-                class="shrink-0"
+           <Button
+            :label="t('applicationDetail.withdrawApplication')"
+            icon="pi pi-times-circle"
+            severity="danger"
+            variant="outlined"
+            class="shrink-0"
+            @click="withdrawApplication"
             />
         </div>
 
