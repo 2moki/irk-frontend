@@ -32,14 +32,14 @@ const validateAndProceed = () => {
 };
 
 const goBack = () => {
-    router.push('/application/education');
+    router.push('/application/documents');
 };
 </script>
 
 <template>
     <div class="mx-auto space-y-12">
         <ApplicationHeader
-            :current-step="6"
+            :current-step="5"
             :steps="10"
             :title="$t('language_selection.title')"
             :subtitle="$t('language_selection.subtitle')"

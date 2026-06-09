@@ -11,12 +11,6 @@ import SidebarLink from '@/components/sidebar/SidebarLink.vue';
             <li>
                 <SidebarLink icon="book" link="/major">Kierunki</SidebarLink>
             </li>
-            <li>
-                <SidebarLink icon="camera" link="/recruitment/Step5">Zdjęcie do legitymacji</SidebarLink>
-            </li>
-            <li>
-                <SidebarLink icon="file" link="/recruitment/Step6">Skany dokumentów</SidebarLink>
-            </li>
         </ul>
     </div>
 </template>

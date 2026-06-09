@@ -62,6 +62,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/(main)/application/documents': RouteRecordInfo<
+      '/(main)/application/documents',
+      '/application/documents',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/(main)/application/education': RouteRecordInfo<
       '/(main)/application/education',
       '/application/education',
@@ -72,6 +79,13 @@ declare module 'vue-router/auto-routes' {
     '/(main)/application/language-selection': RouteRecordInfo<
       '/(main)/application/language-selection',
       '/application/language-selection',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/(main)/application/photo': RouteRecordInfo<
+      '/(main)/application/photo',
+      '/application/photo',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -100,20 +114,6 @@ declare module 'vue-router/auto-routes' {
     '/(main)/profile': RouteRecordInfo<
       '/(main)/profile',
       '/profile',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/(main)/recruitment/Step5': RouteRecordInfo<
-      '/(main)/recruitment/Step5',
-      '/recruitment/Step5',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/(main)/recruitment/Step6': RouteRecordInfo<
-      '/(main)/recruitment/Step6',
-      '/recruitment/Step6',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -175,6 +175,12 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
+    'src/pages/(main)/application/documents.vue': {
+      routes:
+        | '/(main)/application/documents'
+      views:
+        | never
+    }
     'src/pages/(main)/application/education.vue': {
       routes:
         | '/(main)/application/education'
@@ -184,6 +190,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/(main)/application/language-selection.vue': {
       routes:
         | '/(main)/application/language-selection'
+      views:
+        | never
+    }
+    'src/pages/(main)/application/photo.vue': {
+      routes:
+        | '/(main)/application/photo'
       views:
         | never
     }
@@ -208,18 +220,6 @@ declare module 'vue-router/auto-routes' {
     'src/pages/(main)/profile.vue': {
       routes:
         | '/(main)/profile'
-      views:
-        | never
-    }
-    'src/pages/(main)/recruitment/Step5.vue': {
-      routes:
-        | '/(main)/recruitment/Step5'
-      views:
-        | never
-    }
-    'src/pages/(main)/recruitment/Step6.vue': {
-      routes:
-        | '/(main)/recruitment/Step6'
       views:
         | never
     }

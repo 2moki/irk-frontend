@@ -203,20 +203,22 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-between pt-4">
+            <div class="flex items-center justify-between">
                 <Button
                     type="button"
-                    label="Wstecz"
+                    :label="$t('stepperPagination.back')"
                     icon="pi pi-arrow-left"
-                    class="p-button-outlined p-button-secondary rounded-xl px-6 py-3 transition-colors duration-200 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
+                    severity="secondary"
+                    outlined
+                    class="rounded-lg px-6 py-3 font-bold"
                     @click="handleBack"
                 />
                 <Button
                     type="submit"
-                    label="Zapisz i kontynuuj"
+                    :label="$t('stepperPagination.next')"
                     icon="pi pi-arrow-right"
                     iconPos="right"
-                    class="p-button-primary rounded-xl border-none bg-[#11224d] px-6 py-3 font-semibold shadow-md transition-colors duration-200 hover:bg-[#1a316c] dark:bg-blue-600 dark:text-white dark:shadow-blue-900/30 dark:hover:bg-blue-500"
+                    class="rounded-lg px-10 py-3 text-lg font-bold shadow-lg"
                 />
             </div>
         </form>
@@ -438,13 +440,13 @@ const handleSubmit = async () => {
             life: 3000,
         });
 
-        await router.push('/application/language-selection');
+        await router.push('/application/photo');
     } catch (error) {
         console.error(error);
     }
 };
 
 const handleBack = () => {
-    console.log('Powrót do kroku 1');
+    router.push('/application/study-programs');
 };
 </script>
