@@ -31,6 +31,10 @@ export default defineConfig({
             '/api': {
                 target: 'http://laravel.test',
                 changeOrigin: true,
+                headers: {
+                'X-Forwarded-Host': 'localhost:5174',
+                'X-Forwarded-Proto': 'http',
+      },
             },
             '/sanctum': {
                 target: 'http://laravel.test',

@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import api from '@/plugins/axios';
 import ApplicationHeader from '@/components/application/ApplicationHeader.vue';
 import Button from 'primevue/button';
+import { DocumentType } from '@/types/documentType';
 
 const router = useRouter();
 
@@ -73,13 +74,19 @@ const submitDocuments = async () => {
     isUploading.value = true;
     errorMessage.value = null;
 
-    const formData = new FormData();
-    // Dodajemy wszystkie pliki do tablicy w FormData (backend powinien odbierać np. 'documents[]')
-    uploadedFiles.value.forEach((file) => {
-        formData.append('documents[]', file);
-    });
-
     try {
+        //Endpoint odbiera jeden dokument i typ, iterujemy przez wszystkie i wysyłamy po kolei
+        const uploadPromises = uploadedFiles.value.map((file) => {
+            const formData = new FormData();
+            //Formularz musi zawierać pole o nazwie 'document' zawierające JEDEN obrazek, oraz pole o nazwie 'type' zawierające typ dokumentu
+            //Aplikacja powinna prosić o dokumenty zgodnie ze SCRUM-101 i automatycznie dostosować typ 
+            formData.append('document', file);
+            formData.append('type', DocumentType.MATURA);
+            return api.post('v1/documents', formData);
+        });
+
+        // Czekamy, aż WSZYSTKE żądania zakończą się sukcesem
+        await Promise.all(uploadPromises);
         // Endpoint dostosowany pod Twój backend dla skanów dokumentów
         // await api.post('/recruitment/documents', formData);
 

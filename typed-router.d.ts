@@ -14,11 +14,15 @@ import type {
   ParamValueZeroOrMore,
   ParamValueZeroOrOne,
 } from 'vue-router'
+import type {
+  _ExtractParamParserType,
+} from 'vue-router/experimental'
 
 declare module 'vue-router' {
   interface TypesConfig {
-    ParamParsers:
-      | never
+    _ParamParsers: {}
+    RouteNamedMap: import('vue-router/auto-routes').RouteNamedMap
+    _RouteFileInfoMap: import('vue-router/auto-routes')._RouteFileInfoMap
   }
 }
 
@@ -97,6 +101,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/(main)/application/summary': RouteRecordInfo<
+      '/(main)/application/summary',
+      '/application/summary',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/(main)/major/': RouteRecordInfo<
       '/(main)/major/',
       '/major',
@@ -150,11 +161,15 @@ declare module 'vue-router/auto-routes' {
         | '/(auth)/forgot-password'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/pages/(auth)/login.vue': {
       routes:
         | '/(auth)/login'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'src/pages/(auth)/register.vue': {
@@ -162,11 +177,15 @@ declare module 'vue-router/auto-routes' {
         | '/(auth)/register'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/pages/(auth)/reset-password.vue': {
       routes:
         | '/(auth)/reset-password'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'src/pages/(main)/index.vue': {
@@ -174,11 +193,15 @@ declare module 'vue-router/auto-routes' {
         | '/(main)/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/pages/(main)/application/documents.vue': {
       routes:
         | '/(main)/application/documents'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'src/pages/(main)/application/education.vue': {
@@ -186,11 +209,15 @@ declare module 'vue-router/auto-routes' {
         | '/(main)/application/education'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/pages/(main)/application/language-selection.vue': {
       routes:
         | '/(main)/application/language-selection'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'src/pages/(main)/application/photo.vue': {
@@ -198,11 +225,23 @@ declare module 'vue-router/auto-routes' {
         | '/(main)/application/photo'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/pages/(main)/application/study-programs.vue': {
       routes:
         | '/(main)/application/study-programs'
       views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/(main)/application/summary.vue': {
+      routes:
+        | '/(main)/application/summary'
+      views:
+        | never
+      pathParamNames:
         | never
     }
     'src/pages/(main)/major/index.vue': {
@@ -210,17 +249,23 @@ declare module 'vue-router/auto-routes' {
         | '/(main)/major/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/pages/(main)/major/[id].vue': {
       routes:
         | '/(main)/major/[id]'
       views:
         | never
+      pathParamNames:
+        | 'id'
     }
     'src/pages/(main)/profile.vue': {
       routes:
         | '/(main)/profile'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'src/pages/(main)/recruitment-application/[id].vue': {
@@ -228,12 +273,16 @@ declare module 'vue-router/auto-routes' {
         | '/(main)/recruitment-application/[id]'
       views:
         | never
+      pathParamNames:
+        | 'id'
     }
     'src/pages/[...path].vue': {
       routes:
         | '/[...path]'
       views:
         | never
+      pathParamNames:
+        | 'path'
     }
   }
 
