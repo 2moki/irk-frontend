@@ -29,6 +29,7 @@ const validateAndProceed = () => {
         detail: t('language_selection.proceeding'),
         life: 3000,
     });
+    router.push('/application/summary')
 };
 
 const goBack = () => {

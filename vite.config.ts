@@ -25,14 +25,20 @@ export default defineConfig({
         },
     },
     server: {
+        host: '0.0.0.0',
+        port: 5174,
         proxy: {
             '/api': {
-                target: 'http://localhost',
+                target: 'http://laravel.test',
                 changeOrigin: true,
+                headers: {
+                'X-Forwarded-Host': 'localhost:5174',
+                'X-Forwarded-Proto': 'http',
+      },
             },
             '/sanctum': {
-                target: 'http://localhost',
-                changeOrigin: true
+                target: 'http://laravel.test',
+                changeOrigin: true,
             }
         }
     }
